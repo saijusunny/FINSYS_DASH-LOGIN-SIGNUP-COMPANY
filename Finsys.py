@@ -49,10 +49,10 @@ import numpy as np
 import re
 from datetime import date,datetime, timedelta
 
-fbilldb = mysql.connector.connect(
+finsysdb = mysql.connector.connect(
     host="localhost", user="root", password="", database="newfinsys", port="3306"
 )
-fbcursor = fbilldb.cursor(buffered=True)
+fbcursor = finsysdb.cursor(buffered=True)
 
 root=Tk()
 root.geometry("1366x768+0+0")
@@ -71,7 +71,13 @@ root.iconphoto(False, p1)
 # taxes = PhotoImage(file="images/taxes.PNG")
 # accounts = PhotoImage(file="images/accounting.PNG")
 
+pro_pic =PIL.Image.open("profilepic\propic.jpg")
+# resized_pro_pic= pro_pic.resize((170,170))
+prof_pics=ImageTk.PhotoImage(pro_pic)
 
+dash_pro_pic =PIL.Image.open("profilepic\propic.jpg")
+dash_resized_pro_pic= dash_pro_pic.resize((50,50))
+dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
 
 imgr1 =PIL.Image.open("images\logs.png")
 exprefreshIcon=ImageTk.PhotoImage(imgr1)
@@ -96,6 +102,7 @@ mai_logo= ImageTk.PhotoImage(resized_image)
 sig_up =PIL.Image.open("images/register.png")
 resized_sign_up= sig_up.resize((500,400))
 sign_up=ImageTk.PhotoImage(resized_sign_up)
+
 
 #------------------------------------------------------------------------------------------------------------Login Button Function
 
@@ -195,20 +202,27 @@ def main_sign_in():
                 tp_lb_npr.grid(row=1,column=4,sticky='nsew')
                 tp_lb_npr.grid_rowconfigure(0,weight=1)
                 tp_lb_npr.grid_columnconfigure(0,weight=1)
+                dtl_sqls="select * from auth_user where username=%s"
+                dtl_sqls_val=(nm_ent.get(),)
+                fbcursor.execute(dtl_sqls,dtl_sqls_val,)
+                dtls=fbcursor.fetchone()
 
-                label = Label(tp_lb_npr, text="Errors",bg="#213b52", fg="white", anchor="center",width=10,font=('Calibri 16 bold'),border=0)
-                label.grid(row=1,column=1,sticky='nsew')
-                label = Label(tp_lb_npr, text="Online",bg="#213b52", fg="white",width=15,font=('Calibri 12 bold'),border=0)
-                label.grid(row=2,column=1,sticky='nsew')
+                sql_pro_sql="select * from app1_company where id_id =%s"
+                sql_pro_sql_val=(dtls[0],)
+                fbcursor.execute(sql_pro_sql,sql_pro_sql_val,)
+                dtl_cmp_pro=fbcursor.fetchone()
 
-                pro =PIL.Image.open("images/user.png")
-                resized_pro= pro.resize((20,20))
-                pro_pic= ImageTk.PhotoImage(resized_pro)
+                label = Label(tp_lb_npr, text=str(dtl_cmp_pro[1])+"\nOnline",bg="#213b52", fg="white", anchor="center",width=10,height=2,font=('Calibri 16 bold'),border=0)
+                label.grid(row=0,column=1,sticky='nsew')
+                # label = Label(tp_lb_npr, text="Online",bg="#213b52", fg="white",width=15,font=('Calibri 12 bold'),border=0)
+                # label.grid(row=2,column=1,sticky='nsew')
+
+                
                 
                 def lst_frt():
                     lst_prf.place_forget()
-                    srh_btn3 = Button(tp_lb_npr, bg="White", fg="black",height=2,width=5,border=0,command=profile)
-                    srh_btn3.grid(row=2,column=2,padx=15)
+                    srh_btn3 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                    srh_btn3.grid(row=0,column=2,padx=15)
                 def lst_prf_slt(event):
                     def edit_profile():
                         def responsive_widgets_edit(event):
@@ -252,8 +266,10 @@ def main_sign_in():
                             
                             # dcanvas.coords("bg_polygen_pr",dwidth/16,dheight/.6,dwidth/1.07,dheight/9)
                             dcanvas.coords("my_pro",dwidth/2.3,dheight/12.5)
+                            dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
+                            
 
-                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/7,dwidth/1.07,dheight/7)
+                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
                             dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
                             dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
                             dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
@@ -300,7 +316,156 @@ def main_sign_in():
                             dcanvas.coords("cmp_typ_lb",dwidth/1.92,dheight/.66)
                             dcanvas.coords("cmp_typ_ent",dwidth/1.92,dheight/.64)
                             dcanvas.coords("btn_edit",dwidth/2.4,dheight/.57)
+                        sql_pro="select * from auth_user where username=%s"
+                        sql_pro_val=(nm_ent.get(),)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        edi_dtl=fbcursor.fetchone()
+
+                        def update_profile():
+                            first_name=fr_name_ent.get()
+                            pro_email=em_ent.get()
+                            last_name=lst_nm_ent.get()
+                            pro_username=usr_nm_ent.get()
+                            pro_new_pass=pr_new_pass_ent.get()
+
+                            sql_signup='select * from auth_user'
+                            fbcursor.execute(sql_signup)
+                            check_none=fbcursor.fetchone()
+
+                            if edi_dtl[4]==pro_username and edi_dtl[1]==pr_crpass_ent.get() and pro_new_pass=="" :
+                                        passw=pr_crpass_ent.get()
+                                
+                                        prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                        prof_edit_val=(first_name,last_name,pro_email,pro_username,passw,edi_dtl[0])
+                                        fbcursor.execute(prof_edit,prof_edit_val)
+                                        finsysdb.commit()
+
+                                        #compnay
+                                        cmp_name=cmp_nm_ent.get()
+                                        cmp_cty=cmp_cty_ent.get()
+                                        cmp_pin=cmp_pin_ent.get()
+                                        cmp_phn=cmp_ph_ent.get()
+                                        cmp_ind=cmp_indest_ent.get()
+                                        cmp_addr=cmp_addr_ent.get()
+                                        cmp_st=cmp_st_ent.get()
+                                        cmp_em=cmp_em_ent.get()
+                                        cmp_bname=cmp_lg_ent.get()
+                                        cmp_typ=cmp_typ_ent.get()
+                                        logo=cmp_file_ent.get()
+
+                                        cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                        cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                        fbcursor.execute(cmp_edit,cmp_edit_val)
+                                        finsysdb.commit()
+                                        messagebox.showerror("Sucess","Updation Success")
+                                    
+                            else:
+                                # #username same password change
+                                # if  check_none[1]!=pro_new_pass:
+                                #     print("welcome")
+                                #     if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
+                                #         if pr_crpass_ent.get()==edi_dtl[1]:
+                                            
+                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
+                                #             fbcursor.execute(prof_edit,prof_edit_val)
+                                #             finsysdb.commit()
+
+                                #             #compnay
+                                #             cmp_name=cmp_nm_ent.get()
+                                #             cmp_cty=cmp_cty_ent.get()
+                                #             cmp_pin=cmp_pin_ent.get()
+                                #             cmp_phn=cmp_ph_ent.get()
+                                #             cmp_ind=cmp_indest_ent.get()
+                                #             cmp_addr=cmp_addr_ent.get()
+                                #             cmp_st=cmp_st_ent.get()
+                                #             cmp_em=cmp_em_ent.get()
+                                #             cmp_bname=cmp_lg_ent.get()
+                                #             cmp_typ=cmp_typ_ent.get()
+                                #             logo=cmp_file_ent.get()
+
+                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
+                                #             finsysdb.commit()
+                                #             messagebox.showerror("Sucess","Updation Success")
+                                #         else:
+                                #             messagebox.showerror("Updation Failed","Please check your current password")
+                                #     else:
+
+                                #         messagebox.showerror("Updation Failed","password and conform password does not match")
+                                # #username change password same
+                                # elif check_none[4]!=pro_username and pro_new_pass=="" :
+                                #         print("welcome2")
+                                    
+                                #         if pr_crpass_ent.get()==edi_dtl[1]:
+                                #             passw=pr_crpass_ent.get()
+                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,passw,edi_dtl[0])
+                                #             fbcursor.execute(prof_edit,prof_edit_val)
+                                #             finsysdb.commit()
+
+                                #             #compnay
+                                #             cmp_name=cmp_nm_ent.get()
+                                #             cmp_cty=cmp_cty_ent.get()
+                                #             cmp_pin=cmp_pin_ent.get()
+                                #             cmp_phn=cmp_ph_ent.get()
+                                #             cmp_ind=cmp_indest_ent.get()
+                                #             cmp_addr=cmp_addr_ent.get()
+                                #             cmp_st=cmp_st_ent.get()
+                                #             cmp_em=cmp_em_ent.get()
+                                #             cmp_bname=cmp_lg_ent.get()
+                                #             cmp_typ=cmp_typ_ent.get()
+                                #             logo=cmp_file_ent.get()
+
+                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
+                                #             finsysdb.commit()
+                                #             messagebox.showerror("Sucess","Updation Success")
+                                #         else:
+                                #             messagebox.showerror("Updation Failed","Please check your current password")
+                                    
+                                if check_none[4]!=pro_username and check_none[1]!=pro_new_pass:
+                                    print("welcome3")
+                                    if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
+                                        if pr_crpass_ent.get()==edi_dtl[1]:
+                                            prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                            prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
+                                            fbcursor.execute(prof_edit,prof_edit_val)
+                                            finsysdb.commit()
+
+                                            #compnay
+                                            cmp_name=cmp_nm_ent.get()
+                                            cmp_cty=cmp_cty_ent.get()
+                                            cmp_pin=cmp_pin_ent.get()
+                                            cmp_phn=cmp_ph_ent.get()
+                                            cmp_ind=cmp_indest_ent.get()
+                                            cmp_addr=cmp_addr_ent.get()
+                                            cmp_st=cmp_st_ent.get()
+                                            cmp_em=cmp_em_ent.get()
+                                            cmp_bname=cmp_lg_ent.get()
+                                            cmp_typ=cmp_typ_ent.get()
+                                            logo=cmp_file_ent.get()
+
+                                            cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                            cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                            fbcursor.execute(cmp_edit,cmp_edit_val)
+                                            finsysdb.commit()
+                                            messagebox.showerror("Sucess","Updation Success")
+                                        else:
+                                            messagebox.showerror("Updation Failed","Please check your current password")
+                                    else:
+
+                                        messagebox.showerror("Updation Failed","password and conform password does not match")
+                                else:
+                                    messagebox.showerror("Updation Failed","Username and password already exist")
                         
+                        sql_pro_cmp="select * from app1_company where id_id=%s"
+                        sql_pro_cmp_val=(pro_dtl[0],)
+                        fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
+                        edi_cmp_dtl=fbcursor.fetchone()
+
                         Sys_mains_frame_pr.place_forget()
                         global Sys_mains_frame_pr_ed
                         Sys_mains_frame_pr_ed=Frame(tab1, height=750)
@@ -319,8 +484,12 @@ def main_sign_in():
 
                         rth2 = pr_canvas_ed.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_pr"),smooth=True,)
 
+
                         grd1c=Label(pr_canvas_ed, text="MY PROFILE",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
                         win_inv1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=grd1c,tags=("my_pro"))
+
+                        pr_img=Label(pr_canvas_ed,  image = prof_pics,bg="#213b52",width=170,height=170,  anchor="center",font=('Calibri 14 bold'))
+                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
 
                         pr_canvas_ed.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
                         #----------------------------------------------------------------------------------------Personal info
@@ -331,43 +500,107 @@ def main_sign_in():
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
 
                         fr_name_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        fr_name_ent.delete(0,END)
+                        fr_name_ent.insert(0,edi_dtl[5])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
 
                         pr_em_lb=Label(pr_canvas_ed, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
 
+                        em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        em_ent.delete(0,END)
+                        em_ent.insert(0,edi_dtl[7])
+                        def validate(value):
+        
+                            pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                            if re.fullmatch(pattern, value) is None:
+                                                
+                                return False
+
+                            em_ent.config(fg="black")
+                            return True
+
+                        def on_invalid():
+                            
+                            em_ent.config(fg="red")
+
+                        vcmdem_ent = (pr_canvas_ed.register(validate), '%P')
+                        ivcmdem_ent = (pr_canvas_ed.register(on_invalid),)
+                        em_ent.config(validate='focusout', validatecommand=vcmdem_ent, invalidcommand=ivcmdem_ent)                              
+                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
+
                         pr_crpass_lb=Label(pr_canvas_ed, text="Enter your Current Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_lb,tag=("pr_crpass_lb"))
 
                         pr_crpass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        
+                        pr_crpass_ent.delete(0,END)
+                        pr_crpass_ent.insert(0,edi_dtl[1])
+                        
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_ent,tag=("pr_crpass_ent"))
 
                         pr_re_pass_lb=Label(pr_canvas_ed, text="Re-type new Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_lb,tag=("pr_re_pass_lb"))
 
                         pr_re_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        def pas_val_fun1(value):
+        
+                            pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
+                            if re.fullmatch(pattern, value) is None:
+                                                
+                                return False
+
+                            pr_re_pass_ent.config(fg="black")
+                            return True
+
+                        def pass_inval_fun1():
+                            pr_re_pass_ent.config(fg="red")
+
+                        pas_val1 = (pr_canvas_ed.register(pas_val_fun1), '%P')
+                        pass_inval1 = (pr_canvas_ed.register(pass_inval_fun1),)
+
+                        pr_re_pass_ent.config(validate='focusout', validatecommand=pas_val1, invalidcommand=pass_inval1)
+
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_ent,tag=("pr_re_pass_ent"))
 
-
-                        em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
 
                         last_nm_lb=Label(pr_canvas_ed, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
 
                         lst_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        lst_nm_ent.delete(0,END)
+                        lst_nm_ent.insert(0,edi_dtl[6])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
 
                         usr_nm_lb=Label(pr_canvas_ed, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
 
                         usr_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        usr_nm_ent.delete(0,END)
+                        usr_nm_ent.insert(0,edi_dtl[4])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
 
                         pr_new_pass_lb=Label(pr_canvas_ed, text="Enter New Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_lb,tag=("pr_new_pass_lb"))
 
                         pr_new_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        def pas_val_fun2(value):
+        
+                            pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
+                            if re.fullmatch(pattern, value) is None:
+                                                
+                                return False
+
+                            pr_new_pass_ent.config(fg="black")
+                            return True
+
+                        def pass_inval_fun2():
+                            pr_new_pass_ent.config(fg="red")
+
+                        pas_val2 = (pr_canvas_ed.register(pas_val_fun2), '%P')
+                        pass_inval2 = (pr_canvas_ed.register(pass_inval_fun2),)
+
+                        pr_new_pass_ent.config(validate='focusout', validatecommand=pas_val2, invalidcommand=pass_inval2)
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_ent,tag=("pr_new_pass_ent"))
 
 
@@ -379,30 +612,56 @@ def main_sign_in():
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
 
                         cmp_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_nm_ent.delete(0,END)
+                        cmp_nm_ent.insert(0,edi_cmp_dtl[1])
+                        
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
 
                         cmp_cty_lb=Label(pr_canvas_ed, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
 
                         cmp_cty_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_cty_ent.delete(0,END)
+                        cmp_cty_ent.insert(0,edi_cmp_dtl[3])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
 
                         cmp_pin_lb=Label(pr_canvas_ed, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
 
                         cmp_pin_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_pin_ent.delete(0,END)
+                        cmp_pin_ent.insert(0,edi_cmp_dtl[5])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
 
                         cmp_ph_lb=Label(pr_canvas_ed, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
 
                         cmp_ph_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_ph_ent.delete(0,END)
+                        cmp_ph_ent.insert(0,edi_cmp_dtl[7])
+                        def validate_telb512(value):
+        
+                                pattern = r'^[0-9]\d{9}$'
+                                if re.fullmatch(pattern, value) is None:
+                                    
+                                    return False
+                                cmp_ph_ent.config(fg="black")
+                                return True
+
+                        def on_invalid_telb512():
+                                cmp_ph_ent.config(fg="red")
+                                
+                        v_tel_cmd = (pr_canvas_ed.register(validate_telb512), '%P')
+                        iv_tel_cmd = (pr_canvas_ed.register(on_invalid_telb512),)
+                        cmp_ph_ent.config(validate='focusout', validatecommand=v_tel_cmd, invalidcommand=iv_tel_cmd)
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
 
                         cmp_indest_lb=Label(pr_canvas_ed, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
 
                         cmp_indest_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_indest_ent.delete(0,END)
+                        cmp_indest_ent.insert(0,edi_cmp_dtl[10])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
 
                         # #----------------------------------------------------------------------------------------------------RIGHT SIDE
@@ -410,40 +669,81 @@ def main_sign_in():
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
 
                         cmp_addr_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_addr_ent.delete(0,END)
+                        cmp_addr_ent.insert(0,edi_cmp_dtl[2])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
 
                         cmp_st_lb=Label(pr_canvas_ed, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
 
                         cmp_st_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_st_ent.delete(0,END)
+                        cmp_st_ent.insert(0,edi_cmp_dtl[4])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
 
                         cmp_em_lb=Label(pr_canvas_ed, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
 
                         cmp_em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_em_ent.delete(0,END)
+                        cmp_em_ent.insert(0,edi_cmp_dtl[6])
+                        def validateb2113(value):
+        
+                            pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                            if re.fullmatch(pattern, value) is None:
+                                                
+                                return False
+
+                            cmp_em_ent.config(fg="black")
+                            return True
+
+                        def on_invalidb2113():
+                            
+                            cmp_em_ent.config(fg="red")
+
+                        vcmdb2113 = (pr_canvas_ed.register(validateb2113), '%P')
+                        ivcmdb2113 = (pr_canvas_ed.register(on_invalidb2113),)
+                        cmp_em_ent.config(validate='focusout', validatecommand=vcmdb2113, invalidcommand=ivcmdb2113) 
+
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
 
                         cmp_lg_nm=Label(pr_canvas_ed, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
 
                         cmp_lg_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_lg_ent.delete(0,END)
+                        cmp_lg_ent.insert(0,edi_cmp_dtl[9])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
 
                         cmp_typ_lb=Label(pr_canvas_ed, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
 
                         cmp_typ_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_typ_ent.delete(0,END)
+                        cmp_typ_ent.insert(0,edi_cmp_dtl[11])
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
 
                         cmp_file_lb=Label(pr_canvas_ed, text="File",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_lb,tag=("cmp_file_lb"))
+                        def fil_ents(event):
+                    
+                            cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
+                            logo_crp=cmp_logo.split('/',-1)
+                            
+                            im1 = Image.open(r""+cmp_logo) 
+                            im1 = im1.save("profilepic/propic.jpg")
+
+                            cmp_file_ent.delete(0,END)
+                            cmp_file_ent.insert(0,logo_crp[-1])
 
                         cmp_file_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        cmp_file_ent.delete(0,END)
+                        cmp_file_ent.insert(0,edi_cmp_dtl[8])
+                        cmp_file_ent.bind("<Button-1>",fil_ents)
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_ent,tag=("cmp_file_ent"))
 
 
-                        btn_edit = Button(pr_canvas_ed, text='Update Profile', command=edit_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
+                        btn_edit = Button(pr_canvas_ed, text='Update Profile', command=update_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
                         win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=btn_edit,tag=("btn_edit"))
 
                     
@@ -489,9 +789,10 @@ def main_sign_in():
                             x1,y1,
                             )                   
             
-                            dcanvas.coords("my_pro",dwidth/2.3,dheight/12.5)
+                            dcanvas.coords("my_pro",dwidth/2.3,dheight/13)
+                            dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
 
-                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/7,dwidth/1.07,dheight/7)
+                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
                             dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
                             dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
                             dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
@@ -535,6 +836,17 @@ def main_sign_in():
                         # myscrollbar.pack_forget()
                         # Sys_mains_frame.pack_forget()
                         
+                        sql_pro="select * from auth_user where username=%s"
+                        sql_pro_val=(nm_ent.get(),)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        pro_dtl=fbcursor.fetchone()
+
+                        sql_pro_cmp="select * from app1_company where id_id=%s"
+                        sql_pro_cmp_val=(pro_dtl[0],)
+                        fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
+                        pro_cmp_dtl=fbcursor.fetchone()
+                        
+
                         Sys_mains_frame_pr=Frame(tab1, height=750,bg="#2f516f",)
                         Sys_mains_frame_pr.grid(row=0,column=0,sticky='nsew')
                         Sys_mains_frame_pr.grid_rowconfigure(0,weight=1)
@@ -556,6 +868,11 @@ def main_sign_in():
 
                         pr_canvas.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
                         #----------------------------------------------------------------------------------------Personal info
+
+        
+                        pr_img=Label(pr_canvas, image = prof_pics,bg="#213b52",width=170,height=170, anchor="center",)
+                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
+
                         pr_hd=Label(pr_canvas, text="Personal Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
                         win_pr = pr_canvas.create_window(0, 0, anchor="nw", window=pr_hd,tags=("pr_hd"))
 
@@ -563,24 +880,32 @@ def main_sign_in():
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
 
                         fr_name_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        fr_name_ent.delete(0,END)
+                        fr_name_ent.insert(0,pro_dtl[5])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
 
                         pr_em_lb=Label(pr_canvas, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
 
                         em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        em_ent.delete(0,END)
+                        em_ent.insert(0,pro_dtl[7])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
 
                         last_nm_lb=Label(pr_canvas, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
 
                         lst_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        lst_nm_ent.delete(0,END)
+                        lst_nm_ent.insert(0,pro_dtl[6])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
 
                         usr_nm_lb=Label(pr_canvas, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
 
                         usr_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        usr_nm_ent.delete(0,END)
+                        usr_nm_ent.insert(0,pro_dtl[4])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
 
                         #------------------------------------------------------------------------------------------------COMPANY SECTION
@@ -591,30 +916,40 @@ def main_sign_in():
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
 
                         cmp_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_nm_ent.delete(0,END)
+                        cmp_nm_ent.insert(0,pro_cmp_dtl[2])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
 
                         cmp_cty_lb=Label(pr_canvas, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
 
                         cmp_cty_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_cty_ent.delete(0,END)
+                        cmp_cty_ent.insert(0,pro_cmp_dtl[3])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
 
                         cmp_pin_lb=Label(pr_canvas, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
 
                         cmp_pin_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_pin_ent.delete(0,END)
+                        cmp_pin_ent.insert(0,pro_cmp_dtl[5])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
 
                         cmp_ph_lb=Label(pr_canvas, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
 
                         cmp_ph_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_ph_ent.delete(0,END)
+                        cmp_ph_ent.insert(0,pro_cmp_dtl[7])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
 
                         cmp_indest_lb=Label(pr_canvas, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
 
                         cmp_indest_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_indest_ent.delete(0,END)
+                        cmp_indest_ent.insert(0,pro_cmp_dtl[10])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
 
                         #----------------------------------------------------------------------------------------------------RIGHT SIDE
@@ -622,30 +957,40 @@ def main_sign_in():
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
 
                         cmp_addr_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_addr_ent.delete(0,END)
+                        cmp_addr_ent.insert(0,pro_cmp_dtl[2])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
 
                         cmp_st_lb=Label(pr_canvas, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
 
                         cmp_st_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_st_ent.delete(0,END)
+                        cmp_st_ent.insert(0,pro_cmp_dtl[4])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
 
                         cmp_em_lb=Label(pr_canvas, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
 
                         cmp_em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_em_ent.delete(0,END)
+                        cmp_em_ent.insert(0,pro_cmp_dtl[6])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
 
                         cmp_lg_nm=Label(pr_canvas, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
 
                         cmp_lg_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_lg_ent.delete(0,END)
+                        cmp_lg_ent.insert(0,pro_cmp_dtl[9])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
 
                         cmp_typ_lb=Label(pr_canvas, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
 
                         cmp_typ_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                        cmp_typ_ent.delete(0,END)
+                        cmp_typ_ent.insert(0,pro_cmp_dtl[11])
                         win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
 
 
@@ -682,11 +1027,11 @@ def main_sign_in():
                     lst_prf.place(relx=0.90, rely=0.10)
                     lst_prf.bind('<<ListboxSelect>>', lst_prf_slt)
                     srh_btn.grid_forget()
-                    srh_btn2 = Button(tp_lb_npr, bg="White", fg="black",height=2,width=5,border=0,command=lst_frt)
-                    srh_btn2.grid(row=2,column=2,padx=15)
+                    srh_btn2 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                    srh_btn2.grid(row=0,column=2,padx=15)
             
-                srh_btn = Button(tp_lb_npr, bg="White", fg="black",height=2,width=5,border=0,command=profile)
-                srh_btn.grid(row=2,column=2,padx=15)
+                srh_btn = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                srh_btn.grid(row=0,column=2,padx=15)
 
                 Sys_top_frame2=Frame(root, height=10,bg="#213b52")
                 Sys_top_frame2.pack(fill=X,)
@@ -1323,7 +1668,7 @@ def cmpny_crt2():
         signup_cmp_sql="insert into app1_company(cname,caddress,city,state,pincode,cemail,phone,cimg,id_id) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)" #adding values into db
         signup_cmp_sql_val=(cmp_name,cmp_address,cmp_ctys,state,cmp_pins,cmp_emails,cmp_phs,cmp_filess,id[0])
         fbcursor.execute(signup_cmp_sql,signup_cmp_sql_val,)
-        fbilldb.commit()
+        finsysdb.commit()
     else:
         messagebox.showerror("Company Creation Failed","Enter your company details")
 
@@ -1385,7 +1730,7 @@ def cmpny_crt2():
     cmpny_cntry = ttk.Combobox(cmpny_dt_frm2,textvariable=industry_tp,width=29,font=('Calibri 16'))
     
     cmpny_cntry['values'] = ('Accounting Services','Consultants, doctors, Lawyers and similar','Information Tecnology','Manufacturing','Professional, Scientific and Technical Services','Restaurant/Bar and similar','Retail and Smilar','Other Finanacial Services')
-    cmpny_cntry.current(0)
+   
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry, tag=("cmpny_cntry"))
 
     cmp_lbl2=Label(cmpny_dt_frm2, text="Company type",font=('Calibri 12') ,fg="black")
@@ -1395,7 +1740,7 @@ def cmpny_crt2():
     cmpny_cntry2 = ttk.Combobox(cmpny_dt_frm2,textvariable=cmp_type,width=29,font=('Calibri 16'))
     
     cmpny_cntry['values'] = ('Private Limited Company','Public Limited Company','Joint-Venture Company','Partnership Firm Company','One Person Company','Branch Office Company','Non Government Organization')
-    cmpny_cntry.current(0)
+    
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry2, tag=("cmpny_cntry2"))
     
     cmp_lbl3=Label(cmpny_dt_frm2, text="Do you have an Accountant, Bookkeeper or Tax Pro ?",font=('Calibri 12') ,fg="black")
@@ -1416,9 +1761,8 @@ def cmpny_crt2():
     
     paid_typ = StringVar()
     cmpny_cntry3 = ttk.Combobox(cmpny_dt_frm2,textvariable=paid_typ,width=29,font=('Calibri 16'))
-    
     cmpny_cntry['values'] = ('Cash','Cheque','Credit card/Debit card','Bank Transfer','Paypal/Other service')
-    cmpny_cntry.current(0)
+   
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry3, tag=("cmpny_cntry3"))
 
     button_cmp2 = customtkinter.CTkButton(master=cmpny_dt_frm2,command=cmpny_crt1,text="Previous",bg="#213b52")
@@ -1448,7 +1792,7 @@ def cmpny_crt1():
                 signup_sql="insert into auth_user(first_name,last_name,email,username,password,date_joined) VALUES(%s,%s,%s,%s,%s,%s)" #adding values into db
                 signup_sql_val=(first_name,last_name,email,username,password,join_dt,)
                 fbcursor.execute(signup_sql,signup_sql_val,)
-                fbilldb.commit()
+                finsysdb.commit()
                 try:
                     main_frame_cmpny2.pack_forget()
                 except:
@@ -1495,9 +1839,12 @@ def cmpny_crt1():
                 def fil_ent(event):
                     
                     cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
+                    logo_crp=cmp_logo.split('/',-1)
+                    im1 = Image.open(r""+cmp_logo) 
+                    im1 = im1.save("profilepic/propic.jpg")
                     
                     cmp_files.delete(0,END)
-                    cmp_files.insert(0,cmp_logo)
+                    cmp_files.insert(0,logo_crp[-1])
                 
                 def responsive_wid_cmp1(event):
                     dwidth = event.width
@@ -1581,6 +1928,22 @@ def cmpny_crt1():
                 cmp_ph = Entry(lf_cmpy1, width=30, font=('Calibri 16'),borderwidth=2)
                 cmp_ph.insert(0,"Phone Number")
                 cmp_ph.bind("<Button-1>",ph_ent)
+                def validate_telb51(value):
+        
+                        pattern = r'^[0-9]\d{9}$'
+                        if re.fullmatch(pattern, value) is None:
+                            
+                            return False
+                        cmp_ph.config(fg="black")
+                        return True
+
+                def on_invalid_telb51():
+                        cmp_ph.config(fg="red")
+                        
+                v_tel_cmdb51 = (lf_cmpy1.register(validate_telb51), '%P')
+                iv_tel_cmdb51 = (lf_cmpy1.register(on_invalid_telb51),)
+                cmp_ph.config(validate='focusout', validatecommand=v_tel_cmdb51, invalidcommand=iv_tel_cmdb51)
+
                 win_inv1 = lf_cmpy1.create_window(0, 0, anchor="center", window=cmp_ph, tag=("cmp_ph"))
 
                 cmp_files = Entry(lf_cmpy1, width=30, font=('Calibri 16'),borderwidth=2)
@@ -1600,7 +1963,7 @@ def cmpny_crt1():
                 signup_sql="insert into auth_user(first_name,last_name,email,username,password) VALUES(%s,%s,%s,%s,%s)" #adding values into db
                 signup_sql_val=(first_name,last_name,email,username,password,)
                 fbcursor.execute(signup_sql,signup_sql_val,)
-                fbilldb.commit()
+                finsysdb.commit()
                 try:
                     main_frame_cmpny2.pack_forget()
                 except:
@@ -1647,9 +2010,12 @@ def cmpny_crt1():
                 def fil_ent(event):
                     
                     cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
+                    logo_crp=cmp_logo.split('/',-1)
+                    im1 = Image.open(r""+cmp_logo) 
+                    im1 = im1.save("profilepic/propic.jpg")
                     
                     cmp_files.delete(0,END)
-                    cmp_files.insert(0,cmp_logo)
+                    cmp_files.insert(0,logo_crp[-1])
                 
                 def responsive_wid_cmp1(event):
                     dwidth = event.width
@@ -1740,7 +2106,7 @@ def fun_sign_in():
     signup_cmp_sql="update app1_company set bname=%s,industry=%s,ctype=%s,abt=%s,paid=%s  where id_id=%s" #adding values into db
     signup_cmp_sql_val=(bs_nm,ind_type,com_typ,acount_manage,paid_type,id[0],)
     fbcursor.execute(signup_cmp_sql,signup_cmp_sql_val,)
-    fbilldb.commit()
+    finsysdb.commit()
 
 
     try:
