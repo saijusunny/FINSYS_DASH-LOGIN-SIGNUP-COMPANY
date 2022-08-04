@@ -75,9 +75,7 @@ pro_pic =PIL.Image.open("profilepic\propic.jpg")
 # resized_pro_pic= pro_pic.resize((170,170))
 prof_pics=ImageTk.PhotoImage(pro_pic)
 
-dash_pro_pic =PIL.Image.open("profilepic\propic.jpg")
-dash_resized_pro_pic= dash_pro_pic.resize((50,50))
-dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
+
 
 imgr1 =PIL.Image.open("images\logs.png")
 exprefreshIcon=ImageTk.PhotoImage(imgr1)
@@ -109,17 +107,32 @@ sign_up=ImageTk.PhotoImage(resized_sign_up)
 def main_sign_in():
     usr_nm=nm_ent.get()
     usr_pass=pass_ent.get()
+    sql_log_sql='select * from auth_user where username=%s'
+    vals=(nm_ent.get(),)
+    fbcursor.execute(sql_log_sql,vals)
+    check_logins=fbcursor.fetchone()
+
+    pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+    # resized_pro_pic= pro_pic.resize((170,170))
+    prof_pics=ImageTk.PhotoImage(pro_pic)
+
+    dash_pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+    dash_resized_pro_pic= dash_pro_pic.resize((50,50))
+    dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
+    
     if usr_nm=="" or usr_pass=="" or usr_nm=="Username" or usr_pass=="Password":
         messagebox.showerror("Login Failed","Enter username and password")
     else:
-        sql_log_sql='select * from auth_user'
-        fbcursor.execute(sql_log_sql)
+        sql_log_sql='select * from auth_user where username=%s'
+        vals=(nm_ent.get(),)
+        fbcursor.execute(sql_log_sql,vals)
         check_login=fbcursor.fetchone()
-
+        
         if check_login is None:
             messagebox.showerror("Login Failed","Create an account")
         else:
             if check_login[4]==usr_nm and check_login[1]==usr_pass:
+                  
                 try:
                     main_frame_signup.pack_forget()
                 except:
@@ -357,11 +370,82 @@ def main_sign_in():
                                         cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
                                         fbcursor.execute(cmp_edit,cmp_edit_val)
                                         finsysdb.commit()
-                                        messagebox.showerror("Sucess","Updation Success")
+                                        
                                     
                             else:
                                 # #username same password change
-                                # if  check_none[1]!=pro_new_pass:
+                                if pr_new_pass_ent.get()=="":
+                                    
+                                    pro_new_passd=pr_crpass_ent.get()
+                                    
+                                else:
+                                    pro_new_passd=pr_new_pass_ent.get()
+                                if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
+                                        if pr_crpass_ent.get()==edi_dtl[1]:
+                                            print(pro_new_pass)
+                                            prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                            prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_passd,edi_dtl[0])
+                                            fbcursor.execute(prof_edit,prof_edit_val)
+                                            finsysdb.commit()
+
+                                            #compnay
+                                            cmp_name=cmp_nm_ent.get()
+                                            cmp_cty=cmp_cty_ent.get()
+                                            cmp_pin=cmp_pin_ent.get()
+                                            cmp_phn=cmp_ph_ent.get()
+                                            cmp_ind=cmp_indest_ent.get()
+                                            cmp_addr=cmp_addr_ent.get()
+                                            cmp_st=cmp_st_ent.get()
+                                            cmp_em=cmp_em_ent.get()
+                                            cmp_bname=cmp_lg_ent.get()
+                                            cmp_typ=cmp_typ_ent.get()
+                                            logo=cmp_file_ent.get()
+
+                                            cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                            cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                            fbcursor.execute(cmp_edit,cmp_edit_val)
+                                            finsysdb.commit()
+                                            
+                                        else:
+                                            messagebox.showerror("Updation Failed","Please check your current password")
+                                else:
+
+                                        messagebox.showerror("Updation Failed","password and conform password does not match")
+                                    
+                                # if check_none[4]!=pro_username and check_none[1]!=pro_new_pass and pro_new_pass is not None:
+                                     
+                                #     if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
+                                #         if pr_crpass_ent.get()==edi_dtl[1]:
+                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
+                                #             fbcursor.execute(prof_edit,prof_edit_val)
+                                #             finsysdb.commit()
+
+                                #             #compnay
+                                #             cmp_name=cmp_nm_ent.get()
+                                #             cmp_cty=cmp_cty_ent.get()
+                                #             cmp_pin=cmp_pin_ent.get()
+                                #             cmp_phn=cmp_ph_ent.get()
+                                #             cmp_ind=cmp_indest_ent.get()
+                                #             cmp_addr=cmp_addr_ent.get()
+                                #             cmp_st=cmp_st_ent.get()
+                                #             cmp_em=cmp_em_ent.get()
+                                #             cmp_bname=cmp_lg_ent.get()
+                                #             cmp_typ=cmp_typ_ent.get()
+                                #             logo=cmp_file_ent.get()
+
+                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
+                                #             finsysdb.commit()
+                                #             messagebox.showerror("Sucess","Updation Success")
+                                #         else:
+                                #             messagebox.showerror("Updation Failed","Please check your current password")
+                                #     else:
+
+                                #         messagebox.showerror("Updation Failed","password and conform password does not match")
+                                
+                                # elif  check_none[1]!=pro_new_pass and edi_dtl[4]==pro_username and pro_new_pass is not None :  
                                 #     print("welcome")
                                 #     if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
                                 #         if pr_crpass_ent.get()==edi_dtl[1]:
@@ -395,7 +479,7 @@ def main_sign_in():
 
                                 #         messagebox.showerror("Updation Failed","password and conform password does not match")
                                 # #username change password same
-                                # elif check_none[4]!=pro_username and pro_new_pass=="" :
+                                # elif check_none[4]!=pro_username and pro_new_pass==None and edi_dtl[1]==pr_crpass_ent.get():
                                 #         print("welcome2")
                                     
                                 #         if pr_crpass_ent.get()==edi_dtl[1]:
@@ -425,42 +509,14 @@ def main_sign_in():
                                 #             messagebox.showerror("Sucess","Updation Success")
                                 #         else:
                                 #             messagebox.showerror("Updation Failed","Please check your current password")
-                                    
-                                if check_none[4]!=pro_username and check_none[1]!=pro_new_pass:
-                                    print("welcome3")
-                                    if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
-                                        if pr_crpass_ent.get()==edi_dtl[1]:
-                                            prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                            prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
-                                            fbcursor.execute(prof_edit,prof_edit_val)
-                                            finsysdb.commit()
+                                
+                                # else:
+                                #     messagebox.showerror("Updation Failed","Username and password already exist")
+                            Sys_top_frame2.pack_forget()
+                            Sys_top_frame.pack_forget()
+                            Sys_mains_frame_pr_ed.grid_forget()
+                            main_frame_signin.pack(fill=X,)
 
-                                            #compnay
-                                            cmp_name=cmp_nm_ent.get()
-                                            cmp_cty=cmp_cty_ent.get()
-                                            cmp_pin=cmp_pin_ent.get()
-                                            cmp_phn=cmp_ph_ent.get()
-                                            cmp_ind=cmp_indest_ent.get()
-                                            cmp_addr=cmp_addr_ent.get()
-                                            cmp_st=cmp_st_ent.get()
-                                            cmp_em=cmp_em_ent.get()
-                                            cmp_bname=cmp_lg_ent.get()
-                                            cmp_typ=cmp_typ_ent.get()
-                                            logo=cmp_file_ent.get()
-
-                                            cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
-                                            cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
-                                            fbcursor.execute(cmp_edit,cmp_edit_val)
-                                            finsysdb.commit()
-                                            messagebox.showerror("Sucess","Updation Success")
-                                        else:
-                                            messagebox.showerror("Updation Failed","Please check your current password")
-                                    else:
-
-                                        messagebox.showerror("Updation Failed","password and conform password does not match")
-                                else:
-                                    messagebox.showerror("Updation Failed","Username and password already exist")
-                        
                         sql_pro_cmp="select * from app1_company where id_id=%s"
                         sql_pro_cmp_val=(pro_dtl[0],)
                         fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
@@ -532,7 +588,7 @@ def main_sign_in():
                         pr_crpass_lb=Label(pr_canvas_ed, text="Enter your Current Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_lb,tag=("pr_crpass_lb"))
 
-                        pr_crpass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        pr_crpass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
                         
                         pr_crpass_ent.delete(0,END)
                         pr_crpass_ent.insert(0,edi_dtl[1])
@@ -542,7 +598,7 @@ def main_sign_in():
                         pr_re_pass_lb=Label(pr_canvas_ed, text="Re-type new Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_lb,tag=("pr_re_pass_lb"))
 
-                        pr_re_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        pr_re_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
                         def pas_val_fun1(value):
         
                             pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
@@ -583,7 +639,7 @@ def main_sign_in():
                         pr_new_pass_lb=Label(pr_canvas_ed, text="Enter New Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_lb,tag=("pr_new_pass_lb"))
 
-                        pr_new_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                        pr_new_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*",)
                         def pas_val_fun2(value):
         
                             pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
@@ -726,14 +782,17 @@ def main_sign_in():
                         cmp_file_lb=Label(pr_canvas_ed, text="File",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
                         win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_lb,tag=("cmp_file_lb"))
                         def fil_ents(event):
-                    
+                            sql_log_sql='select * from auth_user where username=%s'
+                            vals=(nm_ent.get(),)
+                            fbcursor.execute(sql_log_sql,vals)
+                            check_logins=fbcursor.fetchone()
                             cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
                             logo_crp=cmp_logo.split('/',-1)
                             
                             im1 = Image.open(r""+cmp_logo) 
-                            im1 = im1.save("profilepic/propic.jpg")
+                            im1 = im1.save("profilepic/propic"+str(check_logins[0])+".png")
 
-                            cmp_file_ent.delete(0,END)
+                            cmp_file_ent.delete("0",END)
                             cmp_file_ent.insert(0,logo_crp[-1])
 
                         cmp_file_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
@@ -1004,12 +1063,12 @@ def main_sign_in():
                         main_frame_signin.pack(fill=X,)
                     elif selected_langs== "Dashboard":
                         try:
-                            Sys_mains_frame_pr_ed.place_forget()
+                            Sys_mains_frame_pr_ed.pack_forget()
                         except:
                             pass
                         try:
                             
-                            Sys_mains_frame_pr.place_forget()
+                            Sys_mains_frame_pr.pack_forget()
                         except:
                             pass
 
@@ -1353,20 +1412,20 @@ def main_sign_in():
                     #--------------------------------------------------------------forth
                     dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
                     
-                    dcanvas.coords("incom_hr",dwidth/53,dheight/0.99,dwidth/3.15,dheight/0.99)
+                    dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
 
                 
                     dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
             
                     #-------------------------------------------------------------fifth
                     dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                    dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.99,dwidth/1.54,dheight/0.99)
+                    dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
                     dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
                     dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
                     dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
                     #-------------------------------------------------------------sixth
                     dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                    dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.99,dwidth/1.03,dheight/0.99)
+                    dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
                     
                     
 
@@ -1385,7 +1444,7 @@ def main_sign_in():
                 canvas.grid(row=0,column=0,sticky='nsew')
                 
 
-                cmp_name=Label(canvas, text="Clown",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+                cmp_name=Label(canvas, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
             
                 win_inv1 = canvas.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
                 
@@ -1428,15 +1487,25 @@ def main_sign_in():
                 canvasbar.get_tk_widget()
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
                 # #----------------------------------------------------------------------------------------------------------------grid 2
+                sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                sql_pro_val=(dtl_cmp_pro[0],)
+                fbcursor.execute(sql_pro,sql_pro_val,)
+                exp_tot=fbcursor.fetchone()
+                
+                if exp_tot[0]==None or exp_tot[0]=="":
+                    total_exp=0.0
+                else:
+                    total_exp=exp_tot[0]
+                
                 rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
 
-                exp_hd_lb=Label(canvas, text="EXPENSES: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                exp_hd_lb=Label(canvas, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
                 canvas.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
                 fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
 
                 size = 0.3
-                vals = np.array([[60., 32.], [37., 40.], [29., 10.]])
+                vals = np.array([[total_exp]])
 
                 cmap = plt.colormaps["tab20c"]
                 outer_colors = cmap(np.arange(3)*4)
@@ -1448,7 +1517,7 @@ def main_sign_in():
                 # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
                 #        wedgeprops=dict(width=size, edgecolor='w'))
 
-                ax.set(aspect="equal", title='Pie plot with `ax.pie`')
+                ax.set(aspect="equal")
 
                 canvasbar = FigureCanvasTkAgg(fig, master=canvas)
                 canvasbar
@@ -1739,7 +1808,7 @@ def cmpny_crt2():
     cmp_type = StringVar()
     cmpny_cntry2 = ttk.Combobox(cmpny_dt_frm2,textvariable=cmp_type,width=29,font=('Calibri 16'))
     
-    cmpny_cntry['values'] = ('Private Limited Company','Public Limited Company','Joint-Venture Company','Partnership Firm Company','One Person Company','Branch Office Company','Non Government Organization')
+    cmpny_cntry2['values'] = ('Private Limited Company','Public Limited Company','Joint-Venture Company','Partnership Firm Company','One Person Company','Branch Office Company','Non Government Organization')
     
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry2, tag=("cmpny_cntry2"))
     
@@ -1761,7 +1830,7 @@ def cmpny_crt2():
     
     paid_typ = StringVar()
     cmpny_cntry3 = ttk.Combobox(cmpny_dt_frm2,textvariable=paid_typ,width=29,font=('Calibri 16'))
-    cmpny_cntry['values'] = ('Cash','Cheque','Credit card/Debit card','Bank Transfer','Paypal/Other service')
+    cmpny_cntry3['values'] = ('Cash','Cheque','Credit card/Debit card','Bank Transfer','Paypal/Other service')
    
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry3, tag=("cmpny_cntry3"))
 
@@ -1837,11 +1906,15 @@ def cmpny_crt1():
                         pass
 
                 def fil_ent(event):
+                    sql_log_sql='select * from auth_user where username=%s'
+                    vals=(sys_usr.get(),)
+                    fbcursor.execute(sql_log_sql,vals)
+                    check_logins=fbcursor.fetchone()
                     
                     cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
                     logo_crp=cmp_logo.split('/',-1)
                     im1 = Image.open(r""+cmp_logo) 
-                    im1 = im1.save("profilepic/propic.jpg")
+                    im1 = im1.save("profilepic/propic"+str(check_logins[0])+".png")
                     
                     cmp_files.delete(0,END)
                     cmp_files.insert(0,logo_crp[-1])
@@ -2008,11 +2081,14 @@ def cmpny_crt1():
                         pass
 
                 def fil_ent(event):
-                    
+                    sql_log_sql='select * from auth_user where username=%s'
+                    vals=(sys_usr.get(),)
+                    fbcursor.execute(sql_log_sql,vals)
+                    check_logins=fbcursor.fetchone()
                     cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
                     logo_crp=cmp_logo.split('/',-1)
                     im1 = Image.open(r""+cmp_logo) 
-                    im1 = im1.save("profilepic/propic.jpg")
+                    im1 = im1.save("profilepic/propic"+str(check_logins[0])+".png")
                     
                     cmp_files.delete(0,END)
                     cmp_files.insert(0,logo_crp[-1])
@@ -2240,7 +2316,7 @@ def func_sign_up():
     sys_usr.bind("<Button-1>",nme3)
     win_inv1 = lf_signup.create_window(0, 0, anchor="nw", window=sys_usr, tag=("sys_usr"))
 
-    sys_pass = Entry(lf_signup, width=25, font=('Calibri 16'))
+    sys_pass = Entry(lf_signup, width=25, font=('Calibri 16'),)
     sys_pass.insert(0,"Password")
     sys_pass.bind("<Button-1>",nme4)
     def pas_val_fun(value):
@@ -2295,7 +2371,7 @@ def sig_nm(event):
             pass
 
 def sig_pass(event):
-        if pass_ent.get()=="Password":
+        if pass_ent.get()=="********":
             pass_ent.delete(0,END)
         else:
             pass
@@ -2331,8 +2407,8 @@ nm_ent.insert(0,"Username")
 nm_ent.bind("<Button-1>",sig_nm)
 win_inv1 = lf_signup.create_window(0, 0, anchor="nw", window=nm_ent, tag=("nm_ent"))
 
-pass_ent = Entry(lf_signup, width=25, font=('Calibri 16'))
-pass_ent.insert(0,"Password")
+pass_ent = Entry(lf_signup, width=25, font=('Calibri 16'),show="*")
+pass_ent.insert(0,"********")
 pass_ent.bind("<Button-1>",sig_pass)
 win_inv1 = lf_signup.create_window(0, 0, anchor="nw", window=pass_ent, tag=("pass_ent"))
 
