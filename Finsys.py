@@ -1396,6 +1396,8 @@ def main_sign_in():
                     )
 
                     dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                    dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
+                    
                     dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
                     
                     dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
@@ -1409,6 +1411,10 @@ def main_sign_in():
                     #-----------------------------------------------------------third
                     dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
                     dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                    dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                    dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                    dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                    
                     #--------------------------------------------------------------forth
                     dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
                     
@@ -1442,11 +1448,2214 @@ def main_sign_in():
                 canvas.bind("<Configure>", responsive_wid)
                 canvas.config(yscrollcommand=sr_Scroll.set)
                 canvas.grid(row=0,column=0,sticky='nsew')
+
+                def date_filter_dash(event):
+
+                    if dat_flt_var.get()=="All Dates":
+                        Sys_mains_frame.grid_forget()
+                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
+                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
+                        
+                        def responsive_wid2(event):
+                            dwidth = event.width
+                            dheight = event.height
+                            dcanvas = event.widget
+                        
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/1.021
+                            y1 = dheight/13
+                            y2 = dheight/6
+
+                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )                    
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+                            
+                            #-----------------------------------------second row
+                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
+                            
+                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
+                            
+                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
+                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
+                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
+                            #--------------------------------------------------------------second
+                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
+                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
+                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
+                            
+                            #-----------------------------------------------------------third
+                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
+                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                            
+                            #--------------------------------------------------------------forth
+                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
+                            
+                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
+
+                        
+                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
+                    
+                            #-------------------------------------------------------------fifth
+                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
+                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
+                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
+                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
+                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
+                            #-------------------------------------------------------------sixth
+                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
+                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
+                            
+                            
+
+
+                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
+                        
+                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
+                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
+
+                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
+                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
+                        sr_Scroll.pack(fill=Y,side="right")
+                        sr_Scroll.config(command=canvas2.yview)
+                        canvas2.bind("<Configure>", responsive_wid2)
+                        canvas2.config(yscrollcommand=sr_Scroll.set)
+                        canvas2.pack(fill=X)
+
+                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+            
+                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                        dat_flt_vars= StringVar()
+                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
+                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
+                        dat_flt.current(0)
+                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+
+
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
+                        # #----------------------------------------------------------------------------------------------------------------grid 1
+                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
+
+                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
+
+                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_tot=fbcursor.fetchall()
+                        if exp_tot[0]==None or exp_tot[0]=="":
+                            total_exp=0.0
+                        else:
+                            total_exp=exp_tot[0]
+
+                        x="Income"
+                        y=10 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Expense"
+                        y=total_exp
+                        plt.barh(x,y, color="green") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 2
+                        
+                        
+                        
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
+
+                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+
+                        size = 0.3
+                        vals = np.array([total_exp])
+
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+                        #        wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal")
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#213b52")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 3
+                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
+
+                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
+                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        bank_stm=fbcursor.fetchone()
+                        if bank_stm[0]==None or bank_stm[0]=="":
+                            debit=0.0
+                        else:
+                            debit=bank_stm[0]
+                        if bank_stm[1]==None or bank_stm[1]=="":
+                            debit=0.0
+                        else:
+                            credit=bank_stm[1]
+
+                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        x="Debit"
+                        y=debit
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=credit
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 4
+                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
+
+                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
+
+                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+                        sizes = [15, 30, 45, 10]
+                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
+                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                        shadow=True, startangle=90)
+                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                        fig1.set_facecolor("#213b52")
+                        ax1.set_facecolor("#213b52")
+                    
+                        for text in texts:
+                            text.set_color('white')
+                        for autotext in autotexts:
+                            autotext.set_color('black')
+
+                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_totl_inv=fbcursor.fetchone()
+
+                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                            paid=0.0
+                        else:
+                            paid=exp_totl_inv[0]
+                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                            unpaid=0.0
+                        else:
+                            unpaid=exp_totl_inv[1]
+
+                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
+                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
+                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
+                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50)
+
+                        x="Unpaid"
+                        y=unpaid 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Paid"
+                        y=paid
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
+                        #----------------------------------------------------------------------------------------------------------------grid 6
+                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
+                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
+                        
+                        
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+                        ax.plot(range(10))
+                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#2f516a")
+                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
+                        # for text in txt:
+                        #     text.set_color('white')
+                    
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                        
+                        
+                    elif dat_flt_var.get()=="Custom":
+                        top = Toplevel()  
+                        top.title("Find Text")
+                        p2 = PhotoImage(file = "images/fbicon.png")
+                        top.iconphoto(False, p2)
+                        top.geometry("520x150+390+250")
+                        frmaes=Frame(top,height=150,width=520,bg="#2f516f")
+                        frmaes.pack(fill=X)
+                        findwhat1=Label(frmaes,text="Start Date:",bg="#2f516f", fg="White",)
+                        findwhat1.place(x=5,y=15)
+                        start_dt=DateEntry(frmaes,width = 50,)
+                        start_dt.place(x=85,y=15,height=23) 
+                        findin1=Label(frmaes,text="End Date:",bg="#2f516f",  fg="White",)
+                        findin1.place(x=5,y=40)
+                        end_dt=DateEntry(frmaes,width = 50,)
+                        end_dt.place(x=85,y=40,height=23) 
+                        btn_dt=Button(frmaes,text="ok",bg="#213b52", fg="White",width=10,)
+                        btn_dt.place(x=420,y=15)
+                        btn_dt2=Button(frmaes,text="Cancel",bg="#213b52", fg="White",width=10,)
+                        btn_dt2.place(x=420,y=40)
+                        top.mainloop()
+                        
+                    elif dat_flt_var.get()=="Today":
+                        Sys_mains_frame.grid_forget()
+                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
+                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
+                        
+                        def responsive_wid2(event):
+                            dwidth = event.width
+                            dheight = event.height
+                            dcanvas = event.widget
+                        
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/1.021
+                            y1 = dheight/13
+                            y2 = dheight/6
+
+                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )                    
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+                            
+                            #-----------------------------------------second row
+                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
+                            
+                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
+                            
+                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
+                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
+                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
+                            #--------------------------------------------------------------second
+                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
+                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
+                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
+                            
+                            #-----------------------------------------------------------third
+                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
+                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                            
+                            #--------------------------------------------------------------forth
+                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
+                            
+                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
+
+                        
+                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
+                    
+                            #-------------------------------------------------------------fifth
+                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
+                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
+                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
+                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
+                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
+                            #-------------------------------------------------------------sixth
+                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
+                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
+                            
+                            
+
+
+                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
+                        
+                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
+                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
+
+                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
+                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
+                        sr_Scroll.pack(fill=Y,side="right")
+                        sr_Scroll.config(command=canvas2.yview)
+                        canvas2.bind("<Configure>", responsive_wid2)
+                        canvas2.config(yscrollcommand=sr_Scroll.set)
+                        canvas2.pack(fill=X)
+
+                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+            
+                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                        dat_flt_vars= StringVar()
+                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
+                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
+                        dat_flt.current(0)
+                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+
+
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
+                        # #----------------------------------------------------------------------------------------------------------------grid 1
+                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
+
+                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
+
+                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_tot=fbcursor.fetchall()
+                        if exp_tot[0]==None or exp_tot[0]=="":
+                            total_exp=0.0
+                        else:
+                            total_exp=exp_tot[0]
+
+                        x="Income"
+                        y=10 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Expense"
+                        y=total_exp
+                        plt.barh(x,y, color="green") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 2
+                        
+                        
+                        
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
+
+                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+
+                        size = 0.3
+                        vals = np.array([total_exp])
+
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+                        #        wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal")
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#213b52")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 3
+                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
+
+                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
+                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        bank_stm=fbcursor.fetchone()
+                        if bank_stm[0]==None or bank_stm[0]=="":
+                            debit=0.0
+                        else:
+                            debit=bank_stm[0]
+                        if bank_stm[1]==None or bank_stm[1]=="":
+                            debit=0.0
+                        else:
+                            credit=bank_stm[1]
+
+                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        x="Debit"
+                        y=debit
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=credit
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 4
+                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
+
+                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
+
+                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+                        sizes = [15, 30, 45, 10]
+                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
+                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                        shadow=True, startangle=90)
+                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                        fig1.set_facecolor("#213b52")
+                        ax1.set_facecolor("#213b52")
+                    
+                        for text in texts:
+                            text.set_color('white')
+                        for autotext in autotexts:
+                            autotext.set_color('black')
+
+                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_totl_inv=fbcursor.fetchone()
+
+                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                            paid=0.0
+                        else:
+                            paid=exp_totl_inv[0]
+                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                            unpaid=0.0
+                        else:
+                            unpaid=exp_totl_inv[1]
+
+                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
+                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
+                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
+                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50)
+
+                        x="Unpaid"
+                        y=unpaid 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Paid"
+                        y=paid
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
+                        #----------------------------------------------------------------------------------------------------------------grid 6
+                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
+                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
+                        
+                        
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+                        ax.plot(range(10))
+                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#2f516a")
+                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
+                        # for text in txt:
+                        #     text.set_color('white')
+                    
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                       
+                    elif dat_flt_var.get()=="This month":
+                        Sys_mains_frame.grid_forget()
+                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
+                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
+                        
+                        def responsive_wid2(event):
+                            dwidth = event.width
+                            dheight = event.height
+                            dcanvas = event.widget
+                        
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/1.021
+                            y1 = dheight/13
+                            y2 = dheight/6
+
+                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )                    
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+                            
+                            #-----------------------------------------second row
+                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
+                            
+                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
+                            
+                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
+                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
+                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
+                            #--------------------------------------------------------------second
+                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
+                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
+                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
+                            
+                            #-----------------------------------------------------------third
+                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
+                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                            
+                            #--------------------------------------------------------------forth
+                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
+                            
+                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
+
+                        
+                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
+                    
+                            #-------------------------------------------------------------fifth
+                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
+                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
+                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
+                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
+                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
+                            #-------------------------------------------------------------sixth
+                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
+                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
+                            
+                            
+
+
+                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
+                        
+                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
+                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
+
+                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
+                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
+                        sr_Scroll.pack(fill=Y,side="right")
+                        sr_Scroll.config(command=canvas2.yview)
+                        canvas2.bind("<Configure>", responsive_wid2)
+                        canvas2.config(yscrollcommand=sr_Scroll.set)
+                        canvas2.pack(fill=X)
+
+                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+            
+                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                        dat_flt_vars= StringVar()
+                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
+                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
+                        dat_flt.current(0)
+                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+
+
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
+                        # #----------------------------------------------------------------------------------------------------------------grid 1
+                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
+
+                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
+
+                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_tot=fbcursor.fetchall()
+                        if exp_tot[0]==None or exp_tot[0]=="":
+                            total_exp=0.0
+                        else:
+                            total_exp=exp_tot[0]
+
+                        x="Income"
+                        y=10 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Expense"
+                        y=total_exp
+                        plt.barh(x,y, color="green") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 2
+                        
+                        
+                        
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
+
+                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+
+                        size = 0.3
+                        vals = np.array([total_exp])
+
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+                        #        wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal")
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#213b52")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 3
+                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
+
+                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
+                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        bank_stm=fbcursor.fetchone()
+                        if bank_stm[0]==None or bank_stm[0]=="":
+                            debit=0.0
+                        else:
+                            debit=bank_stm[0]
+                        if bank_stm[1]==None or bank_stm[1]=="":
+                            debit=0.0
+                        else:
+                            credit=bank_stm[1]
+
+                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        x="Debit"
+                        y=debit
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=credit
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 4
+                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
+
+                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
+
+                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+                        sizes = [15, 30, 45, 10]
+                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
+                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                        shadow=True, startangle=90)
+                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                        fig1.set_facecolor("#213b52")
+                        ax1.set_facecolor("#213b52")
+                    
+                        for text in texts:
+                            text.set_color('white')
+                        for autotext in autotexts:
+                            autotext.set_color('black')
+
+                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_totl_inv=fbcursor.fetchone()
+
+                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                            paid=0.0
+                        else:
+                            paid=exp_totl_inv[0]
+                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                            unpaid=0.0
+                        else:
+                            unpaid=exp_totl_inv[1]
+
+                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
+                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
+                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
+                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50)
+
+                        x="Unpaid"
+                        y=unpaid 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Paid"
+                        y=paid
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
+                        #----------------------------------------------------------------------------------------------------------------grid 6
+                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
+                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
+                        
+                        
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+                        ax.plot(range(10))
+                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#2f516a")
+                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
+                        # for text in txt:
+                        #     text.set_color('white')
+                    
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                    elif dat_flt_var.get()=="This Financial Year":
+                        Sys_mains_frame.grid_forget()
+                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
+                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
+                        
+                        def responsive_wid2(event):
+                            dwidth = event.width
+                            dheight = event.height
+                            dcanvas = event.widget
+                        
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/1.021
+                            y1 = dheight/13
+                            y2 = dheight/6
+
+                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )                    
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/5
+                            y2 = dheight/1.1
+
+                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/63
+                            x2 = dwidth/3.1
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+                            
+                            #-----------------------------------------second row
+                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/2.95
+                            x2 = dwidth/1.529
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            r1 = 25
+                            x1 = dwidth/1.49
+                            x2 = dwidth/1.021
+                            y1 = dheight/1.06
+                            y2 = dheight/.59
+
+                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
+                            x1 + r1,y1,
+                            x2 - r1,y1,
+                            x2 - r1,y1,     
+                            x2,y1,     
+                            #--------------------
+                            x2,y1 + r1,     
+                            x2,y1 + r1,     
+                            x2,y2 - r1,     
+                            x2,y2 - r1,     
+                            x2,y2,
+                            #--------------------
+                            x2 - r1,y2,     
+                            x2 - r1,y2,     
+                            x1 + r1,y2,
+                            x1 + r1,y2,
+                            x1,y2,
+                            #--------------------
+                            x1,y2 - r1,
+                            x1,y2 - r1,
+                            x1,y1 + r1,
+                            x1,y1 + r1,
+                            x1,y1,
+                            )
+
+                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
+                            
+                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
+                            
+                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
+                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
+                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
+                            #--------------------------------------------------------------second
+                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
+                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
+                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
+                            
+                            #-----------------------------------------------------------third
+                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
+                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                            
+                            #--------------------------------------------------------------forth
+                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
+                            
+                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
+
+                        
+                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
+                    
+                            #-------------------------------------------------------------fifth
+                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
+                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
+                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
+                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
+                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
+                            #-------------------------------------------------------------sixth
+                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
+                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
+                            
+                            
+
+
+                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
+                        
+                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
+                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
+
+                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
+                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
+                        sr_Scroll.pack(fill=Y,side="right")
+                        sr_Scroll.config(command=canvas2.yview)
+                        canvas2.bind("<Configure>", responsive_wid2)
+                        canvas2.config(yscrollcommand=sr_Scroll.set)
+                        canvas2.pack(fill=X)
+
+                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+            
+                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                        dat_flt_vars= StringVar()
+                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
+                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
+                        dat_flt.current(0)
+                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+
+
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
+                        # #----------------------------------------------------------------------------------------------------------------grid 1
+                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
+
+                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
+
+                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_tot=fbcursor.fetchall()
+                        if exp_tot[0]==None or exp_tot[0]=="":
+                            total_exp=0.0
+                        else:
+                            total_exp=exp_tot[0]
+
+                        x="Income"
+                        y=10 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Expense"
+                        y=total_exp
+                        plt.barh(x,y, color="green") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 2
+                        
+                        
+                        
+                        
+                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
+
+                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+
+                        size = 0.3
+                        vals = np.array([total_exp])
+
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+                        #        wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal")
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#213b52")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 3
+                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
+
+                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
+                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        bank_stm=fbcursor.fetchone()
+                        if bank_stm[0]==None or bank_stm[0]=="":
+                            debit=0.0
+                        else:
+                            debit=bank_stm[0]
+                        if bank_stm[1]==None or bank_stm[1]=="":
+                            debit=0.0
+                        else:
+                            credit=bank_stm[1]
+
+                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                        x="Debit"
+                        y=debit
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=credit
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                        
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
+                        # #----------------------------------------------------------------------------------------------------------------grid 4
+                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
+
+                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
+                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
+
+                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+                        sizes = [15, 30, 45, 10]
+                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
+                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                        shadow=True, startangle=90)
+                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                        fig1.set_facecolor("#213b52")
+                        ax1.set_facecolor("#213b52")
+                    
+                        for text in texts:
+                            text.set_color('white')
+                        for autotext in autotexts:
+                            autotext.set_color('black')
+
+                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
+
+                        # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
+                        sql_pro_val=(dtl_cmp_pro[0],)
+                        fbcursor.execute(sql_pro,sql_pro_val,)
+                        exp_totl_inv=fbcursor.fetchone()
+
+                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                            paid=0.0
+                        else:
+                            paid=exp_totl_inv[0]
+                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                            unpaid=0.0
+                        else:
+                            unpaid=exp_totl_inv[1]
+
+                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
+                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
+                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
+                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
+
+                        figlast = plt.figure(figsize=(8, 4), dpi=50)
+
+                        x="Unpaid"
+                        y=unpaid 
+                        plt.barh(x,y, label="Undefined", color="blue") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Paid"
+                        y=paid
+                        plt.barh(x,y, color="red") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                                
+
+                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
+                        #----------------------------------------------------------------------------------------------------------------grid 6
+                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
+                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
+                        
+                        
+                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+                        ax.plot(range(10))
+                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#2f516a")
+                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
+                        # for text in txt:
+                        #     text.set_color('white')
+                    
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
+                        canvasbar
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                    else:
+                        pass
                 
 
                 cmp_name=Label(canvas, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
             
                 win_inv1 = canvas.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                dat_flt_var= StringVar()
+                dat_flt = ttk.Combobox(canvas,textvariable=dat_flt_var,width=20,font=('Calibri 16'))
+                dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
+                dat_flt.current(0)
+                dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
+                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+
+
                 
                 rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
                 # #----------------------------------------------------------------------------------------------------------------grid 1
@@ -1460,11 +3669,20 @@ def main_sign_in():
                 net_prf=Label(canvas, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
 
-                figlast = plt.figure(figsize=(8, 4), dpi=50)
+                figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
+                sql_pro_val=(dtl_cmp_pro[0],)
+                fbcursor.execute(sql_pro,sql_pro_val,)
+                exp_tot=fbcursor.fetchall()
+                if exp_tot[0]==None or exp_tot[0]=="":
+                    total_exp=0.0
+                else:
+                    total_exp=exp_tot[0]
 
                 x="Income"
                 y=10 
-                plt.barh(x,y, label="Undefined", color="blue") 
+                plt.barh(x,y, label="Undefined", color="#92a1ae") 
                 plt.legend()
             
                 plt.ylabel("")
@@ -1472,13 +3690,16 @@ def main_sign_in():
                 axes.xaxis.grid()
 
                 x="Expense"
-                y=100
-                plt.barh(x,y, color="red") 
+                y=total_exp
+                plt.barh(x,y, color="#506579") 
                 plt.legend()
             
                 plt.ylabel("")
                 axes=plt.gca()
                 axes.xaxis.grid()
+                figlast.set_facecolor("#213b52")
+                axes.set_facecolor("#213b52")
+                
                         
 
                 canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
@@ -1487,15 +3708,9 @@ def main_sign_in():
                 canvasbar.get_tk_widget()
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
                 # #----------------------------------------------------------------------------------------------------------------grid 2
-                sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                sql_pro_val=(dtl_cmp_pro[0],)
-                fbcursor.execute(sql_pro,sql_pro_val,)
-                exp_tot=fbcursor.fetchone()
                 
-                if exp_tot[0]==None or exp_tot[0]=="":
-                    total_exp=0.0
-                else:
-                    total_exp=exp_tot[0]
+                
+                
                 
                 rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
 
@@ -1505,19 +3720,21 @@ def main_sign_in():
                 fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
 
                 size = 0.3
-                vals = np.array([[total_exp]])
+                vals = np.array([total_exp])
 
                 cmap = plt.colormaps["tab20c"]
                 outer_colors = cmap(np.arange(3)*4)
                 # inner_colors = cmap([1, 2, 5, 6, 9, 10])
 
-                ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,
-                    wedgeprops=dict(width=size, edgecolor='w'))
+                ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
 
                 # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
                 #        wedgeprops=dict(width=size, edgecolor='w'))
 
-                ax.set(aspect="equal")
+                ax.set(aspect="equal", title='Cost Of Sales')
+                fig.set_facecolor("#213b52")
+                ax.set_facecolor("#92a1ae")
+                
 
                 canvasbar = FigureCanvasTkAgg(fig, master=canvas)
                 canvasbar
@@ -1531,6 +3748,53 @@ def main_sign_in():
                 bnk_lb=Label(canvas, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
                 canvas.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                sql_pro_val=(dtl_cmp_pro[0],)
+                fbcursor.execute(sql_pro,sql_pro_val,)
+                bank_stm=fbcursor.fetchone()
+                if bank_stm[0]==None or bank_stm[0]=="":
+                    debit=0.0
+                else:
+                    debit=bank_stm[0]
+                if bank_stm[1]==None or bank_stm[1]=="":
+                    debit=0.0
+                else:
+                    credit=bank_stm[1]
+
+                inv_lb2=Label(canvas, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                inv_lb3=Label(canvas, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+                x="Debit"
+                y=debit
+                plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                plt.legend()
+            
+                plt.ylabel("")
+                axes=plt.gca()
+                axes.xaxis.grid()
+
+                x="Credit"
+                y=credit
+                plt.barh(x,y, color="#506579") 
+                plt.legend()
+            
+                plt.ylabel("")
+                axes=plt.gca()
+                axes.xaxis.grid()
+                figlast.set_facecolor("#213b52")
+                axes.set_facecolor("#213b52")
+                
+                        
+
+                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
+                canvasbar
+                canvasbar.draw()
+                canvasbar.get_tk_widget()
+                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
                 # #----------------------------------------------------------------------------------------------------------------grid 4
                 rth4 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
 
@@ -1539,14 +3803,21 @@ def main_sign_in():
                 canvas.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
 
                 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-                sizes = [15, 30, 45, 10]
-                explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+                # labels = 'Frogs', '', '', ''
+                sizes = [100]
+                
 
                 fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                        shadow=True, startangle=90)
+                patches, texts, autotexts =ax1.pie(sizes, autopct='%1.1f%%',
+                shadow=True, startangle=90)
                 ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                fig1.set_facecolor("#213b52")
+                ax1.set_facecolor("#92a1ae")
+               
+                for text in texts:
+                    text.set_color('white')
+                for autotext in autotexts:
+                    autotext.set_color('black')
 
                 canvasbar = FigureCanvasTkAgg(fig1, master=canvas)
                 canvasbar
@@ -1555,21 +3826,36 @@ def main_sign_in():
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
 
                 # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                sql_pro="select sum(amtrecvd), sum(baldue),min(invoicedate) from app1_invoice where cid_id=%s"
+                sql_pro_val=(dtl_cmp_pro[0],)
+                fbcursor.execute(sql_pro,sql_pro_val,)
+                exp_totl_inv=fbcursor.fetchone()
+
+                if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                    paid=0.0
+                else:
+                    paid=exp_totl_inv[0]
+                if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                    unpaid=0.0
+                else:
+                    unpaid=exp_totl_inv[1]
+
                 rth5 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
                 inv_lb=Label(canvas, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
 
                 canvas.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                inv_lb2=Label(canvas, text="UNPAID:₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                inv_lb2=Label(canvas, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                inv_lb3=Label(canvas, text="PAID:₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                inv_lb3=Label(canvas, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                 win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
 
                 figlast = plt.figure(figsize=(8, 4), dpi=50)
 
                 x="Unpaid"
-                y=10 
-                plt.barh(x,y, label="Undefined", color="blue") 
+                y=unpaid 
+                plt.barh(x,y, label="Undefined", color="#92a1ae") 
                 plt.legend()
             
                 plt.ylabel("")
@@ -1577,13 +3863,15 @@ def main_sign_in():
                 axes.xaxis.grid()
 
                 x="Paid"
-                y=100
-                plt.barh(x,y, color="red") 
+                y=paid
+                plt.barh(x,y, color="#506579") 
                 plt.legend()
             
                 plt.ylabel("")
                 axes=plt.gca()
                 axes.xaxis.grid()
+                figlast.set_facecolor("#213b52")
+                axes.set_facecolor("#213b52")
                         
 
                 canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
@@ -1593,18 +3881,57 @@ def main_sign_in():
                 win_inv1 = canvas.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
                 #----------------------------------------------------------------------------------------------------------------grid 6
                 rth6 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                sales_lb=Label(canvas, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+                
 
                 canvas.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
                 
+                if exp_totl_inv[2]==None or exp_totl_inv[2]=='':
+                    dates_start=date.today()
+                else:
+                    dates_start=exp_totl_inv[2] 
                 
-                fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-                ax.plot(range(10))
-                ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
-            
 
-                canvasbar = FigureCanvasTkAgg(fig, master=canvas)
+                sql_pro="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate between %s and %s "
+                sql_pro_val=(dtl_cmp_pro[0],dates_start,date.today(),)
+                fbcursor.execute(sql_pro,sql_pro_val,)
+                sal_totl_inv=fbcursor.fetchone()
+
+                sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
+                sql_pros_val=(dtl_cmp_pro[0],dates_start,)
+                fbcursor.execute(sql_pros,sql_pros_val,)
+                sal_totl_invs=fbcursor.fetchone()
+                
+
+                if sal_totl_inv[0]==None or sal_totl_inv[0]=='':
+                    tot_sal=0.0
+                else:
+                    tot_sal=sal_totl_inv[0]
+
+                if sal_totl_invs[0]==None or sal_totl_invs[0]=='':
+                    tot_sal_start=0.0
+                else:
+                    tot_sal_start=sal_totl_invs[0]
+
+                sales_lb=Label(canvas, text="SALES ₹"+str(tot_sal),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                
+                figlast = plt.figure(figsize=(8, 4), dpi=50)
+                x = [1, 2, ]
+                y = [tot_sal_start,tot_sal]
+                labels = [dates_start, date.today()]
+
+                plt.plot(x, y)
+                # You can specify a rotation for the tick labels in degrees or with keywords.
+                plt.xticks(x, labels, rotation='horizontal')
+                # Pad margins so that markers don't get clipped by the axes
+                plt.margins(0.2)
+                # Tweak spacing to prevent clipping of tick-labels
+                plt.subplots_adjust(bottom=0.15)
+                figlast.set_facecolor("#213b52")
+                
+
+                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
                 canvasbar
                 canvasbar.draw()
                 canvasbar.get_tk_widget()
