@@ -49,6 +49,8 @@ import numpy as np
 import re
 from datetime import date,datetime, timedelta
 
+from array import *
+
 finsysdb = mysql.connector.connect(
     host="localhost", user="root", password="", database="newfinsys", port="3306"
 )
@@ -105,286 +107,246 @@ sign_up=ImageTk.PhotoImage(resized_sign_up)
 #------------------------------------------------------------------------------------------------------------Login Button Function
 
 def main_sign_in():
-    usr_nm=nm_ent.get()
-    usr_pass=pass_ent.get()
-    sql_log_sql='select * from auth_user where username=%s'
-    vals=(nm_ent.get(),)
-    fbcursor.execute(sql_log_sql,vals)
-    check_logins=fbcursor.fetchone()
-
-    pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
-    # resized_pro_pic= pro_pic.resize((170,170))
-    prof_pics=ImageTk.PhotoImage(pro_pic)
-
-    dash_pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
-    dash_resized_pro_pic= dash_pro_pic.resize((50,50))
-    dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
-    
-    if usr_nm=="" or usr_pass=="" or usr_nm=="Username" or usr_pass=="Password":
-        messagebox.showerror("Login Failed","Enter username and password")
-    else:
+    # try:
+        usr_nm=nm_ent.get()
+        usr_pass=pass_ent.get()
         sql_log_sql='select * from auth_user where username=%s'
         vals=(nm_ent.get(),)
         fbcursor.execute(sql_log_sql,vals)
-        check_login=fbcursor.fetchone()
+        check_logins=fbcursor.fetchone()
+
+        pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+        # resized_pro_pic= pro_pic.resize((170,170))
+        prof_pics=ImageTk.PhotoImage(pro_pic)
+
+        dash_pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+        dash_resized_pro_pic= dash_pro_pic.resize((50,50))
+        dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
         
-        if check_login is None:
-            messagebox.showerror("Login Failed","Create an account")
+        if usr_nm=="" or usr_pass=="" or usr_nm=="Username" or usr_pass=="********":
+            messagebox.showerror("Login Failed","Enter username and password")
         else:
-            if check_login[4]==usr_nm and check_login[1]==usr_pass:
-                  
-                try:
-                    main_frame_signup.pack_forget()
-                except:
-                    pass
-                try:
-                    main_frame_signin.pack_forget()
-                except:
-                    pass
-                Sys_top_frame=Frame(root, height=70,bg="#213b52")
-                Sys_top_frame.pack(fill=X,)
-
-                #---------------------------------------------------------------------------------------Top Menu
-                tp_lb_nm=LabelFrame(Sys_top_frame,bg="#213b52")#-----------------------------Logo Name Frame
-                tp_lb_nm.grid(row=1,column=1,sticky='nsew')
-                tp_lb_nm.grid_rowconfigure(0,weight=1)
-                tp_lb_nm.grid_columnconfigure(0,weight=1)
-
-                label = Label(tp_lb_nm, image = mai_logo,height=70,bg="#213b52",border=0)
-                label.grid(row=2,column=1,sticky='nsew')
-                label = Label(tp_lb_nm, text="Fin sYs",bg="#213b52", fg="white",font=('Calibri 30 bold'),border=0)
-                label.grid(row=2,column=2,sticky='nsew')
+            sql_log_sql='select * from auth_user where username=%s'
+            vals=(nm_ent.get(),)
+            fbcursor.execute(sql_log_sql,vals)
+            check_login=fbcursor.fetchone()
             
-                mnu_btn = Button(tp_lb_nm, image=mnus, bg="white", fg="black",border=0)
-                mnu_btn.grid(row=2,column=4,padx=50)
-
-                
-
-                tp_lb_srh=LabelFrame(Sys_top_frame,bg="#213b52")#-------------------------Serch area Frame
-                tp_lb_srh.grid(row=1,column=2,sticky='nsew')
-                tp_lb_srh.grid_rowconfigure(0,weight=1)
-                tp_lb_srh.grid_columnconfigure(0,weight=1)
-
-                def srh_fn(event):
-                    if srh_top.get()=="Search":
-                        srh_top.delete(0,END)
-                    else:
+            if check_login is None:
+                messagebox.showerror("Login Failed","Create an account")
+            else:
+                if check_login[4]==usr_nm and check_login[1]==usr_pass:
+                    
+                    try:
+                        main_frame_signup.pack_forget()
+                    except:
                         pass
+                    try:
+                        main_frame_signin.pack_forget()
+                    except:
+                        pass
+                    Sys_top_frame=Frame(root, height=70,bg="#213b52")
+                    Sys_top_frame.pack(fill=X,)
 
-                srh_top = Entry(tp_lb_srh, width=50, font=('Calibri 16'))
-                srh_top.insert(0,"Search")
-                srh_top.bind("<Button-1>",srh_fn)
-                srh_top.grid(row=2,column=1,padx=(30,0), pady=20,sticky='nsew')
+                    #---------------------------------------------------------------------------------------Top Menu
+                    tp_lb_nm=LabelFrame(Sys_top_frame,bg="#213b52")#-----------------------------Logo Name Frame
+                    tp_lb_nm.grid(row=1,column=1,sticky='nsew')
+                    tp_lb_nm.grid_rowconfigure(0,weight=1)
+                    tp_lb_nm.grid_columnconfigure(0,weight=1)
 
-                srh_btn = Button(tp_lb_srh, image=srh_img, bg="#213b52", fg="black",border=0)
-                srh_btn.grid(row=2,column=4,padx=(0,30))
+                    label = Label(tp_lb_nm, image = mai_logo,height=70,bg="#213b52",border=0)
+                    label.grid(row=2,column=1,sticky='nsew')
+                    label = Label(tp_lb_nm, text="Fin sYs",bg="#213b52", fg="white",font=('Calibri 30 bold'),border=0)
+                    label.grid(row=2,column=2,sticky='nsew')
+                
+                    mnu_btn = Button(tp_lb_nm, image=mnus, bg="white", fg="black",border=0)
+                    mnu_btn.grid(row=2,column=4,padx=50)
 
-                #------------------------------------------------------settings 
-                def close_lst_2():
-                        lst_prf2.place_forget()
-                        set_btn4 = Button(tp_lb_srh, image=stn_img,command=settings, bg="#213b52", fg="black",border=0)
-                        set_btn4.grid(row=2,column=5,padx=(0,30))
-                        
-                def settings():
                     
 
-                    # create a list box
-                    stng = ("Accounts And Settings","Customize From Style","Chart Of Accounts")
+                    tp_lb_srh=LabelFrame(Sys_top_frame,bg="#213b52")#-------------------------Serch area Frame
+                    tp_lb_srh.grid(row=1,column=2,sticky='nsew')
+                    tp_lb_srh.grid_rowconfigure(0,weight=1)
+                    tp_lb_srh.grid_columnconfigure(0,weight=1)
 
-                    stngs = StringVar(value=stng)
-                    global lst_prf2
-                    lst_prf2 = Listbox(root,listvariable=stngs,height=3 ,selectmode='extended',bg="black",fg="white")
+                    def srh_fn(event):
+                        if srh_top.get()=="Search":
+                            srh_top.delete(0,END)
+                        else:
+                            pass
 
-                    lst_prf2.place(relx=0.70, rely=0.10)
-                    lst_prf2.bind('<<ListboxSelect>>', )
-                    set_btn.grid_forget()
-                    set_btn2 = Button(tp_lb_srh, image=stn_img,command=close_lst_2, bg="#213b52", fg="black",border=0)
-                    set_btn2.grid(row=2,column=5,padx=(0,30))
+                    
 
-                set_btn = Button(tp_lb_srh, image=stn_img,command=settings, bg="#213b52", fg="black",border=0)
-                set_btn.grid(row=2,column=5,padx=(0,30))
-
-                tp_lb_nm=LabelFrame(Sys_top_frame,bg="#213b52")#-----------------------------Notification
-                tp_lb_nm.grid(row=1,column=3,sticky='nsew')
-                tp_lb_nm.grid_rowconfigure(0,weight=1)
-                tp_lb_nm.grid_columnconfigure(0,weight=1)
-                srh_btn = Button(tp_lb_nm, image=noti, bg="#213b52", fg="black",border=0)
-                srh_btn.grid(row=0,column=0,padx=35)
-                
-                tp_lb_npr=LabelFrame(Sys_top_frame,bg="#213b52")#---------------------------profile area name
-                tp_lb_npr.grid(row=1,column=4,sticky='nsew')
-                tp_lb_npr.grid_rowconfigure(0,weight=1)
-                tp_lb_npr.grid_columnconfigure(0,weight=1)
-                dtl_sqls="select * from auth_user where username=%s"
-                dtl_sqls_val=(nm_ent.get(),)
-                fbcursor.execute(dtl_sqls,dtl_sqls_val,)
-                dtls=fbcursor.fetchone()
-
-                sql_pro_sql="select * from app1_company where id_id =%s"
-                sql_pro_sql_val=(dtls[0],)
-                fbcursor.execute(sql_pro_sql,sql_pro_sql_val,)
-                dtl_cmp_pro=fbcursor.fetchone()
-
-                label = Label(tp_lb_npr, text=str(dtl_cmp_pro[1])+"\nOnline",bg="#213b52", fg="white", anchor="center",width=10,height=2,font=('Calibri 16 bold'),border=0)
-                label.grid(row=0,column=1,sticky='nsew')
-                # label = Label(tp_lb_npr, text="Online",bg="#213b52", fg="white",width=15,font=('Calibri 12 bold'),border=0)
-                # label.grid(row=2,column=1,sticky='nsew')
-
-                
-                
-                def lst_frt():
-                    lst_prf.place_forget()
-                    srh_btn3 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
-                    srh_btn3.grid(row=0,column=2,padx=15)
-                def lst_prf_slt(event):
-                    def edit_profile():
-                        def responsive_widgets_edit(event):
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
+                    #------------------------------------------------------settings 
+                    def close_lst_2():
+                            lst_prf2.place_forget()
+                            set_btn4 = Button(tp_lb_srh, image=stn_img,command=settings, bg="#213b52", fg="black",border=0)
+                            set_btn4.grid(row=2,column=5,padx=(0,30))
                             
+                    def settings():
+                        
 
+                        # create a list box
+                        stng = ("Accounts And Settings","Customize From Style","Chart Of Accounts")
 
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/.53
+                        stngs = StringVar(value=stng)
+                        global lst_prf2
+                        lst_prf2 = Listbox(root,listvariable=stngs,height=3 ,selectmode='extended',bg="black",fg="white")
 
-                            dcanvas.coords("bg_polygen_pr",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                              
+                        lst_prf2.place(relx=0.70, rely=0.10)
+                        lst_prf2.bind('<<ListboxSelect>>', )
+                        set_btn.grid_forget()
+                        set_btn2 = Button(tp_lb_srh, image=stn_img,command=close_lst_2, bg="#213b52", fg="black",border=0)
+                        set_btn2.grid(row=2,column=5,padx=(0,30))
 
-                            
-                            # dcanvas.coords("bg_polygen_pr",dwidth/16,dheight/.6,dwidth/1.07,dheight/9)
-                            dcanvas.coords("my_pro",dwidth/2.3,dheight/12.5)
-                            dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
-                            
+                    set_btn = Button(tp_lb_srh, image=stn_img,command=settings, bg="#213b52", fg="black",border=0)
+                    set_btn.grid(row=2,column=5,padx=(0,30))
 
-                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
-                            dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
-                            dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
-                            dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
-                            dcanvas.coords("pr_em_lb",dwidth/17.075,dheight/1.56)
-                            dcanvas.coords("em_ent",dwidth/17.075,dheight/1.47)
-                            dcanvas.coords("pr_crpass_lb",dwidth/17.075,dheight/1.33)
-                            dcanvas.coords("pr_crpass_ent",dwidth/17.075,dheight/1.26)
-                            dcanvas.coords("pr_re_pass_lb",dwidth/17.075,dheight/1.16)
-                            dcanvas.coords("pr_re_pass_ent",dwidth/17.075,dheight/1.1)
-                            dcanvas.coords("last_nm_lb",dwidth/1.92,dheight/1.9)
-                            dcanvas.coords("lst_nm_ent",dwidth/1.92,dheight/1.75)
-                            dcanvas.coords("usr_nm_lb",dwidth/1.92,dheight/1.56)
-                            dcanvas.coords("usr_nm_ent",dwidth/1.92,dheight/1.47)
-                            dcanvas.coords("pr_new_pass_lb",dwidth/1.92,dheight/1.33)
-                            dcanvas.coords("pr_new_pass_ent",dwidth/1.92,dheight/1.26)
+                    tp_lb_nm=LabelFrame(Sys_top_frame,bg="#213b52")#-----------------------------Notification
+                    tp_lb_nm.grid(row=1,column=3,sticky='nsew')
+                    tp_lb_nm.grid_rowconfigure(0,weight=1)
+                    tp_lb_nm.grid_columnconfigure(0,weight=1)
+                    srh_btn = Button(tp_lb_nm, image=noti, bg="#213b52", fg="black",border=0)
+                    srh_btn.grid(row=0,column=0,padx=35)
+                    
+                    tp_lb_npr=LabelFrame(Sys_top_frame,bg="#213b52")#---------------------------profile area name
+                    tp_lb_npr.grid(row=1,column=4,sticky='nsew')
+                    tp_lb_npr.grid_rowconfigure(0,weight=1)
+                    tp_lb_npr.grid_columnconfigure(0,weight=1)
+                    dtl_sqls="select * from auth_user where username=%s"
+                    dtl_sqls_val=(nm_ent.get(),)
+                    fbcursor.execute(dtl_sqls,dtl_sqls_val,)
+                    dtls=fbcursor.fetchone()
 
-                            
-                            #-------------------------------------------------------------------------company section
-                            dcanvas.coords("cmp_hd",dwidth/20,dheight/1)
-                            dcanvas.coords("cmp_nm_lb",dwidth/17.075,dheight/0.93)
-                            dcanvas.coords("cmp_nm_ent",dwidth/17.075,dheight/0.89)
-                            dcanvas.coords("cmp_cty_lb",dwidth/17.075,dheight/0.84)
-                            dcanvas.coords("cmp_cty_ent",dwidth/17.075,dheight/0.81)
-                            dcanvas.coords("cmp_pin_lb",dwidth/17.075,dheight/0.77)
-                            dcanvas.coords("cmp_pin_ent",dwidth/17.075,dheight/.745)
-                            dcanvas.coords("cmp_ph_lb",dwidth/17.075,dheight/.712)
-                            dcanvas.coords("cmp_ph_ent",dwidth/17.075,dheight/.69)
-                            dcanvas.coords("cmp_indest_lb",dwidth/17.075,dheight/.66)
-                            dcanvas.coords("cmp_indest_ent",dwidth/17.075,dheight/.64)
-                            dcanvas.coords("cmp_file_lb",dwidth/17.075,dheight/.615)
-                            dcanvas.coords("cmp_file_ent",dwidth/17.075,dheight/.6)
-                            
+                    sql_pro_sql="select * from app1_company where id_id =%s"
+                    sql_pro_sql_val=(dtls[0],)
+                    fbcursor.execute(sql_pro_sql,sql_pro_sql_val,)
+                    dtl_cmp_pro=fbcursor.fetchone()
 
-                            #--------------------------------------------------------------------------company right
+                    label = Label(tp_lb_npr, text=str(dtl_cmp_pro[1])+"\nOnline",bg="#213b52", fg="white", anchor="center",width=10,height=2,font=('Calibri 16 bold'),border=0)
+                    label.grid(row=0,column=1,sticky='nsew')
+                    # label = Label(tp_lb_npr, text="Online",bg="#213b52", fg="white",width=15,font=('Calibri 12 bold'),border=0)
+                    # label.grid(row=2,column=1,sticky='nsew')
 
-                            dcanvas.coords("cmp_addr_lb",dwidth/1.92,dheight/0.93)
-                            dcanvas.coords("cmp_addr_ent",dwidth/1.92,dheight/0.89)
-                            dcanvas.coords("cmp_st_lb",dwidth/1.92,dheight/0.84)
-                            dcanvas.coords("cmp_st_ent",dwidth/1.92,dheight/0.81)
-                            dcanvas.coords("cmp_em_lb",dwidth/1.92,dheight/0.77)
-                            dcanvas.coords("cmp_em_ent",dwidth/1.92,dheight/.745)
-                            dcanvas.coords("cmp_lg_nm",dwidth/1.92,dheight/.712)
-                            dcanvas.coords("cmp_lg_ent",dwidth/1.92,dheight/.69)
-                            dcanvas.coords("cmp_typ_lb",dwidth/1.92,dheight/.66)
-                            dcanvas.coords("cmp_typ_ent",dwidth/1.92,dheight/.64)
-                            dcanvas.coords("btn_edit",dwidth/2.4,dheight/.57)
-                        sql_pro="select * from auth_user where username=%s"
-                        sql_pro_val=(nm_ent.get(),)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        edi_dtl=fbcursor.fetchone()
-
-                        def update_profile():
-                            first_name=fr_name_ent.get()
-                            pro_email=em_ent.get()
-                            last_name=lst_nm_ent.get()
-                            pro_username=usr_nm_ent.get()
-                            pro_new_pass=pr_new_pass_ent.get()
-
-                            sql_signup='select * from auth_user'
-                            fbcursor.execute(sql_signup)
-                            check_none=fbcursor.fetchone()
-
-                            if edi_dtl[4]==pro_username and edi_dtl[1]==pr_crpass_ent.get() and pro_new_pass=="" :
-                                        passw=pr_crpass_ent.get()
+                    
+                    
+                    def lst_frt():
+                        lst_prf.place_forget()
+                        srh_btn3 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                        srh_btn3.grid(row=0,column=2,padx=15)
+                    def lst_prf_slt(event):
+                        def edit_profile():
+                            def responsive_widgets_edit(event):
+                                dwidth = event.width
+                                dheight = event.height
+                                dcanvas = event.widget
                                 
-                                        prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                        prof_edit_val=(first_name,last_name,pro_email,pro_username,passw,edi_dtl[0])
-                                        fbcursor.execute(prof_edit,prof_edit_val)
-                                        finsysdb.commit()
 
-                                        #compnay
-                                        cmp_name=cmp_nm_ent.get()
-                                        cmp_cty=cmp_cty_ent.get()
-                                        cmp_pin=cmp_pin_ent.get()
-                                        cmp_phn=cmp_ph_ent.get()
-                                        cmp_ind=cmp_indest_ent.get()
-                                        cmp_addr=cmp_addr_ent.get()
-                                        cmp_st=cmp_st_ent.get()
-                                        cmp_em=cmp_em_ent.get()
-                                        cmp_bname=cmp_lg_ent.get()
-                                        cmp_typ=cmp_typ_ent.get()
-                                        logo=cmp_file_ent.get()
 
-                                        cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
-                                        cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
-                                        fbcursor.execute(cmp_edit,cmp_edit_val)
-                                        finsysdb.commit()
-                                        
+                                r1 = 25
+                                x1 = dwidth/63
+                                x2 = dwidth/1.021
+                                y1 = dheight/13
+                                y2 = dheight/.53
+
+                                dcanvas.coords("bg_polygen_pr",x1 + r1,y1,
+                                x1 + r1,y1,
+                                x2 - r1,y1,
+                                x2 - r1,y1,     
+                                x2,y1,     
+                                #--------------------
+                                x2,y1 + r1,     
+                                x2,y1 + r1,     
+                                x2,y2 - r1,     
+                                x2,y2 - r1,     
+                                x2,y2,
+                                #--------------------
+                                x2 - r1,y2,     
+                                x2 - r1,y2,     
+                                x1 + r1,y2,
+                                x1 + r1,y2,
+                                x1,y2,
+                                #--------------------
+                                x1,y2 - r1,
+                                x1,y2 - r1,
+                                x1,y1 + r1,
+                                x1,y1 + r1,
+                                x1,y1,
+                                )                              
+
+                                
+                                # dcanvas.coords("bg_polygen_pr",dwidth/16,dheight/.6,dwidth/1.07,dheight/9)
+                                dcanvas.coords("my_pro",dwidth/2.3,dheight/12.5)
+                                dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
+                                
+
+                                dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
+                                dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
+                                dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
+                                dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
+                                dcanvas.coords("pr_em_lb",dwidth/17.075,dheight/1.56)
+                                dcanvas.coords("em_ent",dwidth/17.075,dheight/1.47)
+                                dcanvas.coords("pr_crpass_lb",dwidth/17.075,dheight/1.33)
+                                dcanvas.coords("pr_crpass_ent",dwidth/17.075,dheight/1.26)
+                                dcanvas.coords("pr_re_pass_lb",dwidth/17.075,dheight/1.16)
+                                dcanvas.coords("pr_re_pass_ent",dwidth/17.075,dheight/1.1)
+                                dcanvas.coords("last_nm_lb",dwidth/1.92,dheight/1.9)
+                                dcanvas.coords("lst_nm_ent",dwidth/1.92,dheight/1.75)
+                                dcanvas.coords("usr_nm_lb",dwidth/1.92,dheight/1.56)
+                                dcanvas.coords("usr_nm_ent",dwidth/1.92,dheight/1.47)
+                                dcanvas.coords("pr_new_pass_lb",dwidth/1.92,dheight/1.33)
+                                dcanvas.coords("pr_new_pass_ent",dwidth/1.92,dheight/1.26)
+
+                                
+                                #-------------------------------------------------------------------------company section
+                                dcanvas.coords("cmp_hd",dwidth/20,dheight/1)
+                                dcanvas.coords("cmp_nm_lb",dwidth/17.075,dheight/0.93)
+                                dcanvas.coords("cmp_nm_ent",dwidth/17.075,dheight/0.89)
+                                dcanvas.coords("cmp_cty_lb",dwidth/17.075,dheight/0.84)
+                                dcanvas.coords("cmp_cty_ent",dwidth/17.075,dheight/0.81)
+                                dcanvas.coords("cmp_pin_lb",dwidth/17.075,dheight/0.77)
+                                dcanvas.coords("cmp_pin_ent",dwidth/17.075,dheight/.745)
+                                dcanvas.coords("cmp_ph_lb",dwidth/17.075,dheight/.712)
+                                dcanvas.coords("cmp_ph_ent",dwidth/17.075,dheight/.69)
+                                dcanvas.coords("cmp_indest_lb",dwidth/17.075,dheight/.66)
+                                dcanvas.coords("cmp_indest_ent",dwidth/17.075,dheight/.64)
+                                dcanvas.coords("cmp_file_lb",dwidth/17.075,dheight/.615)
+                                dcanvas.coords("cmp_file_ent",dwidth/17.075,dheight/.6)
+                                
+
+                                #--------------------------------------------------------------------------company right
+
+                                dcanvas.coords("cmp_addr_lb",dwidth/1.92,dheight/0.93)
+                                dcanvas.coords("cmp_addr_ent",dwidth/1.92,dheight/0.89)
+                                dcanvas.coords("cmp_st_lb",dwidth/1.92,dheight/0.84)
+                                dcanvas.coords("cmp_st_ent",dwidth/1.92,dheight/0.81)
+                                dcanvas.coords("cmp_em_lb",dwidth/1.92,dheight/0.77)
+                                dcanvas.coords("cmp_em_ent",dwidth/1.92,dheight/.745)
+                                dcanvas.coords("cmp_lg_nm",dwidth/1.92,dheight/.712)
+                                dcanvas.coords("cmp_lg_ent",dwidth/1.92,dheight/.69)
+                                dcanvas.coords("cmp_typ_lb",dwidth/1.92,dheight/.66)
+                                dcanvas.coords("cmp_typ_ent",dwidth/1.92,dheight/.64)
+                                dcanvas.coords("btn_edit",dwidth/2.4,dheight/.57)
+                            sql_pro="select * from auth_user where username=%s"
+                            sql_pro_val=(nm_ent.get(),)
+                            fbcursor.execute(sql_pro,sql_pro_val,)
+                            edi_dtl=fbcursor.fetchone()
+
+                            def update_profile():
+                                first_name=fr_name_ent.get()
+                                pro_email=em_ent.get()
+                                last_name=lst_nm_ent.get()
+                                pro_username=usr_nm_ent.get()
+                                pro_new_pass=pr_new_pass_ent.get()
+
+                                sql_signup='select * from auth_user'
+                                fbcursor.execute(sql_signup)
+                                check_none=fbcursor.fetchone()
+
+                                if edi_dtl[4]==pro_username and edi_dtl[1]==pr_crpass_ent.get() and pro_new_pass=="" :
+                                            passw=pr_crpass_ent.get()
                                     
-                            else:
-                                # #username same password change
-                                if pr_new_pass_ent.get()=="":
-                                    
-                                    pro_new_passd=pr_crpass_ent.get()
-                                    
-                                else:
-                                    pro_new_passd=pr_new_pass_ent.get()
-                                if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
-                                        if pr_crpass_ent.get()==edi_dtl[1]:
-                                            print(pro_new_pass)
                                             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                            prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_passd,edi_dtl[0])
+                                            prof_edit_val=(first_name,last_name,pro_email,pro_username,passw,edi_dtl[0])
                                             fbcursor.execute(prof_edit,prof_edit_val)
                                             finsysdb.commit()
 
@@ -406,3642 +368,1572 @@ def main_sign_in():
                                             fbcursor.execute(cmp_edit,cmp_edit_val)
                                             finsysdb.commit()
                                             
-                                        else:
-                                            messagebox.showerror("Updation Failed","Please check your current password")
+                                        
                                 else:
+                                    # #username same password change
+                                    if pr_new_pass_ent.get()=="":
+                                        
+                                        pro_new_passd=pr_crpass_ent.get()
+                                        
+                                    else:
+                                        pro_new_passd=pr_new_pass_ent.get()
+                                    if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
+                                            if pr_crpass_ent.get()==edi_dtl[1]:
+                                                print(pro_new_pass)
+                                                prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
+                                                prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_passd,edi_dtl[0])
+                                                fbcursor.execute(prof_edit,prof_edit_val)
+                                                finsysdb.commit()
 
-                                        messagebox.showerror("Updation Failed","password and conform password does not match")
-                                    
-                                # if check_none[4]!=pro_username and check_none[1]!=pro_new_pass and pro_new_pass is not None:
-                                     
-                                #     if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
-                                #         if pr_crpass_ent.get()==edi_dtl[1]:
-                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
-                                #             fbcursor.execute(prof_edit,prof_edit_val)
-                                #             finsysdb.commit()
+                                                #compnay
+                                                cmp_name=cmp_nm_ent.get()
+                                                cmp_cty=cmp_cty_ent.get()
+                                                cmp_pin=cmp_pin_ent.get()
+                                                cmp_phn=cmp_ph_ent.get()
+                                                cmp_ind=cmp_indest_ent.get()
+                                                cmp_addr=cmp_addr_ent.get()
+                                                cmp_st=cmp_st_ent.get()
+                                                cmp_em=cmp_em_ent.get()
+                                                cmp_bname=cmp_lg_ent.get()
+                                                cmp_typ=cmp_typ_ent.get()
+                                                logo=cmp_file_ent.get()
 
-                                #             #compnay
-                                #             cmp_name=cmp_nm_ent.get()
-                                #             cmp_cty=cmp_cty_ent.get()
-                                #             cmp_pin=cmp_pin_ent.get()
-                                #             cmp_phn=cmp_ph_ent.get()
-                                #             cmp_ind=cmp_indest_ent.get()
-                                #             cmp_addr=cmp_addr_ent.get()
-                                #             cmp_st=cmp_st_ent.get()
-                                #             cmp_em=cmp_em_ent.get()
-                                #             cmp_bname=cmp_lg_ent.get()
-                                #             cmp_typ=cmp_typ_ent.get()
-                                #             logo=cmp_file_ent.get()
-
-                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
-                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
-                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
-                                #             finsysdb.commit()
-                                #             messagebox.showerror("Sucess","Updation Success")
-                                #         else:
-                                #             messagebox.showerror("Updation Failed","Please check your current password")
-                                #     else:
-
-                                #         messagebox.showerror("Updation Failed","password and conform password does not match")
-                                
-                                # elif  check_none[1]!=pro_new_pass and edi_dtl[4]==pro_username and pro_new_pass is not None :  
-                                #     print("welcome")
-                                #     if pro_new_pass==pr_re_pass_ent.get() and pr_re_pass_ent.get()==pro_new_pass:
-                                #         if pr_crpass_ent.get()==edi_dtl[1]:
-                                            
-                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,pro_new_pass,edi_dtl[0])
-                                #             fbcursor.execute(prof_edit,prof_edit_val)
-                                #             finsysdb.commit()
-
-                                #             #compnay
-                                #             cmp_name=cmp_nm_ent.get()
-                                #             cmp_cty=cmp_cty_ent.get()
-                                #             cmp_pin=cmp_pin_ent.get()
-                                #             cmp_phn=cmp_ph_ent.get()
-                                #             cmp_ind=cmp_indest_ent.get()
-                                #             cmp_addr=cmp_addr_ent.get()
-                                #             cmp_st=cmp_st_ent.get()
-                                #             cmp_em=cmp_em_ent.get()
-                                #             cmp_bname=cmp_lg_ent.get()
-                                #             cmp_typ=cmp_typ_ent.get()
-                                #             logo=cmp_file_ent.get()
-
-                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
-                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
-                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
-                                #             finsysdb.commit()
-                                #             messagebox.showerror("Sucess","Updation Success")
-                                #         else:
-                                #             messagebox.showerror("Updation Failed","Please check your current password")
-                                #     else:
-
-                                #         messagebox.showerror("Updation Failed","password and conform password does not match")
-                                # #username change password same
-                                # elif check_none[4]!=pro_username and pro_new_pass==None and edi_dtl[1]==pr_crpass_ent.get():
-                                #         print("welcome2")
-                                    
-                                #         if pr_crpass_ent.get()==edi_dtl[1]:
-                                #             passw=pr_crpass_ent.get()
-                                #             prof_edit="update auth_user set first_name=%s,last_name=%s,email=%s,username=%s,password=%s where id=%s" #adding values into db
-                                #             prof_edit_val=(first_name,last_name,pro_email,pro_username,passw,edi_dtl[0])
-                                #             fbcursor.execute(prof_edit,prof_edit_val)
-                                #             finsysdb.commit()
-
-                                #             #compnay
-                                #             cmp_name=cmp_nm_ent.get()
-                                #             cmp_cty=cmp_cty_ent.get()
-                                #             cmp_pin=cmp_pin_ent.get()
-                                #             cmp_phn=cmp_ph_ent.get()
-                                #             cmp_ind=cmp_indest_ent.get()
-                                #             cmp_addr=cmp_addr_ent.get()
-                                #             cmp_st=cmp_st_ent.get()
-                                #             cmp_em=cmp_em_ent.get()
-                                #             cmp_bname=cmp_lg_ent.get()
-                                #             cmp_typ=cmp_typ_ent.get()
-                                #             logo=cmp_file_ent.get()
-
-                                #             cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
-                                #             cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
-                                #             fbcursor.execute(cmp_edit,cmp_edit_val)
-                                #             finsysdb.commit()
-                                #             messagebox.showerror("Sucess","Updation Success")
-                                #         else:
-                                #             messagebox.showerror("Updation Failed","Please check your current password")
-                                
-                                # else:
-                                #     messagebox.showerror("Updation Failed","Username and password already exist")
-                            Sys_top_frame2.pack_forget()
-                            Sys_top_frame.pack_forget()
-                            Sys_mains_frame_pr_ed.grid_forget()
-                            main_frame_signin.pack(fill=X,)
-
-                        sql_pro_cmp="select * from app1_company where id_id=%s"
-                        sql_pro_cmp_val=(pro_dtl[0],)
-                        fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
-                        edi_cmp_dtl=fbcursor.fetchone()
-
-                        Sys_mains_frame_pr.place_forget()
-                        global Sys_mains_frame_pr_ed
-                        Sys_mains_frame_pr_ed=Frame(tab1, height=750)
-                        Sys_mains_frame_pr_ed.grid(row=0,column=0,sticky='nsew')
-                        Sys_mains_frame_pr_ed.grid_rowconfigure(0,weight=1)
-                        Sys_mains_frame_pr_ed.grid_columnconfigure(0,weight=1)
-
-                        pr_canvas_ed=Canvas(Sys_mains_frame_pr_ed,height=766,width=1340,scrollregion=(0,0,766,1650),bg="#2f516f",border=0)
-                        pr_canvas_ed.bind('<Configure>', responsive_widgets_edit)
-                        
-                        pr_myscrollbar_ed=Scrollbar(Sys_mains_frame_pr_ed,orient="vertical",command=pr_canvas_ed.yview)
-                        pr_canvas_ed.configure(yscrollcommand=pr_myscrollbar_ed.set)
-
-                        pr_myscrollbar_ed.pack(side="right",fill="y")
-                        pr_canvas_ed.pack(fill=X)
-
-                        rth2 = pr_canvas_ed.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_pr"),smooth=True,)
-
-
-                        grd1c=Label(pr_canvas_ed, text="MY PROFILE",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-                        win_inv1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=grd1c,tags=("my_pro"))
-
-                        pr_img=Label(pr_canvas_ed,  image = prof_pics,bg="#213b52",width=170,height=170,  anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
-
-                        pr_canvas_ed.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
-                        #----------------------------------------------------------------------------------------Personal info
-                        pr_hd=Label(pr_canvas_ed, text="Personal Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
-                        win_pr = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_hd,tags=("pr_hd"))
-
-                        fir_name=Label(pr_canvas_ed, text="First Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
-
-                        fr_name_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        fr_name_ent.delete(0,END)
-                        fr_name_ent.insert(0,edi_dtl[5])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
-
-                        pr_em_lb=Label(pr_canvas_ed, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
-
-                        em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        em_ent.delete(0,END)
-                        em_ent.insert(0,edi_dtl[7])
-                        def validate(value):
-        
-                            pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-                            if re.fullmatch(pattern, value) is None:
+                                                cmp_edit="update app1_company set cname=%s,caddress=%s,city=%s,state=%s,pincode=%s,cemail=%s,phone=%s,cimg=%s,bname=%s,industry=%s,ctype=%s where id_id =%s" #adding values into db
+                                                cmp_edit_val=(cmp_name,cmp_addr,cmp_cty,cmp_st,cmp_pin,cmp_em,cmp_phn,logo,cmp_bname,cmp_ind,cmp_typ,edi_dtl[0])
+                                                fbcursor.execute(cmp_edit,cmp_edit_val)
+                                                finsysdb.commit()
                                                 
-                                return False
+                                            else:
+                                                messagebox.showerror("Updation Failed","Please check your current password")
+                                    else:
 
-                            em_ent.config(fg="black")
-                            return True
+                                            messagebox.showerror("Updation Failed","password and conform password does not match")
+                                        
+                                    
+                                Sys_top_frame2.pack_forget()
+                                Sys_top_frame.pack_forget()
+                                Sys_mains_frame_pr_ed.grid_forget()
+                                main_frame_signin.pack(fill=X,)
 
-                        def on_invalid():
+                            sql_pro_cmp="select * from app1_company where id_id=%s"
+                            sql_pro_cmp_val=(pro_dtl[0],)
+                            fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
+                            edi_cmp_dtl=fbcursor.fetchone()
+
+                            Sys_mains_frame_pr.place_forget()
+                            global Sys_mains_frame_pr_ed
+                            Sys_mains_frame_pr_ed=Frame(tab1, height=750)
+                            Sys_mains_frame_pr_ed.grid(row=0,column=0,sticky='nsew')
+                            Sys_mains_frame_pr_ed.grid_rowconfigure(0,weight=1)
+                            Sys_mains_frame_pr_ed.grid_columnconfigure(0,weight=1)
+
+                            pr_canvas_ed=Canvas(Sys_mains_frame_pr_ed,height=766,width=1340,scrollregion=(0,0,766,1650),bg="#2f516f",border=0)
+                            pr_canvas_ed.bind('<Configure>', responsive_widgets_edit)
                             
-                            em_ent.config(fg="red")
+                            pr_myscrollbar_ed=Scrollbar(Sys_mains_frame_pr_ed,orient="vertical",command=pr_canvas_ed.yview)
+                            pr_canvas_ed.configure(yscrollcommand=pr_myscrollbar_ed.set)
 
-                        vcmdem_ent = (pr_canvas_ed.register(validate), '%P')
-                        ivcmdem_ent = (pr_canvas_ed.register(on_invalid),)
-                        em_ent.config(validate='focusout', validatecommand=vcmdem_ent, invalidcommand=ivcmdem_ent)                              
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
+                            pr_myscrollbar_ed.pack(side="right",fill="y")
+                            pr_canvas_ed.pack(fill=X)
 
-                        pr_crpass_lb=Label(pr_canvas_ed, text="Enter your Current Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_lb,tag=("pr_crpass_lb"))
-
-                        pr_crpass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
-                        
-                        pr_crpass_ent.delete(0,END)
-                        pr_crpass_ent.insert(0,edi_dtl[1])
-                        
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_ent,tag=("pr_crpass_ent"))
-
-                        pr_re_pass_lb=Label(pr_canvas_ed, text="Re-type new Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_lb,tag=("pr_re_pass_lb"))
-
-                        pr_re_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
-                        def pas_val_fun1(value):
-        
-                            pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
-                            if re.fullmatch(pattern, value) is None:
-                                                
-                                return False
-
-                            pr_re_pass_ent.config(fg="black")
-                            return True
-
-                        def pass_inval_fun1():
-                            pr_re_pass_ent.config(fg="red")
-
-                        pas_val1 = (pr_canvas_ed.register(pas_val_fun1), '%P')
-                        pass_inval1 = (pr_canvas_ed.register(pass_inval_fun1),)
-
-                        pr_re_pass_ent.config(validate='focusout', validatecommand=pas_val1, invalidcommand=pass_inval1)
-
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_ent,tag=("pr_re_pass_ent"))
+                            rth2 = pr_canvas_ed.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_pr"),smooth=True,)
 
 
-                        last_nm_lb=Label(pr_canvas_ed, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
+                            grd1c=Label(pr_canvas_ed, text="MY PROFILE",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+                            win_inv1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=grd1c,tags=("my_pro"))
 
-                        lst_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        lst_nm_ent.delete(0,END)
-                        lst_nm_ent.insert(0,edi_dtl[6])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
+                            pr_img=Label(pr_canvas_ed,  image = prof_pics,bg="#213b52",width=170,height=170,  anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
 
-                        usr_nm_lb=Label(pr_canvas_ed, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
+                            pr_canvas_ed.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
+                            #----------------------------------------------------------------------------------------Personal info
+                            pr_hd=Label(pr_canvas_ed, text="Personal Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
+                            win_pr = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_hd,tags=("pr_hd"))
 
-                        usr_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        usr_nm_ent.delete(0,END)
-                        usr_nm_ent.insert(0,edi_dtl[4])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
+                            fir_name=Label(pr_canvas_ed, text="First Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
 
-                        pr_new_pass_lb=Label(pr_canvas_ed, text="Enter New Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_lb,tag=("pr_new_pass_lb"))
+                            fr_name_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            fr_name_ent.delete(0,END)
+                            fr_name_ent.insert(0,edi_dtl[5])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
 
-                        pr_new_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*",)
-                        def pas_val_fun2(value):
-        
-                            pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
-                            if re.fullmatch(pattern, value) is None:
-                                                
-                                return False
+                            pr_em_lb=Label(pr_canvas_ed, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
 
-                            pr_new_pass_ent.config(fg="black")
-                            return True
-
-                        def pass_inval_fun2():
-                            pr_new_pass_ent.config(fg="red")
-
-                        pas_val2 = (pr_canvas_ed.register(pas_val_fun2), '%P')
-                        pass_inval2 = (pr_canvas_ed.register(pass_inval_fun2),)
-
-                        pr_new_pass_ent.config(validate='focusout', validatecommand=pas_val2, invalidcommand=pass_inval2)
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_ent,tag=("pr_new_pass_ent"))
-
-
-                        # #------------------------------------------------------------------------------------------------COMPANY SECTION
-                        cmp_hd=Label(pr_canvas_ed, text="Company Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
-                        win_pr = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_hd,tag=("cmp_hd"))
-
-                        cmp_nm_lb=Label(pr_canvas_ed, text="Company Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
-
-                        cmp_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_nm_ent.delete(0,END)
-                        cmp_nm_ent.insert(0,edi_cmp_dtl[1])
-                        
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
-
-                        cmp_cty_lb=Label(pr_canvas_ed, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
-
-                        cmp_cty_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_cty_ent.delete(0,END)
-                        cmp_cty_ent.insert(0,edi_cmp_dtl[3])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
-
-                        cmp_pin_lb=Label(pr_canvas_ed, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
-
-                        cmp_pin_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_pin_ent.delete(0,END)
-                        cmp_pin_ent.insert(0,edi_cmp_dtl[5])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
-
-                        cmp_ph_lb=Label(pr_canvas_ed, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
-
-                        cmp_ph_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_ph_ent.delete(0,END)
-                        cmp_ph_ent.insert(0,edi_cmp_dtl[7])
-                        def validate_telb512(value):
-        
-                                pattern = r'^[0-9]\d{9}$'
+                            em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            em_ent.delete(0,END)
+                            em_ent.insert(0,edi_dtl[7])
+                            def validate(value):
+            
+                                pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
                                 if re.fullmatch(pattern, value) is None:
-                                    
+                                                    
                                     return False
-                                cmp_ph_ent.config(fg="black")
+
+                                em_ent.config(fg="black")
                                 return True
 
-                        def on_invalid_telb512():
-                                cmp_ph_ent.config(fg="red")
+                            def on_invalid():
                                 
-                        v_tel_cmd = (pr_canvas_ed.register(validate_telb512), '%P')
-                        iv_tel_cmd = (pr_canvas_ed.register(on_invalid_telb512),)
-                        cmp_ph_ent.config(validate='focusout', validatecommand=v_tel_cmd, invalidcommand=iv_tel_cmd)
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
+                                em_ent.config(fg="red")
 
-                        cmp_indest_lb=Label(pr_canvas_ed, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
+                            vcmdem_ent = (pr_canvas_ed.register(validate), '%P')
+                            ivcmdem_ent = (pr_canvas_ed.register(on_invalid),)
+                            em_ent.config(validate='focusout', validatecommand=vcmdem_ent, invalidcommand=ivcmdem_ent)                              
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
 
-                        cmp_indest_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_indest_ent.delete(0,END)
-                        cmp_indest_ent.insert(0,edi_cmp_dtl[10])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
+                            pr_crpass_lb=Label(pr_canvas_ed, text="Enter your Current Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_lb,tag=("pr_crpass_lb"))
 
-                        # #----------------------------------------------------------------------------------------------------RIGHT SIDE
-                        cmp_addr_lb=Label(pr_canvas_ed, text="Company Address",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
-
-                        cmp_addr_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_addr_ent.delete(0,END)
-                        cmp_addr_ent.insert(0,edi_cmp_dtl[2])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
-
-                        cmp_st_lb=Label(pr_canvas_ed, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
-
-                        cmp_st_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_st_ent.delete(0,END)
-                        cmp_st_ent.insert(0,edi_cmp_dtl[4])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
-
-                        cmp_em_lb=Label(pr_canvas_ed, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
-
-                        cmp_em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_em_ent.delete(0,END)
-                        cmp_em_ent.insert(0,edi_cmp_dtl[6])
-                        def validateb2113(value):
-        
-                            pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-                            if re.fullmatch(pattern, value) is None:
-                                                
-                                return False
-
-                            cmp_em_ent.config(fg="black")
-                            return True
-
-                        def on_invalidb2113():
+                            pr_crpass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
                             
-                            cmp_em_ent.config(fg="red")
-
-                        vcmdb2113 = (pr_canvas_ed.register(validateb2113), '%P')
-                        ivcmdb2113 = (pr_canvas_ed.register(on_invalidb2113),)
-                        cmp_em_ent.config(validate='focusout', validatecommand=vcmdb2113, invalidcommand=ivcmdb2113) 
-
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
-
-                        cmp_lg_nm=Label(pr_canvas_ed, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
-
-                        cmp_lg_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_lg_ent.delete(0,END)
-                        cmp_lg_ent.insert(0,edi_cmp_dtl[9])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
-
-                        cmp_typ_lb=Label(pr_canvas_ed, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
-
-                        cmp_typ_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_typ_ent.delete(0,END)
-                        cmp_typ_ent.insert(0,edi_cmp_dtl[11])
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
-
-                        cmp_file_lb=Label(pr_canvas_ed, text="File",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_lb,tag=("cmp_file_lb"))
-                        def fil_ents(event):
-                            sql_log_sql='select * from auth_user where username=%s'
-                            vals=(nm_ent.get(),)
-                            fbcursor.execute(sql_log_sql,vals)
-                            check_logins=fbcursor.fetchone()
-                            cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
-                            logo_crp=cmp_logo.split('/',-1)
+                            pr_crpass_ent.delete(0,END)
+                            pr_crpass_ent.insert(0,edi_dtl[1])
                             
-                            im1 = Image.open(r""+cmp_logo) 
-                            im1 = im1.save("profilepic/propic"+str(check_logins[0])+".png")
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_crpass_ent,tag=("pr_crpass_ent"))
 
-                            cmp_file_ent.delete("0",END)
-                            cmp_file_ent.insert(0,logo_crp[-1])
+                            pr_re_pass_lb=Label(pr_canvas_ed, text="Re-type new Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_lb,tag=("pr_re_pass_lb"))
 
-                        cmp_file_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
-                        cmp_file_ent.delete(0,END)
-                        cmp_file_ent.insert(0,edi_cmp_dtl[8])
-                        cmp_file_ent.bind("<Button-1>",fil_ents)
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_ent,tag=("cmp_file_ent"))
-
-
-                        btn_edit = Button(pr_canvas_ed, text='Update Profile', command=update_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
-                        win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=btn_edit,tag=("btn_edit"))
-
-                    
-                    selected_indices = lst_prf.curselection()
-                    selected_langs = ",".join([lst_prf.get(i) for i in selected_indices])
-                    lst_prf.place_forget()
-
-                    def pr_responsive_widgets(event):
-                            
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
-                        
-                            
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/.6
-
-                            dcanvas.coords("bg_polygen_pr",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                   
+                            pr_re_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*")
+                            def pas_val_fun1(value):
             
-                            dcanvas.coords("my_pro",dwidth/2.3,dheight/13)
-                            dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
+                                pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
+                                if re.fullmatch(pattern, value) is None:
+                                                    
+                                    return False
 
-                            dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
-                            dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
-                            dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
-                            dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
-                            
-                            dcanvas.coords("pr_em_lb",dwidth/17.075,dheight/1.56)
-                            dcanvas.coords("em_ent",dwidth/17.075,dheight/1.47)
-                            dcanvas.coords("last_nm_lb",dwidth/1.92,dheight/1.9)
-                            dcanvas.coords("lst_nm_ent",dwidth/1.92,dheight/1.75)
-                            dcanvas.coords("usr_nm_lb",dwidth/1.92,dheight/1.56)
-                            dcanvas.coords("usr_nm_ent",dwidth/1.92,dheight/1.47)
+                                pr_re_pass_ent.config(fg="black")
+                                return True
 
-                            #-------------------------------------------------------------------------company section
-                            dcanvas.coords("cmp_hd",dwidth/20,dheight/1.32)
-                            dcanvas.coords("cmp_nm_lb",dwidth/17.075,dheight/1.22)
-                            dcanvas.coords("cmp_nm_ent",dwidth/17.075,dheight/1.16)
-                            dcanvas.coords("cmp_cty_lb",dwidth/17.075,dheight/1.07)
-                            dcanvas.coords("cmp_cty_ent",dwidth/17.075,dheight/1.02)
-                            dcanvas.coords("cmp_pin_lb",dwidth/17.075,dheight/.95)
-                            dcanvas.coords("cmp_pin_ent",dwidth/17.075,dheight/.91)
-                            dcanvas.coords("cmp_ph_lb",dwidth/17.075,dheight/.86)
-                            dcanvas.coords("cmp_ph_ent",dwidth/17.075,dheight/.83)
-                            dcanvas.coords("cmp_indest_lb",dwidth/17.075,dheight/.78)
-                            dcanvas.coords("cmp_indest_ent",dwidth/17.075,dheight/.755)
+                            def pass_inval_fun1():
+                                pr_re_pass_ent.config(fg="red")
 
-                            #--------------------------------------------------------------------------company right
+                            pas_val1 = (pr_canvas_ed.register(pas_val_fun1), '%P')
+                            pass_inval1 = (pr_canvas_ed.register(pass_inval_fun1),)
 
-                            dcanvas.coords("cmp_addr_lb",dwidth/1.92,dheight/1.22)
-                            dcanvas.coords("cmp_addr_ent",dwidth/1.92,dheight/1.16)
-                            dcanvas.coords("cmp_st_lb",dwidth/1.92,dheight/1.07)
-                            dcanvas.coords("cmp_st_ent",dwidth/1.92,dheight/1.02)
-                            dcanvas.coords("cmp_em_lb",dwidth/1.92,dheight/.95)
-                            dcanvas.coords("cmp_em_ent",dwidth/1.92,dheight/.91)
-                            dcanvas.coords("cmp_lg_nm",dwidth/1.92,dheight/.86)
-                            dcanvas.coords("cmp_lg_ent",dwidth/1.92,dheight/.83)
-                            dcanvas.coords("cmp_typ_lb",dwidth/1.92,dheight/.78)
-                            dcanvas.coords("cmp_typ_ent",dwidth/1.92,dheight/.755)
-                            dcanvas.coords("btn_edit",dwidth/2.4,dheight/.71)
+                            pr_re_pass_ent.config(validate='focusout', validatecommand=pas_val1, invalidcommand=pass_inval1)
 
-                    if selected_langs=="Profile":
-                        # canvas.pack_forget()
-                        # myscrollbar.pack_forget()
-                        # Sys_mains_frame.pack_forget()
-                        
-                        sql_pro="select * from auth_user where username=%s"
-                        sql_pro_val=(nm_ent.get(),)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        pro_dtl=fbcursor.fetchone()
-
-                        sql_pro_cmp="select * from app1_company where id_id=%s"
-                        sql_pro_cmp_val=(pro_dtl[0],)
-                        fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
-                        pro_cmp_dtl=fbcursor.fetchone()
-                        
-
-                        Sys_mains_frame_pr=Frame(tab1, height=750,bg="#2f516f",)
-                        Sys_mains_frame_pr.grid(row=0,column=0,sticky='nsew')
-                        Sys_mains_frame_pr.grid_rowconfigure(0,weight=1)
-                        Sys_mains_frame_pr.grid_columnconfigure(0,weight=1)
-
-                        pr_canvas=Canvas(Sys_mains_frame_pr,height=700,width=1340,scrollregion=(0,0,700,1300),bg="#2f516f",border=0)
-                        pr_canvas.bind("<Configure>", pr_responsive_widgets)
-                        
-                        pr_myscrollbar=Scrollbar(Sys_mains_frame_pr,orient="vertical",command=pr_canvas.yview)
-                        pr_canvas.configure(yscrollcommand=pr_myscrollbar.set)
-
-                        pr_myscrollbar.pack(side="right",fill="y")
-                        pr_canvas.pack(fill=X)
-
-                        rth2 = pr_canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",smooth=True,tags=("bg_polygen_pr"))
-
-                        grd1c=Label(pr_canvas, text="MY PROFILE",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-                        win_inv1 = pr_canvas.create_window(0, 0, anchor="nw", window=grd1c,tags=("my_pro"))
-
-                        pr_canvas.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
-                        #----------------------------------------------------------------------------------------Personal info
-
-        
-                        pr_img=Label(pr_canvas, image = prof_pics,bg="#213b52",width=170,height=170, anchor="center",)
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
-
-                        pr_hd=Label(pr_canvas, text="Personal Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
-                        win_pr = pr_canvas.create_window(0, 0, anchor="nw", window=pr_hd,tags=("pr_hd"))
-
-                        fir_name=Label(pr_canvas, text="First Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
-
-                        fr_name_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        fr_name_ent.delete(0,END)
-                        fr_name_ent.insert(0,pro_dtl[5])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
-
-                        pr_em_lb=Label(pr_canvas, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
-
-                        em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        em_ent.delete(0,END)
-                        em_ent.insert(0,pro_dtl[7])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
-
-                        last_nm_lb=Label(pr_canvas, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
-
-                        lst_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        lst_nm_ent.delete(0,END)
-                        lst_nm_ent.insert(0,pro_dtl[6])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
-
-                        usr_nm_lb=Label(pr_canvas, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
-
-                        usr_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        usr_nm_ent.delete(0,END)
-                        usr_nm_ent.insert(0,pro_dtl[4])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
-
-                        #------------------------------------------------------------------------------------------------COMPANY SECTION
-                        cmp_hd=Label(pr_canvas, text="Company Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
-                        win_pr = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_hd,tag=("cmp_hd"))
-
-                        cmp_nm_lb=Label(pr_canvas, text="Company Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
-
-                        cmp_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_nm_ent.delete(0,END)
-                        cmp_nm_ent.insert(0,pro_cmp_dtl[2])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
-
-                        cmp_cty_lb=Label(pr_canvas, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
-
-                        cmp_cty_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_cty_ent.delete(0,END)
-                        cmp_cty_ent.insert(0,pro_cmp_dtl[3])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
-
-                        cmp_pin_lb=Label(pr_canvas, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
-
-                        cmp_pin_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_pin_ent.delete(0,END)
-                        cmp_pin_ent.insert(0,pro_cmp_dtl[5])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
-
-                        cmp_ph_lb=Label(pr_canvas, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
-
-                        cmp_ph_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_ph_ent.delete(0,END)
-                        cmp_ph_ent.insert(0,pro_cmp_dtl[7])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
-
-                        cmp_indest_lb=Label(pr_canvas, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
-
-                        cmp_indest_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_indest_ent.delete(0,END)
-                        cmp_indest_ent.insert(0,pro_cmp_dtl[10])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
-
-                        #----------------------------------------------------------------------------------------------------RIGHT SIDE
-                        cmp_addr_lb=Label(pr_canvas, text="Company Address",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
-
-                        cmp_addr_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_addr_ent.delete(0,END)
-                        cmp_addr_ent.insert(0,pro_cmp_dtl[2])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
-
-                        cmp_st_lb=Label(pr_canvas, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
-
-                        cmp_st_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_st_ent.delete(0,END)
-                        cmp_st_ent.insert(0,pro_cmp_dtl[4])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
-
-                        cmp_em_lb=Label(pr_canvas, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
-
-                        cmp_em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_em_ent.delete(0,END)
-                        cmp_em_ent.insert(0,pro_cmp_dtl[6])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
-
-                        cmp_lg_nm=Label(pr_canvas, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
-
-                        cmp_lg_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_lg_ent.delete(0,END)
-                        cmp_lg_ent.insert(0,pro_cmp_dtl[9])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
-
-                        cmp_typ_lb=Label(pr_canvas, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
-                        win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
-
-                        cmp_typ_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
-                        cmp_typ_ent.delete(0,END)
-                        cmp_typ_ent.insert(0,pro_cmp_dtl[11])
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_re_pass_ent,tag=("pr_re_pass_ent"))
 
 
-                        btn_edit = Button(pr_canvas, text='Edit Profile', command=edit_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
-                        win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=btn_edit,tag=("btn_edit"))
-                    
-                    elif selected_langs=="Log Out":
-                        
-                        Sys_top_frame2.pack_forget()
-                        Sys_top_frame.pack_forget()
-                        main_frame_signin.pack(fill=X,)
-                    elif selected_langs== "Dashboard":
-                        try:
-                            Sys_mains_frame_pr_ed.pack_forget()
-                        except:
-                            pass
-                        try:
-                            
-                            Sys_mains_frame_pr.pack_forget()
-                        except:
-                            pass
+                            last_nm_lb=Label(pr_canvas_ed, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
 
-                    else:
-                        pass
+                            lst_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            lst_nm_ent.delete(0,END)
+                            lst_nm_ent.insert(0,edi_dtl[6])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
 
-                def profile():
-                    # create a list box
-                    langs = ("Dashboard","Profile","Log Out")
+                            usr_nm_lb=Label(pr_canvas_ed, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
 
-                    langs_var = StringVar(value=langs)
-                    global lst_prf
-                    lst_prf = Listbox(root,listvariable=langs_var,height=3 ,selectmode='extended',bg="black",fg="white")
+                            usr_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            usr_nm_ent.delete(0,END)
+                            usr_nm_ent.insert(0,edi_dtl[4])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
 
-                    lst_prf.place(relx=0.90, rely=0.10)
-                    lst_prf.bind('<<ListboxSelect>>', lst_prf_slt)
-                    srh_btn.grid_forget()
-                    srh_btn2 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
-                    srh_btn2.grid(row=0,column=2,padx=15)
+                            pr_new_pass_lb=Label(pr_canvas_ed, text="Enter New Password",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_lb,tag=("pr_new_pass_lb"))
+
+                            pr_new_pass_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'),show="*",)
+                            def pas_val_fun2(value):
             
-                srh_btn = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
-                srh_btn.grid(row=0,column=2,padx=15)
+                                pattern = r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
+                                if re.fullmatch(pattern, value) is None:
+                                                    
+                                    return False
 
-                Sys_top_frame2=Frame(root, height=10,bg="#213b52")
-                Sys_top_frame2.pack(fill=X,)
+                                pr_new_pass_ent.config(fg="black")
+                                return True
+
+                            def pass_inval_fun2():
+                                pr_new_pass_ent.config(fg="red")
+
+                            pas_val2 = (pr_canvas_ed.register(pas_val_fun2), '%P')
+                            pass_inval2 = (pr_canvas_ed.register(pass_inval_fun2),)
+
+                            pr_new_pass_ent.config(validate='focusout', validatecommand=pas_val2, invalidcommand=pass_inval2)
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=pr_new_pass_ent,tag=("pr_new_pass_ent"))
+
+
+                            # #------------------------------------------------------------------------------------------------COMPANY SECTION
+                            cmp_hd=Label(pr_canvas_ed, text="Company Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
+                            win_pr = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_hd,tag=("cmp_hd"))
+
+                            cmp_nm_lb=Label(pr_canvas_ed, text="Company Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
+
+                            cmp_nm_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_nm_ent.delete(0,END)
+                            cmp_nm_ent.insert(0,edi_cmp_dtl[1])
+                            
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
+
+                            cmp_cty_lb=Label(pr_canvas_ed, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
+
+                            cmp_cty_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_cty_ent.delete(0,END)
+                            cmp_cty_ent.insert(0,edi_cmp_dtl[3])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
+
+                            cmp_pin_lb=Label(pr_canvas_ed, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
+
+                            cmp_pin_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_pin_ent.delete(0,END)
+                            cmp_pin_ent.insert(0,edi_cmp_dtl[5])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
+
+                            cmp_ph_lb=Label(pr_canvas_ed, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
+
+                            cmp_ph_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_ph_ent.delete(0,END)
+                            cmp_ph_ent.insert(0,edi_cmp_dtl[7])
+                            def validate_telb512(value):
+            
+                                    pattern = r'^[0-9]\d{9}$'
+                                    if re.fullmatch(pattern, value) is None:
+                                        
+                                        return False
+                                    cmp_ph_ent.config(fg="black")
+                                    return True
+
+                            def on_invalid_telb512():
+                                    cmp_ph_ent.config(fg="red")
+                                    
+                            v_tel_cmd = (pr_canvas_ed.register(validate_telb512), '%P')
+                            iv_tel_cmd = (pr_canvas_ed.register(on_invalid_telb512),)
+                            cmp_ph_ent.config(validate='focusout', validatecommand=v_tel_cmd, invalidcommand=iv_tel_cmd)
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
+
+                            cmp_indest_lb=Label(pr_canvas_ed, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
+
+                            cmp_indest_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_indest_ent.delete(0,END)
+                            cmp_indest_ent.insert(0,edi_cmp_dtl[10])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
+
+                            # #----------------------------------------------------------------------------------------------------RIGHT SIDE
+                            cmp_addr_lb=Label(pr_canvas_ed, text="Company Address",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
+
+                            cmp_addr_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_addr_ent.delete(0,END)
+                            cmp_addr_ent.insert(0,edi_cmp_dtl[2])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
+
+                            cmp_st_lb=Label(pr_canvas_ed, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
+
+                            cmp_st_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_st_ent.delete(0,END)
+                            cmp_st_ent.insert(0,edi_cmp_dtl[4])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
+
+                            cmp_em_lb=Label(pr_canvas_ed, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
+
+                            cmp_em_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_em_ent.delete(0,END)
+                            cmp_em_ent.insert(0,edi_cmp_dtl[6])
+                            def validateb2113(value):
+            
+                                pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                                if re.fullmatch(pattern, value) is None:
+                                                    
+                                    return False
+
+                                cmp_em_ent.config(fg="black")
+                                return True
+
+                            def on_invalidb2113():
+                                
+                                cmp_em_ent.config(fg="red")
+
+                            vcmdb2113 = (pr_canvas_ed.register(validateb2113), '%P')
+                            ivcmdb2113 = (pr_canvas_ed.register(on_invalidb2113),)
+                            cmp_em_ent.config(validate='focusout', validatecommand=vcmdb2113, invalidcommand=ivcmdb2113) 
+
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
+
+                            cmp_lg_nm=Label(pr_canvas_ed, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
+
+                            cmp_lg_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_lg_ent.delete(0,END)
+                            cmp_lg_ent.insert(0,edi_cmp_dtl[9])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
+
+                            cmp_typ_lb=Label(pr_canvas_ed, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
+
+                            cmp_typ_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_typ_ent.delete(0,END)
+                            cmp_typ_ent.insert(0,edi_cmp_dtl[11])
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
+
+                            cmp_file_lb=Label(pr_canvas_ed, text="File",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_lb,tag=("cmp_file_lb"))
+                            def fil_ents(event):
+                                sql_log_sql='select * from auth_user where username=%s'
+                                vals=(nm_ent.get(),)
+                                fbcursor.execute(sql_log_sql,vals)
+                                check_logins=fbcursor.fetchone()
+                                cmp_logo = askopenfilename(filetypes=(("png file ",'.png'),('PDF', '*.pdf',),("jpg file", ".jpg"),  ("All files", "*.*"),))
+                                logo_crp=cmp_logo.split('/',-1)
+                                
+                                im1 = Image.open(r""+cmp_logo) 
+                                im1 = im1.save("profilepic/propic"+str(check_logins[0])+".png")
+
+                                cmp_file_ent.delete("0",END)
+                                cmp_file_ent.insert(0,logo_crp[-1])
+
+                            cmp_file_ent=Entry(pr_canvas_ed,width=55,font=('Calibri 14 bold'))
+                            cmp_file_ent.delete(0,END)
+                            cmp_file_ent.insert(0,edi_cmp_dtl[8])
+                            cmp_file_ent.bind("<Button-1>",fil_ents)
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=cmp_file_ent,tag=("cmp_file_ent"))
+
+
+                            btn_edit = Button(pr_canvas_ed, text='Update Profile', command=update_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
+                            win_info1 = pr_canvas_ed.create_window(0, 0, anchor="nw", window=btn_edit,tag=("btn_edit"))
+
+                        
+                        selected_indices = lst_prf.curselection()
+                        selected_langs = ",".join([lst_prf.get(i) for i in selected_indices])
+                        lst_prf.place_forget()
+
+                        def pr_responsive_widgets(event):
+                                
+                                dwidth = event.width
+                                dheight = event.height
+                                dcanvas = event.widget
+                            
+                                
+                                r1 = 25
+                                x1 = dwidth/63
+                                x2 = dwidth/1.021
+                                y1 = dheight/13
+                                y2 = dheight/.6
+
+                                dcanvas.coords("bg_polygen_pr",x1 + r1,y1,
+                                x1 + r1,y1,
+                                x2 - r1,y1,
+                                x2 - r1,y1,     
+                                x2,y1,     
+                                #--------------------
+                                x2,y1 + r1,     
+                                x2,y1 + r1,     
+                                x2,y2 - r1,     
+                                x2,y2 - r1,     
+                                x2,y2,
+                                #--------------------
+                                x2 - r1,y2,     
+                                x2 - r1,y2,     
+                                x1 + r1,y2,
+                                x1 + r1,y2,
+                                x1,y2,
+                                #--------------------
+                                x1,y2 - r1,
+                                x1,y2 - r1,
+                                x1,y1 + r1,
+                                x1,y1 + r1,
+                                x1,y1,
+                                )                   
                 
-                s = ttk.Style()
-                s.theme_use('default')
-                s.configure('TNotebook.Tab', background="#213b52",foreground="white", width=150,anchor="center", padding=5)
-                s.map('TNotebook.Tab',background=[("selected","#2f516f")])
-                def right_nav():
+                                dcanvas.coords("my_pro",dwidth/2.3,dheight/13)
+                                dcanvas.coords("pr_img",dwidth/2.3,dheight/5)
+
+                                dcanvas.coords("pr_hr_l",dwidth/16,dheight/6.5,dwidth/1.07,dheight/6.5)
+                                dcanvas.coords("pr_hd",dwidth/20,dheight/2.2)
+                                dcanvas.coords("pr_1_nm",dwidth/17.075,dheight/1.9)
+                                dcanvas.coords("fr_name_ent",dwidth/17.075,dheight/1.75)
+                                
+                                dcanvas.coords("pr_em_lb",dwidth/17.075,dheight/1.56)
+                                dcanvas.coords("em_ent",dwidth/17.075,dheight/1.47)
+                                dcanvas.coords("last_nm_lb",dwidth/1.92,dheight/1.9)
+                                dcanvas.coords("lst_nm_ent",dwidth/1.92,dheight/1.75)
+                                dcanvas.coords("usr_nm_lb",dwidth/1.92,dheight/1.56)
+                                dcanvas.coords("usr_nm_ent",dwidth/1.92,dheight/1.47)
+
+                                #-------------------------------------------------------------------------company section
+                                dcanvas.coords("cmp_hd",dwidth/20,dheight/1.32)
+                                dcanvas.coords("cmp_nm_lb",dwidth/17.075,dheight/1.22)
+                                dcanvas.coords("cmp_nm_ent",dwidth/17.075,dheight/1.16)
+                                dcanvas.coords("cmp_cty_lb",dwidth/17.075,dheight/1.07)
+                                dcanvas.coords("cmp_cty_ent",dwidth/17.075,dheight/1.02)
+                                dcanvas.coords("cmp_pin_lb",dwidth/17.075,dheight/.95)
+                                dcanvas.coords("cmp_pin_ent",dwidth/17.075,dheight/.91)
+                                dcanvas.coords("cmp_ph_lb",dwidth/17.075,dheight/.86)
+                                dcanvas.coords("cmp_ph_ent",dwidth/17.075,dheight/.83)
+                                dcanvas.coords("cmp_indest_lb",dwidth/17.075,dheight/.78)
+                                dcanvas.coords("cmp_indest_ent",dwidth/17.075,dheight/.755)
+
+                                #--------------------------------------------------------------------------company right
+
+                                dcanvas.coords("cmp_addr_lb",dwidth/1.92,dheight/1.22)
+                                dcanvas.coords("cmp_addr_ent",dwidth/1.92,dheight/1.16)
+                                dcanvas.coords("cmp_st_lb",dwidth/1.92,dheight/1.07)
+                                dcanvas.coords("cmp_st_ent",dwidth/1.92,dheight/1.02)
+                                dcanvas.coords("cmp_em_lb",dwidth/1.92,dheight/.95)
+                                dcanvas.coords("cmp_em_ent",dwidth/1.92,dheight/.91)
+                                dcanvas.coords("cmp_lg_nm",dwidth/1.92,dheight/.86)
+                                dcanvas.coords("cmp_lg_ent",dwidth/1.92,dheight/.83)
+                                dcanvas.coords("cmp_typ_lb",dwidth/1.92,dheight/.78)
+                                dcanvas.coords("cmp_typ_ent",dwidth/1.92,dheight/.755)
+                                dcanvas.coords("btn_edit",dwidth/2.4,dheight/.71)
+
+                        if selected_langs=="Profile":
+                            # canvas.pack_forget()
+                            # myscrollbar.pack_forget()
+                            # Sys_mains_frame.pack_forget()
+                            
+                            sql_pro="select * from auth_user where username=%s"
+                            sql_pro_val=(nm_ent.get(),)
+                            fbcursor.execute(sql_pro,sql_pro_val,)
+                            pro_dtl=fbcursor.fetchone()
+
+                            sql_pro_cmp="select * from app1_company where id_id=%s"
+                            sql_pro_cmp_val=(pro_dtl[0],)
+                            fbcursor.execute(sql_pro_cmp,sql_pro_cmp_val,)
+                            pro_cmp_dtl=fbcursor.fetchone()
+                            
+                            global Sys_mains_frame_pr
+                            Sys_mains_frame_pr=Frame(tab1, height=750,bg="#2f516f",)
+                            Sys_mains_frame_pr.grid(row=0,column=0,sticky='nsew')
+                            Sys_mains_frame_pr.grid_rowconfigure(0,weight=1)
+                            Sys_mains_frame_pr.grid_columnconfigure(0,weight=1)
+
+                            pr_canvas=Canvas(Sys_mains_frame_pr,height=700,width=1340,scrollregion=(0,0,700,1300),bg="#2f516f",border=0)
+                            pr_canvas.bind("<Configure>", pr_responsive_widgets)
+                            
+                            pr_myscrollbar=Scrollbar(Sys_mains_frame_pr,orient="vertical",command=pr_canvas.yview)
+                            pr_canvas.configure(yscrollcommand=pr_myscrollbar.set)
+
+                            pr_myscrollbar.pack(side="right",fill="y")
+                            pr_canvas.pack(fill=X)
+
+                            rth2 = pr_canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",smooth=True,tags=("bg_polygen_pr"))
+
+                            grd1c=Label(pr_canvas, text="MY PROFILE",bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+                            win_inv1 = pr_canvas.create_window(0, 0, anchor="nw", window=grd1c,tags=("my_pro"))
+
+                            pr_canvas.create_line(0,0, 0, 0,fill="gray",tags=("pr_hr_l") )
+                            #----------------------------------------------------------------------------------------Personal info
+
+            
+                            pr_img=Label(pr_canvas, image = prof_pics,bg="#213b52",width=170,height=170, anchor="center",)
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_img,tags=("pr_img"))
+
+                            pr_hd=Label(pr_canvas, text="Personal Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
+                            win_pr = pr_canvas.create_window(0, 0, anchor="nw", window=pr_hd,tags=("pr_hd"))
+
+                            fir_name=Label(pr_canvas, text="First Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=fir_name,tags=("pr_1_nm"))
+
+                            fr_name_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            fr_name_ent.delete(0,END)
+                            fr_name_ent.insert(0,pro_dtl[5])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=fr_name_ent,tags=("fr_name_ent"))
+
+                            pr_em_lb=Label(pr_canvas, text="E-Mail",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=pr_em_lb,tags=("pr_em_lb"))
+
+                            em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            em_ent.delete(0,END)
+                            em_ent.insert(0,pro_dtl[7])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=em_ent,tag=("em_ent"))
+
+                            last_nm_lb=Label(pr_canvas, text="Last Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=last_nm_lb,tag=("last_nm_lb"))
+
+                            lst_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            lst_nm_ent.delete(0,END)
+                            lst_nm_ent.insert(0,pro_dtl[6])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=lst_nm_ent,tag=("lst_nm_ent"))
+
+                            usr_nm_lb=Label(pr_canvas, text="Username",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_lb, tag=("usr_nm_lb"))
+
+                            usr_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            usr_nm_ent.delete(0,END)
+                            usr_nm_ent.insert(0,pro_dtl[4])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=usr_nm_ent,tag=("usr_nm_ent"))
+
+                            #------------------------------------------------------------------------------------------------COMPANY SECTION
+                            cmp_hd=Label(pr_canvas, text="Company Info",bg="#213b52", fg="White", anchor="center",font=('Calibri 18 bold'))
+                            win_pr = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_hd,tag=("cmp_hd"))
+
+                            cmp_nm_lb=Label(pr_canvas, text="Company Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_lb,tag=("cmp_nm_lb"))
+
+                            cmp_nm_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_nm_ent.delete(0,END)
+                            cmp_nm_ent.insert(0,pro_cmp_dtl[2])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_nm_ent,tag=("cmp_nm_ent"))
+
+                            cmp_cty_lb=Label(pr_canvas, text="City",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_lb,tag=("cmp_cty_lb"))
+
+                            cmp_cty_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_cty_ent.delete(0,END)
+                            cmp_cty_ent.insert(0,pro_cmp_dtl[3])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_cty_ent,tag=("cmp_cty_ent"))
+
+                            cmp_pin_lb=Label(pr_canvas, text="Pincode",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_lb,tag=("cmp_pin_lb"))
+
+                            cmp_pin_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_pin_ent.delete(0,END)
+                            cmp_pin_ent.insert(0,pro_cmp_dtl[5])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_pin_ent,tag=("cmp_pin_ent"))
+
+                            cmp_ph_lb=Label(pr_canvas, text="Phone Number",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_lb,tag=("cmp_ph_lb"))
+
+                            cmp_ph_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_ph_ent.delete(0,END)
+                            cmp_ph_ent.insert(0,pro_cmp_dtl[7])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_ph_ent,tag=("cmp_ph_ent"))
+
+                            cmp_indest_lb=Label(pr_canvas, text="Your Industry",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_lb,tag=("cmp_indest_lb"))
+
+                            cmp_indest_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_indest_ent.delete(0,END)
+                            cmp_indest_ent.insert(0,pro_cmp_dtl[10])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_indest_ent,tag=("cmp_indest_ent"))
+
+                            #----------------------------------------------------------------------------------------------------RIGHT SIDE
+                            cmp_addr_lb=Label(pr_canvas, text="Company Address",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_lb,tag=("cmp_addr_lb"))
+
+                            cmp_addr_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_addr_ent.delete(0,END)
+                            cmp_addr_ent.insert(0,pro_cmp_dtl[2])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_addr_ent,tag=("cmp_addr_ent"))
+
+                            cmp_st_lb=Label(pr_canvas, text="State",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_lb,tag=("cmp_st_lb"))
+
+                            cmp_st_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_st_ent.delete(0,END)
+                            cmp_st_ent.insert(0,pro_cmp_dtl[4])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_st_ent,tag=("cmp_st_ent"))
+
+                            cmp_em_lb=Label(pr_canvas, text="Email",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_lb,tag=("cmp_em_lb"))
+
+                            cmp_em_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_em_ent.delete(0,END)
+                            cmp_em_ent.insert(0,pro_cmp_dtl[6])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_em_ent,tag=("cmp_em_ent"))
+
+                            cmp_lg_nm=Label(pr_canvas, text="Legal Business Name",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_nm,tag=("cmp_lg_nm"))
+
+                            cmp_lg_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_lg_ent.delete(0,END)
+                            cmp_lg_ent.insert(0,pro_cmp_dtl[9])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_lg_ent,tag=("cmp_lg_ent"))
+
+                            cmp_typ_lb=Label(pr_canvas, text="Company Type",bg="#213b52", fg="White", anchor="center",font=('Calibri 14 bold'))
+                            win_info = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_lb,tag=("cmp_typ_lb"))
+
+                            cmp_typ_ent=Entry(pr_canvas,width=55,font=('Calibri 14 bold'))
+                            cmp_typ_ent.delete(0,END)
+                            cmp_typ_ent.insert(0,pro_cmp_dtl[11])
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=cmp_typ_ent,tag=("cmp_typ_ent"))
+
+
+                            btn_edit = Button(pr_canvas, text='Edit Profile', command=edit_profile, bg="#213b52", fg="White",borderwidth = 3,height=2,width=30)
+                            win_info1 = pr_canvas.create_window(0, 0, anchor="nw", window=btn_edit,tag=("btn_edit"))
+                        
+                        elif selected_langs=="Log Out":
+                            
+                            Sys_top_frame2.pack_forget()
+                            Sys_top_frame.pack_forget()
+                            main_frame_signin.pack(fill=X,)
+                        elif selected_langs== "Dashboard":
+                            try:
+                                
+                                Sys_mains_frame_pr.grid_forget()
+                            except:
+                                pass
+                            try:
+                                Sys_mains_frame_pr_ed.grid_forget()
+                            except:
+                                pass
+                            
+
+                        else:
+                            pass
+
+                    def profile():
+                        # create a list box
+                        langs = ("Dashboard","Profile","Log Out")
+
+                        langs_var = StringVar(value=langs)
+                        global lst_prf
+                        lst_prf = Listbox(root,listvariable=langs_var,height=3 ,selectmode='extended',bg="black",fg="white")
+
+                        lst_prf.place(relx=0.90, rely=0.10)
+                        lst_prf.bind('<<ListboxSelect>>', lst_prf_slt)
+                        srh_btn.grid_forget()
+                        srh_btn2 = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                        srh_btn2.grid(row=0,column=2,padx=15)
+                
+                    srh_btn = Button(tp_lb_npr,image=dash_prof_pics, bg="White", fg="black",command=profile)
+                    srh_btn.grid(row=0,column=2,padx=15)
+
+                    Sys_top_frame2=Frame(root, height=10,bg="#213b52")
+                    Sys_top_frame2.pack(fill=X,)
                     
-                    tabControl.pack_forget()
-                    btn_nav.place_forget()
-                    tabControl2.pack(expand = 1, fill ="both")
-                    btn_nav2.place(relx=0, rely=0)
+                    s = ttk.Style()
+                    s.theme_use('default')
+                    s.configure('TNotebook.Tab', background="#213b52",foreground="white", width=150,anchor="center", padding=5)
+                    s.map('TNotebook.Tab',background=[("selected","#2f516f")])
+                    def right_nav():
+                        
+                        tabControl.pack_forget()
+                        btn_nav.place_forget()
+                        tabControl2.pack(expand = 1, fill ="both")
+                        btn_nav2.place(relx=0, rely=0)
+                        try:
+                            btn_nav3.place_forget()
+                        except:
+                            pass
+                    def left_nav():
+                        
+                        tabControl2.pack_forget()
+                        btn_nav2.place_forget()
+                        tabControl.pack(expand = 1, fill ="both")
+                        global btn_nav3
+                        btn_nav3=Button(Sys_top_frame2,text=">>", command=right_nav, width=3, bg="#213b52",fg="white")
+                        btn_nav3.place(relx=0.97, rely=0)
+
+                    tabControl = ttk.Notebook(Sys_top_frame2)
+                    tab1 = ttk.Frame(tabControl)
+                    tab2 = ttk.Frame(tabControl)
+                    tab3=  ttk.Frame(tabControl)
+                    tab4 = ttk.Frame(tabControl)
+                    tab5 = ttk.Frame(tabControl)
+                    tab6=  ttk.Frame(tabControl)
+                    tab7 = ttk.Frame(tabControl)
+                    tab8 = ttk.Frame(tabControl)
+                    
+                    
+                    btn_nav=Button(Sys_top_frame2,text=">>", command=right_nav, width=3, bg="#213b52",fg="white")
+                    btn_nav.place(relx=0.97, rely=0)
+                    tabControl.add(tab1,compound = LEFT, text ='Dashboard',)
+                    tabControl.add(tab2,compound = LEFT, text ='Banking')
+                    tabControl.add(tab3,compound = LEFT, text ='Sales')
+                    tabControl.add(tab4,compound = LEFT, text ='Expenses')
+                    tabControl.add(tab5,compound = LEFT, text ='Payroll') 
+                    tabControl.add(tab6,compound = LEFT, text ='Report')
+                    tabControl.add(tab7,compound = LEFT, text ='Taxes')
+                    tabControl.add(tab8,compound = LEFT, text ='Accounting')
+                    
+                    tabControl.pack(expand = 1, fill ="both")
+
+
+                    
+                    tabControl2 = ttk.Notebook(Sys_top_frame2)
+                    tab9 =  ttk.Frame(tabControl2)
+                    tab10=  ttk.Frame(tabControl2)
+                    tab11 = ttk.Frame(tabControl2)
+                    tab12=  ttk.Frame(tabControl2)
+                    tab13 = ttk.Frame(tabControl2)
+                    tab14 = ttk.Frame(tabControl2)
+                    tab15 =  ttk.Frame(tabControl2)
+
+                    btn_nav2=Button(Sys_top_frame2,text="<<", command=left_nav, width=3, bg="#213b52",fg="white")
+                    
+                        
+                    tabControl2.add(tab9,compound = LEFT, text ='My Account')
+                    tabControl2.add(tab10,compound = LEFT, text ='Cash Management')
+                    tabControl2.add(tab11,compound = LEFT, text ='Production')
+                    tabControl2.add(tab12,compound = LEFT, text ='Quality Management')
+                    tabControl2.add(tab13,compound = LEFT, text ='Project Management')
+                    tabControl2.add(tab14,compound = LEFT, text ='Usage Decisions')
+                    tabControl2.add(tab15,compound = LEFT, text ='Account & Payable')
+
+                
+                    #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Dash Board}
+                    tab1.grid_columnconfigure(0,weight=1)
+                    tab1.grid_rowconfigure(0,weight=1)
+                    
+                    Sys_mains_frame=Frame(tab1,bg="#2f516f",)
+                    Sys_mains_frame.grid(row=0,column=0,sticky='nsew')
+                    
+                    def responsive_wid(event):
+                        dwidth = event.width
+                        dheight = event.height
+                        dcanvas = event.widget
+                    
+                        r1 = 25
+                        x1 = dwidth/63
+                        x2 = dwidth/1.021
+                        y1 = dheight/13
+                        y2 = dheight/6
+
+                        dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )                    
+
+                        r1 = 25
+                        x1 = dwidth/63
+                        x2 = dwidth/3.1
+                        y1 = dheight/5
+                        y2 = dheight/1.1
+
+                        dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        r1 = 25
+                        x1 = dwidth/2.95
+                        x2 = dwidth/1.529
+                        y1 = dheight/5
+                        y2 = dheight/1.1
+
+                        dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        r1 = 25
+                        x1 = dwidth/1.49
+                        x2 = dwidth/1.021
+                        y1 = dheight/5
+                        y2 = dheight/1.1
+
+                        dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        r1 = 25
+                        x1 = dwidth/63
+                        x2 = dwidth/3.1
+                        y1 = dheight/1.06
+                        y2 = dheight/.59
+                        
+                        #-----------------------------------------second row
+                        dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        r1 = 25
+                        x1 = dwidth/2.95
+                        x2 = dwidth/1.529
+                        y1 = dheight/1.06
+                        y2 = dheight/.59
+
+                        dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        r1 = 25
+                        x1 = dwidth/1.49
+                        x2 = dwidth/1.021
+                        y1 = dheight/1.06
+                        y2 = dheight/.59
+
+                        dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
+                        x1 + r1,y1,
+                        x2 - r1,y1,
+                        x2 - r1,y1,     
+                        x2,y1,     
+                        #--------------------
+                        x2,y1 + r1,     
+                        x2,y1 + r1,     
+                        x2,y2 - r1,     
+                        x2,y2 - r1,     
+                        x2,y2,
+                        #--------------------
+                        x2 - r1,y2,     
+                        x2 - r1,y2,     
+                        x1 + r1,y2,
+                        x1 + r1,y2,
+                        x1,y2,
+                        #--------------------
+                        x1,y2 - r1,
+                        x1,y2 - r1,
+                        x1,y1 + r1,
+                        x1,y1 + r1,
+                        x1,y1,
+                        )
+
+                        dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
+                    
+                        
+                        dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
+                        
+                        dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
+                        dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
+                        dcanvas.coords("graph",dwidth/53,dheight/2.2)
+                        #--------------------------------------------------------------second
+                        dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
+                        dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
+                        dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
+                        
+                        #-----------------------------------------------------------third
+                        dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
+                        dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
+                        dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
+                        dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
+                        dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
+                        
+                        #--------------------------------------------------------------forth
+                        dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
+                        
+                        dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
+
+                    
+                        dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
+                
+                        #-------------------------------------------------------------fifth
+                        dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
+                        dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
+                        dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
+                        dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
+                        dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
+                        #-------------------------------------------------------------sixth
+                        dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
+                        dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
+                        
+                        
+
+
+                        dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
+                            
+                    Sys_mains_frame.grid_rowconfigure(0,weight=1)
+                    Sys_mains_frame.grid_columnconfigure(0,weight=1)
+
+                    canvas = Canvas(Sys_mains_frame,height=700,bg='#2f516f',scrollregion=(0,0,700,1200))
+                    sr_Scroll = Scrollbar(Sys_mains_frame,orient=VERTICAL)
+                    sr_Scroll.grid(row=0,column=1,sticky='ns')
+                    sr_Scroll.config(command=canvas.yview)
+                    canvas.bind("<Configure>", responsive_wid)
+                    canvas.config(yscrollcommand=sr_Scroll.set)
+                    canvas.grid(row=0,column=0,sticky='nsew')
+
+                    
+
+                    cmp_name=Label(canvas, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
+                
+                    win_inv1 = canvas.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+
+                    
+
+                    
+                    rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
+                    # #----------------------------------------------------------------------------------------------------------------grid 1
+                    rth1 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
+                    #-------------------------------------------------------Income
+                    sql_incomes="select sum(balance) from app1_accounts1 where cid_id=%s and detype='Income'"
+                    sql_incomes_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_incomes,sql_incomes_val,)
+                    incom_dtls=fbcursor.fetchone()
+                    
+                    if incom_dtls[0]==None or incom_dtls[0]=='':
+                        tot_inc=0.0
+                    else:
+                        tot_inc=incom_dtls[0]
+                    
+                
+                    #-----------------------------------------------------expense
+                    sql_pro="select sum(balance) from app1_accounts1 where cid_id=%s and detype='Expenses'"
+                    sql_pro_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_pro,sql_pro_val,)
+                    exp_tot=fbcursor.fetchone()
+                
+                    if exp_tot[0]==None or exp_tot[0]=="":
+                        total_exp=0.0
+                    else:
+                        total_exp=exp_tot[0]
+
+                    prf_lb=Label(canvas, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
+
+                    canvas.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
+                    
                     try:
-                        btn_nav3.place_forget()
+                        incomes=float(tot_inc)-float(total_exp)
+                    except:
+                        incomes=0.0
+                
+                    try:
+                        if float(tot_inc) > float(total_exp):
+
+                            net_prf=Label(canvas, text="NET INCOME: ₹"+str(incomes),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                        else:
+                            net_prf=Label(canvas, text="NET LOSS: ₹"+str(incomes),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    except:
+                        net_prf=Label(canvas, text="NET INCOME: ₹"+str(incomes),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
+
+                    figlast = plt.figure(figsize=(8, 4), dpi=50) 
+
+
+                    x="Income"
+                    
+                    y=tot_inc
+                    plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                    plt.legend()
+                
+                    plt.ylabel("")
+                    axes=plt.gca()
+                    axes.xaxis.grid()
+
+                    x="Expense"
+            
+                    try:
+                        if exp_tot[0]==None or exp_tot[0]=="":
+                            y=0.0
+                        else:
+                            y=exp_tot[0]
+                    except:
+                        y=0.0
+                    plt.barh(x,y, color="#506579") 
+                    plt.legend()
+                
+                    plt.ylabel("")
+                    axes=plt.gca()
+                    axes.xaxis.grid()
+                    figlast.set_facecolor("#213b52")
+                    axes.set_facecolor("#213b52")
+                    
+                            
+
+                    canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
+                    canvasbar
+                    canvasbar.draw()
+                    canvasbar.get_tk_widget()
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
+                    # #----------------------------------------------------------------------------------------------------------------grid 2
+                    
+                    
+                    
+                    
+                    rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
+
+                    sql_pro="select sum(balance) from app1_accounts1 where cid_id=%s and detype='Expenses'"
+                    sql_pro_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_pro,sql_pro_val,)
+                    exp_tots=fbcursor.fetchone()
+                    
+
+                    if exp_tots[0] is None:
+                            ttl=0.0
+                    else:
+                            ttl=exp_tots[0]
+                
+                    try:
+                        exp_hd_lb=Label(canvas, text="EXPENSES: ₹"+str(ttl),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    except:
+                        exp_hd_lb=Label(canvas, text="EXPENSES: ₹0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
+                    canvas.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
+                    fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
+
+                    sql_typ="select balance from app1_accounts1 where cid_id=%s and detype='Expenses'"
+                    sql_typ_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_typ,sql_typ_val,)
+                    exp_typ=fbcursor.fetchall()
+
+                    sql_typs="select name from app1_accounts1 where cid_id=%s and detype='Expenses'"
+                    sql_typs_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_typs,sql_typs_val,)
+                    exp_typs=fbcursor.fetchall()
+                    
+                    
+                    try:
+                        size = 0.3
+                        
+                        arr = np.asarray(exp_typ)
+                        vals = np.array(arr)
+                    
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal", title='Cost Of Sales')
+                    
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#92a1ae")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas)
+                        
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+                    except:
+                        size = 0.3
+                        
+                        vals = np.array([[60.]])
+                    
+                        cmap = plt.colormaps["tab20c"]
+                        outer_colors = cmap(np.arange(3)*4)
+                        
+                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
+
+                        ax.set(aspect="equal", title='Cost Of Sales')
+                    
+                        fig.set_facecolor("#213b52")
+                        ax.set_facecolor("#92a1ae")
+                        
+
+                        canvasbar = FigureCanvasTkAgg(fig, master=canvas)
+                        
+                        canvasbar.draw()
+                        canvasbar.get_tk_widget()
+                        win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
+
+                    # #----------------------------------------------------------------------------------------------------------------grid 3
+                    rth3 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
+
+                    bnk_lb=Label(canvas, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
+                    canvas.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
+                    sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
+                    sql_pro_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_pro,sql_pro_val,)
+                    bank_stm=fbcursor.fetchone()
+                    if bank_stm[0]==None or bank_stm[0]=="":
+                        debit=0.0
+                    else:
+                        debit=bank_stm[0]
+                    if bank_stm[1]==None or bank_stm[1]=="":
+                        credit=0.0
+                    else:
+                        credit=bank_stm[1]
+                 
+
+                    inv_lb2=Label(canvas, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
+                    inv_lb3=Label(canvas, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
+
+                    figlast = plt.figure(figsize=(8, 4), dpi=50) 
+                    try:
+                        x="Debit"
+                        y=debit
+                        plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=credit
+                        plt.barh(x,y, color="#506579") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                    except:
+                        x="Debit"
+                        y=0
+                        plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+
+                        x="Credit"
+                        y=0
+                        plt.barh(x,y, color="#506579") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+
+                    
+                            
+
+                    canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
+                    canvasbar
+                    canvasbar.draw()
+                    canvasbar.get_tk_widget()
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
+                    # #----------------------------------------------------------------------------------------------------------------grid 4
+                    rth4 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
+
+                    sql_income="select sum(balance) from app1_accounts1 where cid_id=%s and detype='Income'"
+                    sql_income_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_income,sql_pro_val,)
+                    incom_dtls=fbcursor.fetchone()
+
+                    if incom_dtls[0]==None or incom_dtls[0]=='':
+                        tot_incm=0.0
+                    else:
+                        tot_incm=incom_dtls[0]
+
+                    incom_lb=Label(canvas, text="INCOME: ₹"+str(tot_incm),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
+                    canvas.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
+
+                    sql_income_chart="select balance,name from app1_accounts1 where cid_id=%s and detype='Income'"
+                    sql_income_chart_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_income_chart,sql_income_chart_val,)
+                    incom_chart=fbcursor.fetchall()
+                    
+                    try:
+                        sizes = []
+                        for i in incom_chart:
+                            sizes.append(i[0])
+                    except:
+                        sizes=0
+                    sql_lb_chart="select name from app1_accounts1 where cid_id=%s and detype='Income'"
+                    sql_lb_chart_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_lb_chart,sql_lb_chart_val,)
+                    incom_chart_lb=fbcursor.fetchall()
+                    try:
+                        labels = []
+                        for i in incom_chart_lb:
+                            labels.append(i[0])
                     except:
                         pass
-                def left_nav():
                     
-                    tabControl2.pack_forget()
-                    btn_nav2.place_forget()
-                    tabControl.pack(expand = 1, fill ="both")
-                    global btn_nav3
-                    btn_nav3=Button(Sys_top_frame2,text=">>", command=right_nav, width=3, bg="#213b52",fg="white")
-                    btn_nav3.place(relx=0.97, rely=0)
-
-                tabControl = ttk.Notebook(Sys_top_frame2)
-                tab1 = ttk.Frame(tabControl)
-                tab2 = ttk.Frame(tabControl)
-                tab3=  ttk.Frame(tabControl)
-                tab4 = ttk.Frame(tabControl)
-                tab5 = ttk.Frame(tabControl)
-                tab6=  ttk.Frame(tabControl)
-                tab7 = ttk.Frame(tabControl)
-                tab8 = ttk.Frame(tabControl)
+                    
+                    fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
+                    patches, texts, autotexts =ax1.pie(sizes, autopct='%1.1f%%',labels=labels,
+                    shadow=True, startangle=90)
+                    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                    fig1.set_facecolor("#213b52")
+                    ax1.set_facecolor("#92a1ae")
                 
-                
-                btn_nav=Button(Sys_top_frame2,text=">>", command=right_nav, width=3, bg="#213b52",fg="white")
-                btn_nav.place(relx=0.97, rely=0)
-                tabControl.add(tab1,compound = LEFT, text ='Dashboard',)
-                tabControl.add(tab2,compound = LEFT, text ='Banking')
-                tabControl.add(tab3,compound = LEFT, text ='Sales')
-                tabControl.add(tab4,compound = LEFT, text ='Expenses')
-                tabControl.add(tab5,compound = LEFT, text ='Payroll') 
-                tabControl.add(tab6,compound = LEFT, text ='Report')
-                tabControl.add(tab7,compound = LEFT, text ='Taxes')
-                tabControl.add(tab8,compound = LEFT, text ='Accounting')
-                
-                tabControl.pack(expand = 1, fill ="both")
-
-
-                
-                tabControl2 = ttk.Notebook(Sys_top_frame2)
-                tab9 =  ttk.Frame(tabControl2)
-                tab10=  ttk.Frame(tabControl2)
-                tab11 = ttk.Frame(tabControl2)
-                tab12=  ttk.Frame(tabControl2)
-                tab13 = ttk.Frame(tabControl2)
-                tab14 = ttk.Frame(tabControl2)
-                tab15 =  ttk.Frame(tabControl2)
-
-                btn_nav2=Button(Sys_top_frame2,text="<<", command=left_nav, width=3, bg="#213b52",fg="white")
-                
-                    
-                tabControl2.add(tab9,compound = LEFT, text ='My Account')
-                tabControl2.add(tab10,compound = LEFT, text ='Cash Management')
-                tabControl2.add(tab11,compound = LEFT, text ='Production')
-                tabControl2.add(tab12,compound = LEFT, text ='Quality Management')
-                tabControl2.add(tab13,compound = LEFT, text ='Project Management')
-                tabControl2.add(tab14,compound = LEFT, text ='Usage Decisions')
-                tabControl2.add(tab15,compound = LEFT, text ='Account & Payable')
-
-            
-                #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Dash Board}
-                tab1.grid_columnconfigure(0,weight=1)
-                tab1.grid_rowconfigure(0,weight=1)
-                
-                Sys_mains_frame=Frame(tab1,bg="#2f516f",)
-                Sys_mains_frame.grid(row=0,column=0,sticky='nsew')
-                
-                def responsive_wid(event):
-                    dwidth = event.width
-                    dheight = event.height
-                    dcanvas = event.widget
-                
-                    r1 = 25
-                    x1 = dwidth/63
-                    x2 = dwidth/1.021
-                    y1 = dheight/13
-                    y2 = dheight/6
-
-                    dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )                    
-
-                    r1 = 25
-                    x1 = dwidth/63
-                    x2 = dwidth/3.1
-                    y1 = dheight/5
-                    y2 = dheight/1.1
-
-                    dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    r1 = 25
-                    x1 = dwidth/2.95
-                    x2 = dwidth/1.529
-                    y1 = dheight/5
-                    y2 = dheight/1.1
-
-                    dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    r1 = 25
-                    x1 = dwidth/1.49
-                    x2 = dwidth/1.021
-                    y1 = dheight/5
-                    y2 = dheight/1.1
-
-                    dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    r1 = 25
-                    x1 = dwidth/63
-                    x2 = dwidth/3.1
-                    y1 = dheight/1.06
-                    y2 = dheight/.59
-                    
-                    #-----------------------------------------second row
-                    dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    r1 = 25
-                    x1 = dwidth/2.95
-                    x2 = dwidth/1.529
-                    y1 = dheight/1.06
-                    y2 = dheight/.59
-
-                    dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    r1 = 25
-                    x1 = dwidth/1.49
-                    x2 = dwidth/1.021
-                    y1 = dheight/1.06
-                    y2 = dheight/.59
-
-                    dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
-                    x1 + r1,y1,
-                    x2 - r1,y1,
-                    x2 - r1,y1,     
-                    x2,y1,     
-                    #--------------------
-                    x2,y1 + r1,     
-                    x2,y1 + r1,     
-                    x2,y2 - r1,     
-                    x2,y2 - r1,     
-                    x2,y2,
-                    #--------------------
-                    x2 - r1,y2,     
-                    x2 - r1,y2,     
-                    x1 + r1,y2,
-                    x1 + r1,y2,
-                    x1,y2,
-                    #--------------------
-                    x1,y2 - r1,
-                    x1,y2 - r1,
-                    x1,y1 + r1,
-                    x1,y1 + r1,
-                    x1,y1,
-                    )
-
-                    dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
-                    dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
-                    
-                    dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
-                    
-                    dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
-                    dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
-                    dcanvas.coords("graph",dwidth/53,dheight/2.2)
-                    #--------------------------------------------------------------second
-                    dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
-                    dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
-                    dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
-                    
-                    #-----------------------------------------------------------third
-                    dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
-                    dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
-                    dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
-                    dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
-                    dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
-                    
-                    #--------------------------------------------------------------forth
-                    dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
-                    
-                    dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
-
-                
-                    dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
-            
-                    #-------------------------------------------------------------fifth
-                    dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                    dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
-                    dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
-                    dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
-                    dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
-                    #-------------------------------------------------------------sixth
-                    dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                    dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
-                    
-                    
-
-
-                    dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
-                        
-                Sys_mains_frame.grid_rowconfigure(0,weight=1)
-                Sys_mains_frame.grid_columnconfigure(0,weight=1)
-
-                canvas = Canvas(Sys_mains_frame,height=700,bg='#2f516f',scrollregion=(0,0,700,1200))
-                sr_Scroll = Scrollbar(Sys_mains_frame,orient=VERTICAL)
-                sr_Scroll.grid(row=0,column=1,sticky='ns')
-                sr_Scroll.config(command=canvas.yview)
-                canvas.bind("<Configure>", responsive_wid)
-                canvas.config(yscrollcommand=sr_Scroll.set)
-                canvas.grid(row=0,column=0,sticky='nsew')
-
-                def date_filter_dash(event):
-
-                    if dat_flt_var.get()=="All Dates":
-                        Sys_mains_frame.grid_forget()
-                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
-                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
-                        
-                        def responsive_wid2(event):
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
-                        
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/6
-
-                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                    
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-                            
-                            #-----------------------------------------second row
-                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
-                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
-                            
-                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
-                            
-                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
-                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
-                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
-                            #--------------------------------------------------------------second
-                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
-                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
-                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
-                            
-                            #-----------------------------------------------------------third
-                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
-                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
-                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
-                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
-                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
-                            
-                            #--------------------------------------------------------------forth
-                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
-                            
-                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
-
-                        
-                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
-                    
-                            #-------------------------------------------------------------fifth
-                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
-                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
-                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
-                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
-                            #-------------------------------------------------------------sixth
-                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
-                            
-                            
-
-
-                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
-                        
-                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
-                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
-
-                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
-                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
-                        sr_Scroll.pack(fill=Y,side="right")
-                        sr_Scroll.config(command=canvas2.yview)
-                        canvas2.bind("<Configure>", responsive_wid2)
-                        canvas2.config(yscrollcommand=sr_Scroll.set)
-                        canvas2.pack(fill=X)
-
-                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-            
-                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
-
-                        dat_flt_vars= StringVar()
-                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
-                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
-                        dat_flt.current(0)
-                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
-
-
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
-                        # #----------------------------------------------------------------------------------------------------------------grid 1
-                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
-
-                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
-
-                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_tot=fbcursor.fetchall()
-                        if exp_tot[0]==None or exp_tot[0]=="":
-                            total_exp=0.0
-                        else:
-                            total_exp=exp_tot[0]
-
-                        x="Income"
-                        y=10 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Expense"
-                        y=total_exp
-                        plt.barh(x,y, color="green") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 2
-                        
-                        
-                        
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
-
-                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-
-                        size = 0.3
-                        vals = np.array([total_exp])
-
-                        cmap = plt.colormaps["tab20c"]
-                        outer_colors = cmap(np.arange(3)*4)
-                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
-
-                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
-
-                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-                        #        wedgeprops=dict(width=size, edgecolor='w'))
-
-                        ax.set(aspect="equal")
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#213b52")
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 3
-                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
-
-                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
-                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
-                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        bank_stm=fbcursor.fetchone()
-                        if bank_stm[0]==None or bank_stm[0]=="":
-                            debit=0.0
-                        else:
-                            debit=bank_stm[0]
-                        if bank_stm[1]==None or bank_stm[1]=="":
-                            debit=0.0
-                        else:
-                            credit=bank_stm[1]
-
-                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
-                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        x="Debit"
-                        y=debit
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Credit"
-                        y=credit
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 4
-                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
-
-                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
-
-                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-                        sizes = [15, 30, 45, 10]
-                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                        shadow=True, startangle=90)
-                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-                        fig1.set_facecolor("#213b52")
-                        ax1.set_facecolor("#213b52")
-                    
-                        for text in texts:
-                            text.set_color('white')
-                        for autotext in autotexts:
-                            autotext.set_color('black')
-
-                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 5
-
-                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_totl_inv=fbcursor.fetchone()
-
-                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
-                            paid=0.0
-                        else:
-                            paid=exp_totl_inv[0]
-                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
-                            unpaid=0.0
-                        else:
-                            unpaid=exp_totl_inv[1]
-
-                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
-                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50)
-
-                        x="Unpaid"
-                        y=unpaid 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Paid"
-                        y=paid
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
-                        #----------------------------------------------------------------------------------------------------------------grid 6
-                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
-                        
-                        
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-                        ax.plot(range(10))
-                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#2f516a")
-                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
-                        # for text in txt:
-                        #     text.set_color('white')
-                    
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
-                        
-                        
-                    elif dat_flt_var.get()=="Custom":
-                        top = Toplevel()  
-                        top.title("Find Text")
-                        p2 = PhotoImage(file = "images/fbicon.png")
-                        top.iconphoto(False, p2)
-                        top.geometry("520x150+390+250")
-                        frmaes=Frame(top,height=150,width=520,bg="#2f516f")
-                        frmaes.pack(fill=X)
-                        findwhat1=Label(frmaes,text="Start Date:",bg="#2f516f", fg="White",)
-                        findwhat1.place(x=5,y=15)
-                        start_dt=DateEntry(frmaes,width = 50,)
-                        start_dt.place(x=85,y=15,height=23) 
-                        findin1=Label(frmaes,text="End Date:",bg="#2f516f",  fg="White",)
-                        findin1.place(x=5,y=40)
-                        end_dt=DateEntry(frmaes,width = 50,)
-                        end_dt.place(x=85,y=40,height=23) 
-                        btn_dt=Button(frmaes,text="ok",bg="#213b52", fg="White",width=10,)
-                        btn_dt.place(x=420,y=15)
-                        btn_dt2=Button(frmaes,text="Cancel",bg="#213b52", fg="White",width=10,)
-                        btn_dt2.place(x=420,y=40)
-                        top.mainloop()
-                        
-                    elif dat_flt_var.get()=="Today":
-                        Sys_mains_frame.grid_forget()
-                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
-                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
-                        
-                        def responsive_wid2(event):
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
-                        
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/6
-
-                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                    
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-                            
-                            #-----------------------------------------second row
-                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
-                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
-                            
-                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
-                            
-                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
-                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
-                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
-                            #--------------------------------------------------------------second
-                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
-                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
-                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
-                            
-                            #-----------------------------------------------------------third
-                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
-                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
-                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
-                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
-                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
-                            
-                            #--------------------------------------------------------------forth
-                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
-                            
-                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
-
-                        
-                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
-                    
-                            #-------------------------------------------------------------fifth
-                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
-                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
-                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
-                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
-                            #-------------------------------------------------------------sixth
-                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
-                            
-                            
-
-
-                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
-                        
-                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
-                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
-
-                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
-                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
-                        sr_Scroll.pack(fill=Y,side="right")
-                        sr_Scroll.config(command=canvas2.yview)
-                        canvas2.bind("<Configure>", responsive_wid2)
-                        canvas2.config(yscrollcommand=sr_Scroll.set)
-                        canvas2.pack(fill=X)
-
-                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-            
-                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
-
-                        dat_flt_vars= StringVar()
-                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
-                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
-                        dat_flt.current(0)
-                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
-
-
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
-                        # #----------------------------------------------------------------------------------------------------------------grid 1
-                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
-
-                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
-
-                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_tot=fbcursor.fetchall()
-                        if exp_tot[0]==None or exp_tot[0]=="":
-                            total_exp=0.0
-                        else:
-                            total_exp=exp_tot[0]
-
-                        x="Income"
-                        y=10 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Expense"
-                        y=total_exp
-                        plt.barh(x,y, color="green") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 2
-                        
-                        
-                        
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
-
-                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-
-                        size = 0.3
-                        vals = np.array([total_exp])
-
-                        cmap = plt.colormaps["tab20c"]
-                        outer_colors = cmap(np.arange(3)*4)
-                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
-
-                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
-
-                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-                        #        wedgeprops=dict(width=size, edgecolor='w'))
-
-                        ax.set(aspect="equal")
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#213b52")
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 3
-                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
-
-                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
-                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
-                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        bank_stm=fbcursor.fetchone()
-                        if bank_stm[0]==None or bank_stm[0]=="":
-                            debit=0.0
-                        else:
-                            debit=bank_stm[0]
-                        if bank_stm[1]==None or bank_stm[1]=="":
-                            debit=0.0
-                        else:
-                            credit=bank_stm[1]
-
-                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
-                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        x="Debit"
-                        y=debit
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Credit"
-                        y=credit
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 4
-                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
-
-                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
-
-                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-                        sizes = [15, 30, 45, 10]
-                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                        shadow=True, startangle=90)
-                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-                        fig1.set_facecolor("#213b52")
-                        ax1.set_facecolor("#213b52")
-                    
-                        for text in texts:
-                            text.set_color('white')
-                        for autotext in autotexts:
-                            autotext.set_color('black')
-
-                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 5
-
-                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_totl_inv=fbcursor.fetchone()
-
-                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
-                            paid=0.0
-                        else:
-                            paid=exp_totl_inv[0]
-                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
-                            unpaid=0.0
-                        else:
-                            unpaid=exp_totl_inv[1]
-
-                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
-                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50)
-
-                        x="Unpaid"
-                        y=unpaid 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Paid"
-                        y=paid
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
-                        #----------------------------------------------------------------------------------------------------------------grid 6
-                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
-                        
-                        
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-                        ax.plot(range(10))
-                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#2f516a")
-                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
-                        # for text in txt:
-                        #     text.set_color('white')
-                    
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
-                       
-                    elif dat_flt_var.get()=="This month":
-                        Sys_mains_frame.grid_forget()
-                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
-                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
-                        
-                        def responsive_wid2(event):
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
-                        
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/6
-
-                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                    
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-                            
-                            #-----------------------------------------second row
-                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
-                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
-                            
-                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
-                            
-                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
-                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
-                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
-                            #--------------------------------------------------------------second
-                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
-                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
-                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
-                            
-                            #-----------------------------------------------------------third
-                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
-                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
-                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
-                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
-                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
-                            
-                            #--------------------------------------------------------------forth
-                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
-                            
-                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
-
-                        
-                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
-                    
-                            #-------------------------------------------------------------fifth
-                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
-                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
-                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
-                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
-                            #-------------------------------------------------------------sixth
-                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
-                            
-                            
-
-
-                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
-                        
-                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
-                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
-
-                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
-                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
-                        sr_Scroll.pack(fill=Y,side="right")
-                        sr_Scroll.config(command=canvas2.yview)
-                        canvas2.bind("<Configure>", responsive_wid2)
-                        canvas2.config(yscrollcommand=sr_Scroll.set)
-                        canvas2.pack(fill=X)
-
-                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-            
-                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
-
-                        dat_flt_vars= StringVar()
-                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
-                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
-                        dat_flt.current(0)
-                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
-
-
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
-                        # #----------------------------------------------------------------------------------------------------------------grid 1
-                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
-
-                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
-
-                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_tot=fbcursor.fetchall()
-                        if exp_tot[0]==None or exp_tot[0]=="":
-                            total_exp=0.0
-                        else:
-                            total_exp=exp_tot[0]
-
-                        x="Income"
-                        y=10 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Expense"
-                        y=total_exp
-                        plt.barh(x,y, color="green") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 2
-                        
-                        
-                        
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
-
-                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-
-                        size = 0.3
-                        vals = np.array([total_exp])
-
-                        cmap = plt.colormaps["tab20c"]
-                        outer_colors = cmap(np.arange(3)*4)
-                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
-
-                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
-
-                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-                        #        wedgeprops=dict(width=size, edgecolor='w'))
-
-                        ax.set(aspect="equal")
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#213b52")
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 3
-                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
-
-                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
-                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
-                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        bank_stm=fbcursor.fetchone()
-                        if bank_stm[0]==None or bank_stm[0]=="":
-                            debit=0.0
-                        else:
-                            debit=bank_stm[0]
-                        if bank_stm[1]==None or bank_stm[1]=="":
-                            debit=0.0
-                        else:
-                            credit=bank_stm[1]
-
-                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
-                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        x="Debit"
-                        y=debit
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Credit"
-                        y=credit
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 4
-                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
-
-                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
-
-                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-                        sizes = [15, 30, 45, 10]
-                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                        shadow=True, startangle=90)
-                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-                        fig1.set_facecolor("#213b52")
-                        ax1.set_facecolor("#213b52")
-                    
-                        for text in texts:
-                            text.set_color('white')
-                        for autotext in autotexts:
-                            autotext.set_color('black')
-
-                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 5
-
-                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_totl_inv=fbcursor.fetchone()
-
-                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
-                            paid=0.0
-                        else:
-                            paid=exp_totl_inv[0]
-                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
-                            unpaid=0.0
-                        else:
-                            unpaid=exp_totl_inv[1]
-
-                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
-                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50)
-
-                        x="Unpaid"
-                        y=unpaid 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Paid"
-                        y=paid
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
-                        #----------------------------------------------------------------------------------------------------------------grid 6
-                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
-                        
-                        
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-                        ax.plot(range(10))
-                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#2f516a")
-                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
-                        # for text in txt:
-                        #     text.set_color('white')
-                    
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
-                    elif dat_flt_var.get()=="This Financial Year":
-                        Sys_mains_frame.grid_forget()
-                        Sys_mains_framed=Frame(tab1,bg="#2f516f",)
-                        Sys_mains_framed.grid(row=0,column=0,sticky='nsew')
-                        
-                        def responsive_wid2(event):
-                            dwidth = event.width
-                            dheight = event.height
-                            dcanvas = event.widget
-                        
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/1.021
-                            y1 = dheight/13
-                            y2 = dheight/6
-
-                            dcanvas.coords("bg_polygen_dash",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )                    
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash1",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash2",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/5
-                            y2 = dheight/1.1
-
-                            dcanvas.coords("bg_polygen_dash3",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/63
-                            x2 = dwidth/3.1
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-                            
-                            #-----------------------------------------second row
-                            dcanvas.coords("bg_polygen_dash4",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/2.95
-                            x2 = dwidth/1.529
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash5",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            r1 = 25
-                            x1 = dwidth/1.49
-                            x2 = dwidth/1.021
-                            y1 = dheight/1.06
-                            y2 = dheight/.59
-
-                            dcanvas.coords("bg_polygen_dash6",x1 + r1,y1,
-                            x1 + r1,y1,
-                            x2 - r1,y1,
-                            x2 - r1,y1,     
-                            x2,y1,     
-                            #--------------------
-                            x2,y1 + r1,     
-                            x2,y1 + r1,     
-                            x2,y2 - r1,     
-                            x2,y2 - r1,     
-                            x2,y2,
-                            #--------------------
-                            x2 - r1,y2,     
-                            x2 - r1,y2,     
-                            x1 + r1,y2,
-                            x1 + r1,y2,
-                            x1,y2,
-                            #--------------------
-                            x1,y2 - r1,
-                            x1,y2 - r1,
-                            x1,y1 + r1,
-                            x1,y1 + r1,
-                            x1,y1,
-                            )
-
-                            dcanvas.coords("head_lb",dwidth/2,dheight/8.4)
-                            dcanvas.coords("date_filter",dwidth/1.3,dheight/10)
-                            
-                            dcanvas.coords("prf_lb",dwidth/53,dheight/4.7)
-                            
-                            dcanvas.coords("prf_hr",dwidth/53,dheight/3.7,dwidth/3.15,dheight/3.7)
-                            dcanvas.coords("net_prf",dwidth/53,dheight/3.2)
-                            dcanvas.coords("graph",dwidth/53,dheight/2.2)
-                            #--------------------------------------------------------------second
-                            dcanvas.coords("exp_hd_lb",dwidth/2.9,dheight/4.7)
-                            dcanvas.coords("exp_hr",dwidth/2.9,dheight/3.7,dwidth/1.54,dheight/3.7)
-                            dcanvas.coords("graph_2",dwidth/2.9,dheight/2.2)
-                            
-                            #-----------------------------------------------------------third
-                            dcanvas.coords("bnk_lb",dwidth/1.48,dheight/4.7)
-                            dcanvas.coords("bank_hr",dwidth/1.48,dheight/3.7,dwidth/1.03,dheight/3.7)
-                            dcanvas.coords("inv_lb4",dwidth/1.48,dheight/3.5)
-                            dcanvas.coords("inv_lb5",dwidth/1.48,dheight/3)
-                            dcanvas.coords("graph9",dwidth/1.48,dheight/2.2)
-                            
-                            #--------------------------------------------------------------forth
-                            dcanvas.coords("incom_lb",dwidth/53,dheight/1.04)
-                            
-                            dcanvas.coords("incom_hr",dwidth/53,dheight/0.98,dwidth/3.15,dheight/0.98)
-
-                        
-                            dcanvas.coords("graph_4",dwidth/53,dheight/0.85)
-                    
-                            #-------------------------------------------------------------fifth
-                            dcanvas.coords("inv_lb",dwidth/2.9,dheight/1.04)
-                            dcanvas.coords("invs_hr",dwidth/2.9,dheight/0.98,dwidth/1.54,dheight/0.98)
-                            dcanvas.coords("inv_lb2",dwidth/2.9,dheight/0.95)
-                            dcanvas.coords("inv_lb3",dwidth/2.9,dheight/0.90)
-                            dcanvas.coords("graph_5",dwidth/2.9,dheight/0.85)
-                            #-------------------------------------------------------------sixth
-                            dcanvas.coords("sales_lb",dwidth/1.48,dheight/1.04)
-                            dcanvas.coords("sales_hr",dwidth/1.48,dheight/0.98,dwidth/1.03,dheight/0.98)
-                            
-                            
-
-
-                            dcanvas.coords("grapg_6",dwidth/1.48,dheight/0.85)
-                        
-                        Sys_mains_framed.grid_rowconfigure(0,weight=1)
-                        Sys_mains_framed.grid_columnconfigure(0,weight=1)
-
-                        canvas2 = Canvas(Sys_mains_framed,height=700,width=1300,bg='#2f516f',scrollregion=(0,0,700,1200))
-                        sr_Scroll = Scrollbar(Sys_mains_framed,orient=VERTICAL)
-                        sr_Scroll.pack(fill=Y,side="right")
-                        sr_Scroll.config(command=canvas2.yview)
-                        canvas2.bind("<Configure>", responsive_wid2)
-                        canvas2.config(yscrollcommand=sr_Scroll.set)
-                        canvas2.pack(fill=X)
-
-                        cmp_name=Label(canvas2, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-            
-                        win_inv1 = canvas2.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
-
-                        dat_flt_vars= StringVar()
-                        dat_flt = ttk.Combobox(canvas2,textvariable=dat_flt_vars,width=20,font=('Calibri 16'))
-                        dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
-                        dat_flt.current(0)
-                        dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
-
-
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
-                        # #----------------------------------------------------------------------------------------------------------------grid 1
-                        rth1 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
-
-                        prf_lb=Label(canvas2, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
-
-                        net_prf=Label(canvas2, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_tot=fbcursor.fetchall()
-                        if exp_tot[0]==None or exp_tot[0]=="":
-                            total_exp=0.0
-                        else:
-                            total_exp=exp_tot[0]
-
-                        x="Income"
-                        y=10 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Expense"
-                        y=total_exp
-                        plt.barh(x,y, color="green") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 2
-                        
-                        
-                        
-                        
-                        rth2 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
-
-                        exp_hd_lb=Label(canvas2, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-
-                        size = 0.3
-                        vals = np.array([total_exp])
-
-                        cmap = plt.colormaps["tab20c"]
-                        outer_colors = cmap(np.arange(3)*4)
-                        # inner_colors = cmap([1, 2, 5, 6, 9, 10])
-
-                        ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
-
-                        # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-                        #        wedgeprops=dict(width=size, edgecolor='w'))
-
-                        ax.set(aspect="equal")
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#213b52")
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 3
-                        rth3 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
-
-                        bnk_lb=Label(canvas2, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
-                        canvas2.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
-                        sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        bank_stm=fbcursor.fetchone()
-                        if bank_stm[0]==None or bank_stm[0]=="":
-                            debit=0.0
-                        else:
-                            debit=bank_stm[0]
-                        if bank_stm[1]==None or bank_stm[1]=="":
-                            debit=0.0
-                        else:
-                            credit=bank_stm[1]
-
-                        inv_lb2=Label(canvas2, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
-                        inv_lb3=Label(canvas2, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                        x="Debit"
-                        y=debit
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Credit"
-                        y=credit
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                        
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
-                        # #----------------------------------------------------------------------------------------------------------------grid 4
-                        rth4 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
-
-                        incom_lb=Label(canvas2, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
-                        canvas2.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
-
-                        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                        labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-                        sizes = [15, 30, 45, 10]
-                        explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-                        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                        patches, texts, autotexts =ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-                        shadow=True, startangle=90)
-                        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-                        fig1.set_facecolor("#213b52")
-                        ax1.set_facecolor("#213b52")
-                    
-                        for text in texts:
-                            text.set_color('white')
-                        for autotext in autotexts:
-                            autotext.set_color('black')
-
-                        canvasbar = FigureCanvasTkAgg(fig1, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
-
-                        # #----------------------------------------------------------------------------------------------------------------grid 5
-
-                        sql_pro="select sum(amtrecvd), sum(baldue) from app1_invoice where cid_id=%s"
-                        sql_pro_val=(dtl_cmp_pro[0],)
-                        fbcursor.execute(sql_pro,sql_pro_val,)
-                        exp_totl_inv=fbcursor.fetchone()
-
-                        if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
-                            paid=0.0
-                        else:
-                            paid=exp_totl_inv[0]
-                        if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
-                            unpaid=0.0
-                        else:
-                            unpaid=exp_totl_inv[1]
-
-                        rth5 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
-                        inv_lb=Label(canvas2, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                        inv_lb2=Label(canvas2, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                        inv_lb3=Label(canvas2, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
-
-                        figlast = plt.figure(figsize=(8, 4), dpi=50)
-
-                        x="Unpaid"
-                        y=unpaid 
-                        plt.barh(x,y, label="Undefined", color="blue") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-
-                        x="Paid"
-                        y=paid
-                        plt.barh(x,y, color="red") 
-                        plt.legend()
-                    
-                        plt.ylabel("")
-                        axes=plt.gca()
-                        axes.xaxis.grid()
-                        figlast.set_facecolor("#213b52")
-                        axes.set_facecolor("#213b52")
-                                
-
-                        canvasbar = FigureCanvasTkAgg(figlast, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
-                        #----------------------------------------------------------------------------------------------------------------grid 6
-                        rth6 = canvas2.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                        sales_lb=Label(canvas2, text="SALES $0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
-
-                        canvas2.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
-                        
-                        
-                        fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-                        ax.plot(range(10))
-                        ax.set_yticks([2, 5, 7], labels=['really, really, really', 'long', 'labels'])
-                        fig.set_facecolor("#213b52")
-                        ax.set_facecolor("#2f516a")
-                        # patches, texts, autotexts =ax.pie(bala, radius=1, labels=name,autopct='%0.2f%%', shadow=True,colors = colors)
-                        # for text in txt:
-                        #     text.set_color('white')
-                    
-                        
-
-                        canvasbar = FigureCanvasTkAgg(fig, master=canvas2)
-                        canvasbar
-                        canvasbar.draw()
-                        canvasbar.get_tk_widget()
-                        win_inv1 = canvas2.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                    for text in texts:
+                        text.set_color('white')
+                    for autotext in autotexts:
+                        autotext.set_color('black')
+
+                    canvasbar = FigureCanvasTkAgg(fig1, master=canvas)
+                    canvasbar
+                    canvasbar.draw()
+                    canvasbar.get_tk_widget()
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
+
+                    # #----------------------------------------------------------------------------------------------------------------grid 5
+
+                    sql_pro="select sum(amtrecvd), sum(baldue),min(invoicedate) from app1_invoice where cid_id=%s"
+                    sql_pro_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_pro,sql_pro_val,)
+                    exp_totl_inv=fbcursor.fetchone()
+
+                    if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
+                        paid=0.0
                     else:
-                        pass
-                
+                        paid=exp_totl_inv[0]
+                    if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
+                        unpaid=0.0
+                    else:
+                        unpaid=exp_totl_inv[1]
 
-                cmp_name=Label(canvas, text=dtl_cmp_pro[1],bg="#213b52", fg="White", anchor="center",font=('Calibri 24 bold'))
-            
-                win_inv1 = canvas.create_window(0, 0, anchor="center", window=cmp_name,tag=("head_lb"))
+                    rth5 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
+                    inv_lb=Label(canvas, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
 
-                dat_flt_var= StringVar()
-                dat_flt = ttk.Combobox(canvas,textvariable=dat_flt_var,width=20,font=('Calibri 16'))
-                dat_flt['values'] = ("All Dates","Custom","Today","This month", "This Financial Year")
-                dat_flt.current(0)
-                dat_flt.bind('<<ComboboxSelected>>', date_filter_dash)
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=dat_flt, tag=("date_filter"))
+                    canvas.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
+                    inv_lb2=Label(canvas, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
+                    inv_lb3=Label(canvas, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
 
-
-                
-                rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash"),smooth=True,)
-                # #----------------------------------------------------------------------------------------------------------------grid 1
-                rth1 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash1"),smooth=True,)
-
-                prf_lb=Label(canvas, text="PROFIT AND LOSS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=prf_lb, tag=("prf_lb"))
-
-                canvas.create_line(0, 0, 0, 0,fill="gray", tag=("prf_hr") )
-
-                net_prf=Label(canvas, text="NET INCOME: ₹ 0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=net_prf,tag=("net_prf"))
-
-                figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                sql_pro="select sum(grandtotal) from app1_expences where cid_id=%s"
-                sql_pro_val=(dtl_cmp_pro[0],)
-                fbcursor.execute(sql_pro,sql_pro_val,)
-                exp_tot=fbcursor.fetchall()
-                if exp_tot[0]==None or exp_tot[0]=="":
-                    total_exp=0.0
-                else:
-                    total_exp=exp_tot[0]
-
-                x="Income"
-                y=10 
-                plt.barh(x,y, label="Undefined", color="#92a1ae") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-
-                x="Expense"
-                y=total_exp
-                plt.barh(x,y, color="#506579") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-                figlast.set_facecolor("#213b52")
-                axes.set_facecolor("#213b52")
-                
-                        
-
-                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph"))
-                # #----------------------------------------------------------------------------------------------------------------grid 2
-                
-                
-                
-                
-                rth2 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash2"),smooth=True,)
-
-                exp_hd_lb=Label(canvas, text="EXPENSES: ₹"+str(total_exp),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=exp_hd_lb, tag=("exp_hd_lb"))
-                canvas.create_line(0, 0, 0, 0,fill="gray" ,tag=("exp_hr"))
-                fig, ax = plt.subplots(figsize=(8, 4), dpi=50)
-
-                size = 0.3
-                vals = np.array([total_exp])
-
-                cmap = plt.colormaps["tab20c"]
-                outer_colors = cmap(np.arange(3)*4)
-                # inner_colors = cmap([1, 2, 5, 6, 9, 10])
-
-                ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,wedgeprops=dict(width=size, edgecolor='w'))
-
-                # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-                #        wedgeprops=dict(width=size, edgecolor='w'))
-
-                ax.set(aspect="equal", title='Cost Of Sales')
-                fig.set_facecolor("#213b52")
-                ax.set_facecolor("#92a1ae")
-                
-
-                canvasbar = FigureCanvasTkAgg(fig, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_2"))
-
-                # #----------------------------------------------------------------------------------------------------------------grid 3
-                rth3 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash3"),smooth=True,)
-
-                bnk_lb=Label(canvas, text="BANK ACCOUNTS",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=bnk_lb,tag=("bnk_lb"))
-                canvas.create_line(910, 195, 1290, 195,fill="gray",tag=("bank_hr"))
-                sql_pro="select sum(debit), sum(credit) from app1_bankstatement where cid_id=%s"
-                sql_pro_val=(dtl_cmp_pro[0],)
-                fbcursor.execute(sql_pro,sql_pro_val,)
-                bank_stm=fbcursor.fetchone()
-                if bank_stm[0]==None or bank_stm[0]=="":
-                    debit=0.0
-                else:
-                    debit=bank_stm[0]
-                if bank_stm[1]==None or bank_stm[1]=="":
-                    debit=0.0
-                else:
-                    credit=bank_stm[1]
-
-                inv_lb2=Label(canvas, text="DEBIT:₹"+str(debit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb4"))
-                inv_lb3=Label(canvas, text="CREDIT:₹"+str(credit),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb5"))
-
-                figlast = plt.figure(figsize=(8, 4), dpi=50) 
-
-                x="Debit"
-                y=debit
-                plt.barh(x,y, label="Undefined", color="#92a1ae") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-
-                x="Credit"
-                y=credit
-                plt.barh(x,y, color="#506579") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-                figlast.set_facecolor("#213b52")
-                axes.set_facecolor("#213b52")
-                
-                        
-
-                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph9"))
-                # #----------------------------------------------------------------------------------------------------------------grid 4
-                rth4 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash4"),smooth=True,)
-
-                incom_lb=Label(canvas, text="INCOME: ₹ 0.0",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=incom_lb,tag=("incom_lb"))
-                canvas.create_line(0, 0, 0, 0,fill="gray",tag=("incom_hr") )
-
-                # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-                # labels = 'Frogs', '', '', ''
-                sizes = [100]
-                
-
-                fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=50)
-                patches, texts, autotexts =ax1.pie(sizes, autopct='%1.1f%%',
-                shadow=True, startangle=90)
-                ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-                fig1.set_facecolor("#213b52")
-                ax1.set_facecolor("#92a1ae")
-               
-                for text in texts:
-                    text.set_color('white')
-                for autotext in autotexts:
-                    autotext.set_color('black')
-
-                canvasbar = FigureCanvasTkAgg(fig1, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_4"))
-
-                # #----------------------------------------------------------------------------------------------------------------grid 5
-
-                sql_pro="select sum(amtrecvd), sum(baldue),min(invoicedate) from app1_invoice where cid_id=%s"
-                sql_pro_val=(dtl_cmp_pro[0],)
-                fbcursor.execute(sql_pro,sql_pro_val,)
-                exp_totl_inv=fbcursor.fetchone()
-
-                if exp_totl_inv[0]==None or exp_totl_inv[0]=='':
-                    paid=0.0
-                else:
-                    paid=exp_totl_inv[0]
-                if exp_totl_inv[1]==None or exp_totl_inv[1]=='':
-                    unpaid=0.0
-                else:
-                    unpaid=exp_totl_inv[1]
-
-                rth5 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash5"),smooth=True,)
-                inv_lb=Label(canvas, text="INVOICE",bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb, tag=("inv_lb"))
-
-                canvas.create_line(0, 0, 0, 0,fill="gray", tag=("invs_hr") )
-                inv_lb2=Label(canvas, text="UNPAID:₹"+str(unpaid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=inv_lb2, tag=("inv_lb2"))
-                inv_lb3=Label(canvas, text="PAID:₹"+str(paid),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0,0 , anchor="nw", window=inv_lb3, tag=("inv_lb3"))
-
-                figlast = plt.figure(figsize=(8, 4), dpi=50)
-
-                x="Unpaid"
-                y=unpaid 
-                plt.barh(x,y, label="Undefined", color="#92a1ae") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-
-                x="Paid"
-                y=paid
-                plt.barh(x,y, color="#506579") 
-                plt.legend()
-            
-                plt.ylabel("")
-                axes=plt.gca()
-                axes.xaxis.grid()
-                figlast.set_facecolor("#213b52")
-                axes.set_facecolor("#213b52")
-                        
-
-                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
-                #----------------------------------------------------------------------------------------------------------------grid 6
-                rth6 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
-                
-
-                canvas.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
-                
-                if exp_totl_inv[2]==None or exp_totl_inv[2]=='':
-                    dates_start=date.today()
-                else:
-                    dates_start=exp_totl_inv[2] 
-                
-
-                sql_pro="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate between %s and %s "
-                sql_pro_val=(dtl_cmp_pro[0],dates_start,date.today(),)
-                fbcursor.execute(sql_pro,sql_pro_val,)
-                sal_totl_inv=fbcursor.fetchone()
-
-                sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
-                sql_pros_val=(dtl_cmp_pro[0],dates_start,)
-                fbcursor.execute(sql_pros,sql_pros_val,)
-                sal_totl_invs=fbcursor.fetchone()
-                
-
-                if sal_totl_inv[0]==None or sal_totl_inv[0]=='':
-                    tot_sal=0.0
-                else:
-                    tot_sal=sal_totl_inv[0]
-
-                if sal_totl_invs[0]==None or sal_totl_invs[0]=='':
-                    tot_sal_start=0.0
-                else:
-                    tot_sal_start=sal_totl_invs[0]
-
-                sales_lb=Label(canvas, text="SALES ₹"+str(tot_sal),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
-
-                
-                figlast = plt.figure(figsize=(8, 4), dpi=50)
-                x = [1, 2, ]
-                y = [tot_sal_start,tot_sal]
-                labels = [dates_start, date.today()]
-
-                plt.plot(x, y)
-                # You can specify a rotation for the tick labels in degrees or with keywords.
-                plt.xticks(x, labels, rotation='horizontal')
-                # Pad margins so that markers don't get clipped by the axes
-                plt.margins(0.2)
-                # Tweak spacing to prevent clipping of tick-labels
-                plt.subplots_adjust(bottom=0.15)
-                figlast.set_facecolor("#213b52")
-                
-
-                canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
-                canvasbar
-                canvasbar.draw()
-                canvasbar.get_tk_widget()
-                win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
-                
-                #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333Banking Section(Tab2)
-
-                tab_bank = ttk.Notebook(tab2)
-                tab2_1 =  ttk.Frame(tab_bank)
-                tab2_2=  ttk.Frame(tab_bank)
-                tab2_3 = ttk.Frame(tab_bank)
-
-                tab_bank.add(tab2_1,compound = LEFT, text ='Online Banking')
-                tab_bank.add(tab2_2,compound = LEFT, text ='Offline banking')
-                tab_bank.add(tab2_3,compound = LEFT, text ='Bank Reconvilation')
-
-                
-                tab_bank.pack(expand = 1, fill ="both")
-
-                #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Sales Tab}
-                tab_sales = ttk.Notebook(tab3)
-                tab3_1 =  ttk.Frame(tab_sales)
-                tab3_2=  ttk.Frame(tab_sales)
-                tab3_3 = ttk.Frame(tab_sales)
-                tab3_4=  ttk.Frame(tab_sales)
-
-                
+                    figlast = plt.figure(figsize=(8, 4), dpi=50)
+                    try:
+                        x="Unpaid"
+                        y=unpaid 
+                        plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                        plt.legend()
                     
-                tab_sales.add(tab3_1,compound = LEFT, text ='Sales Records')
-                tab_sales.add(tab3_2,compound = LEFT, text ='Invoices')
-                tab_sales.add(tab3_3,compound = LEFT, text ='Customers')
-                tab_sales.add(tab3_4,compound = LEFT, text ='Product & Services')
-            
-                tab_sales.pack(expand = 1, fill ="both")
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
 
-                #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Expenses Tab}
-                tab_exp = ttk.Notebook(tab4)
-                tab4_1 =  ttk.Frame(tab_exp)
-                tab4_2=  ttk.Frame(tab_exp)
-                tab_exp.add(tab4_1,compound = LEFT, text ='Expenses')
-                tab_exp.add(tab4_2,compound = LEFT, text ='Supliers')
-                tab_exp.pack(expand = 1, fill ="both")
-                #33333333333333333333333333333333333333333333333333333333333333333333333333333333333{Pay Roll Tab}
-                tab_payroll = ttk.Notebook(tab5)
-                tab5_1 =  ttk.Frame(tab_payroll)
-                tab5_2=  ttk.Frame(tab_payroll)
-                
-                tab_payroll.add(tab5_1,compound = LEFT, text ='Employee')
-                tab_payroll.add(tab5_2,compound = LEFT, text ='Payslip')
-
-                tab_payroll.pack(expand = 1, fill ="both")
-
-                #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Report Tab}
-
-                tab_report = ttk.Notebook(tab6)
-                tab6_1 =  ttk.Frame(tab_report)
-                tab6_2=  ttk.Frame(tab_report)
-                tab6_3 = ttk.Frame(tab_report)
-                tab6_4=  ttk.Frame(tab_report)
-
-                
+                        x="Paid"
+                        y=paid
+                        plt.barh(x,y, color="#506579") 
+                        plt.legend()
                     
-                tab_report.add(tab6_1,compound = LEFT, text ='Profit & Loss')
-                tab_report.add(tab6_2,compound = LEFT, text ='Balance Sheet')
-                tab_report.add(tab6_3,compound = LEFT, text ='Accounts Receivables')
-                tab_report.add(tab6_4,compound = LEFT, text ='Accounts Payables')
-            
-                tab_report.pack(expand = 1, fill ="both")
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
+                    except:
+                        x="Unpaid"
+                        y=0 
+                        plt.barh(x,y, label="Undefined", color="#92a1ae") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
 
-                #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Taxes}
+                        x="Paid"
+                        y=0
+                        plt.barh(x,y, color="#506579") 
+                        plt.legend()
+                    
+                        plt.ylabel("")
+                        axes=plt.gca()
+                        axes.xaxis.grid()
+                        figlast.set_facecolor("#213b52")
+                        axes.set_facecolor("#213b52")
 
-                tab_tax = ttk.Notebook(tab7)
-                tab7_1 =  ttk.Frame(tab_tax)
-                tab7_2=  ttk.Frame(tab_tax)
+                    canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
+                    canvasbar
+                    canvasbar.draw()
+                    canvasbar.get_tk_widget()
+                    win_inv1 = canvas.create_window(480, 780, anchor="nw", window=canvasbar.get_tk_widget(), tag=("graph_5"))
+                    #----------------------------------------------------------------------------------------------------------------grid 6
+                    rth6 = canvas.create_polygon(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, fill="#213b52",tags=("bg_polygen_dash6"),smooth=True,)
+                    
 
-                tab_tax.add(tab7_1,compound = LEFT, text ='GST')
-                tab_tax.add(tab7_2,compound = LEFT, text ='New')
+                    canvas.create_line(0, 0, 0, 0,fill="gray", tag=("sales_hr") )
+                    
+                    if exp_totl_inv[2]==None or exp_totl_inv[2]=='':
+                        dates_start=date.today()
+                    else:
+                        dates_start=exp_totl_inv[2] 
+                    
 
-                tab_tax.pack(expand = 1, fill ="both")
+                    # sql_pro="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate between %s and %s "
+                    # sql_pro_val=(dtl_cmp_pro[0],dates_start,date.today(),)
+                    # fbcursor.execute(sql_pro,sql_pro_val,)
+                    # sal_totl_inv=fbcursor.fetchone()
 
-                #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Accounting}
-                tab_account = ttk.Notebook(tab8)
-                tab8_1 =  ttk.Frame(tab_account)
-                tab8_2=  ttk.Frame(tab_account)
+                    # sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
+                    # sql_pros_val=(dtl_cmp_pro[0],dates_start,)
+                    # fbcursor.execute(sql_pros,sql_pros_val,)
+                    # sal_totl_invs=fbcursor.fetchone()
+                    
 
-                tab_account.add(tab8_1,compound = LEFT, text ='Chart Of Accounts')
-                tab_account.add(tab8_2,compound = LEFT, text ='Reconcile')
-            
-            
-                tab_account.pack(expand = 1, fill ="both")
-                #33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Cash Management}
-                tab_cash = ttk.Notebook(tab10)
+                    # if sal_totl_inv[0]==None or sal_totl_inv[0]=='':
+                    #     tot_sal=0.0
+                    # else:
+                    #     tot_sal=sal_totl_inv[0]
+
+                    # if sal_totl_invs[0]==None or sal_totl_invs[0]=='':
+                    #     tot_sal_start=0.0
+                    # else:
+                    #     tot_sal_start=sal_totl_invs[0]
+
+                    sql_pro="select invoicedate from app1_invoice where cid_id=%s"
+                    sql_pro_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_pro,sql_pro_val,)
+                    sal_totl_inv=fbcursor.fetchall()
+                   
+
+                    sales_lb=Label(canvas, text="SALES ₹"+str(0.0),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
+
+                    
+                    figlast = plt.figure(figsize=(8, 4), dpi=50)
+                    # x = [1, 2, ]
+                    x = []
+                    for i in sal_totl_inv:
+                        x.append(i[0])
+                    
+                        sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
+                        sql_pros_val=(dtl_cmp_pro[0],i[0],)
+                        fbcursor.execute(sql_pros,sql_pros_val,)
+                        sal_totl_invs=fbcursor.fetchall()
+                        print(sal_totl_invs)
+                        y = []
+                        for j in sal_totl_invs:
+
+                            y.append(sal_totl_invs[0])
+                    
+                        
+                    print(x)
+                    print(y)
+                    
+                    labels = x
+
+                    plt.plot(x, y)
+                    # You can specify a rotation for the tick labels in degrees or with keywords.
+                    plt.xticks(x, y, rotation='horizontal')
+                    # Pad margins so that markers don't get clipped by the axes
+                    plt.margins(0.2)
+                    # Tweak spacing to prevent clipping of tick-labels
+                    plt.subplots_adjust(bottom=0.15)
+                    figlast.set_facecolor("#213b52")
+                    
+
+                    canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
+                    canvasbar
+                    canvasbar.draw()
+                    canvasbar.get_tk_widget()
+                    win_inv1 = canvas.create_window(0, 0, anchor="nw", window=canvasbar.get_tk_widget(), tag=("grapg_6"))
+                    
+                    #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333Banking Section(Tab2)
+
+                    tab_bank = ttk.Notebook(tab2)
+                    tab2_1 =  ttk.Frame(tab_bank)
+                    tab2_2=  ttk.Frame(tab_bank)
+                    tab2_3 = ttk.Frame(tab_bank)
+
+                    tab_bank.add(tab2_1,compound = LEFT, text ='Online Banking')
+                    tab_bank.add(tab2_2,compound = LEFT, text ='Offline banking')
+                    tab_bank.add(tab2_3,compound = LEFT, text ='Bank Reconvilation')
+
+                    
+                    tab_bank.pack(expand = 1, fill ="both")
+
+                    #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Sales Tab}
+                    tab_sales = ttk.Notebook(tab3)
+                    tab3_1 =  ttk.Frame(tab_sales)
+                    tab3_2=  ttk.Frame(tab_sales)
+                    tab3_3 = ttk.Frame(tab_sales)
+                    tab3_4=  ttk.Frame(tab_sales)
+
+                    
+                        
+                    tab_sales.add(tab3_1,compound = LEFT, text ='Sales Records')
+                    tab_sales.add(tab3_2,compound = LEFT, text ='Invoices')
+                    tab_sales.add(tab3_3,compound = LEFT, text ='Customers')
+                    tab_sales.add(tab3_4,compound = LEFT, text ='Product & Services')
                 
-                tab10_1 =  ttk.Frame(tab_cash)
-                tab10_2=  ttk.Frame(tab_cash)
-                tab10_3 = ttk.Frame(tab_cash)
+                    tab_sales.pack(expand = 1, fill ="both")
 
-                tab_cash.add(tab10_1,compound = LEFT, text ='Cash Position')
-                tab_cash.add(tab10_2,compound = LEFT, text ='Cash Flow Analyzer')
-                tab_cash.add(tab10_3,compound = LEFT, text ='Check Cash Flow')
+                    #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Expenses Tab}
+                    tab_exp = ttk.Notebook(tab4)
+                    tab4_1 =  ttk.Frame(tab_exp)
+                    tab4_2=  ttk.Frame(tab_exp)
+                    tab_exp.add(tab4_1,compound = LEFT, text ='Expenses')
+                    tab_exp.add(tab4_2,compound = LEFT, text ='Supliers')
+                    tab_exp.pack(expand = 1, fill ="both")
+                    #33333333333333333333333333333333333333333333333333333333333333333333333333333333333{Pay Roll Tab}
+                    tab_payroll = ttk.Notebook(tab5)
+                    tab5_1 =  ttk.Frame(tab_payroll)
+                    tab5_2=  ttk.Frame(tab_payroll)
+                    
+                    tab_payroll.add(tab5_1,compound = LEFT, text ='Employee')
+                    tab_payroll.add(tab5_2,compound = LEFT, text ='Payslip')
 
-                tab_cash.pack(expand = 1, fill ="both")
-                #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{My Account}
-                Sys_mains_frame=Frame(tab9, height=750,bg="#2f516f")
-                Sys_mains_frame.pack(fill=X)
+                    tab_payroll.pack(expand = 1, fill ="both")
+
+                    #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Report Tab}
+
+                    tab_report = ttk.Notebook(tab6)
+                    tab6_1 =  ttk.Frame(tab_report)
+                    tab6_2=  ttk.Frame(tab_report)
+                    tab6_3 = ttk.Frame(tab_report)
+                    tab6_4=  ttk.Frame(tab_report)
+
+                    
+                        
+                    tab_report.add(tab6_1,compound = LEFT, text ='Profit & Loss')
+                    tab_report.add(tab6_2,compound = LEFT, text ='Balance Sheet')
+                    tab_report.add(tab6_3,compound = LEFT, text ='Accounts Receivables')
+                    tab_report.add(tab6_4,compound = LEFT, text ='Accounts Payables')
                 
-            else:
-                messagebox.showerror("Login Failed","Invalid username or password")
-                pass
+                    tab_report.pack(expand = 1, fill ="both")
 
+                    #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Taxes}
+
+                    tab_tax = ttk.Notebook(tab7)
+                    tab7_1 =  ttk.Frame(tab_tax)
+                    tab7_2=  ttk.Frame(tab_tax)
+
+                    tab_tax.add(tab7_1,compound = LEFT, text ='GST')
+                    tab_tax.add(tab7_2,compound = LEFT, text ='New')
+
+                    tab_tax.pack(expand = 1, fill ="both")
+
+                    #333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Accounting}
+                    tab_account = ttk.Notebook(tab8)
+                    tab8_1 =  ttk.Frame(tab_account)
+                    tab8_2=  ttk.Frame(tab_account)
+
+                    tab_account.add(tab8_1,compound = LEFT, text ='Chart Of Accounts')
+                    tab_account.add(tab8_2,compound = LEFT, text ='Reconcile')
+                
+                
+                    tab_account.pack(expand = 1, fill ="both")
+                    #33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333{Cash Management}
+                    tab_cash = ttk.Notebook(tab10)
+                    
+                    tab10_1 =  ttk.Frame(tab_cash)
+                    tab10_2=  ttk.Frame(tab_cash)
+                    tab10_3 = ttk.Frame(tab_cash)
+
+                    tab_cash.add(tab10_1,compound = LEFT, text ='Cash Position')
+                    tab_cash.add(tab10_2,compound = LEFT, text ='Cash Flow Analyzer')
+                    tab_cash.add(tab10_3,compound = LEFT, text ='Check Cash Flow')
+
+                    tab_cash.pack(expand = 1, fill ="both")
+                    #3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+                    # 
+                    # {My Account}
+                    
+                    def search_dash():
+                        if srh_top.get()=="Dashboard":
+                            tab1 ()
+                        else:
+                            pass
+                    srh_top = Entry(tp_lb_srh, width=50, font=('Calibri 16'))
+                    srh_top.insert(0,"Search")
+                    srh_top.bind("<Button-1>",srh_fn)
+                    srh_top.grid(row=2,column=1,padx=(30,0), pady=20,sticky='nsew')
+
+                    srh_btn = Button(tp_lb_srh, image=srh_img, command=search_dash, bg="#213b52", fg="black",border=0)
+                    srh_btn.grid(row=2,column=4,padx=(0,30))
+                    Sys_mains_frame=Frame(tab9, height=750,bg="#2f516f")
+                    Sys_mains_frame.pack(fill=X)
+                    
+                else:
+                    messagebox.showerror("Login Failed","Invalid username or password")
+                    pass
+    # except:
+    #         messagebox.showerror("Login Failed","Check Your username and password")
 #---------------------------------------------------------------------------------------------------------------Company Second Portion
 def cmpny_crt2():
     
@@ -4089,8 +1981,10 @@ def cmpny_crt2():
         dcanvas.coords("r1",dwidth/2.2,dheight/1.8)
         dcanvas.coords("r2",dwidth/2.2,dheight/1.6)
         dcanvas.coords("cmpny_cntry3",dwidth/6,dheight/1.38)
-        dcanvas.coords("button_cmp2",dwidth/4.3,dheight/1.2)
-        dcanvas.coords("button_cmp3",dwidth/1.9,dheight/1.2)
+        # dcanvas.coords("button_cmp2",dwidth/4.3,dheight/1.2)
+        # dcanvas.coords("button_cmp3",dwidth/1.9,dheight/1.2)
+        dcanvas.coords("button_cmp3",dwidth/2.8,dheight/1.1)
+        
 
         dcanvas.coords("cmp_lbl1",dwidth/6,dheight/3.8)
         dcanvas.coords("cmp_lbl2",dwidth/6,dheight/2.7)
@@ -4160,9 +2054,11 @@ def cmpny_crt2():
     cmpny_cntry3['values'] = ('Cash','Cheque','Credit card/Debit card','Bank Transfer','Paypal/Other service')
    
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=cmpny_cntry3, tag=("cmpny_cntry3"))
+    def prev_funct():
+        main_frame_cmpny.pack(fill=X,)
 
-    button_cmp2 = customtkinter.CTkButton(master=cmpny_dt_frm2,command=cmpny_crt1,text="Previous",bg="#213b52")
-    win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=button_cmp2, tag=("button_cmp2"))
+    # button_cmp2 = customtkinter.CTkButton(master=cmpny_dt_frm2,command=prev_funct,text="Previous",bg="#213b52")
+    # win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=button_cmp2, tag=("button_cmp2"))
     button_cmp3 = customtkinter.CTkButton(master=cmpny_dt_frm2,command=fun_sign_in,text="Submit",bg="#213b52")
     win_inv1 = lf_cmpy2.create_window(0, 0, anchor="nw", window=button_cmp3, tag=("button_cmp3"))
 #-------------------------------------------------------------------------------------------------------------------company creation
@@ -4290,7 +2186,7 @@ def cmpny_crt1():
                 cmp_stat = StringVar()
                 cmpny_cntry = ttk.Combobox(lf_cmpy1,textvariable=cmp_stat,width=29,font=('Calibri 16'))
                 win_inv1 = lf_cmpy1.create_window(0, 0, anchor="center", window=cmpny_cntry, tag=("cmpny_cntry"))
-                cmpny_cntry['values'] = ('Default','Black','Maroon','Green','Olive','Navy','Purple','Teal','Gray','Silver','Red','Lime','Yellow','Blue','Fuchsia','Aqua','White','ScrollBar','Background','ActiveCaption','InactiveCaption','Menu','Window','WindowFrame','MenuText','WindowText','CaptionText','ActiveBorder','InactiveBorder','AppWorkSpace','Highlight','HighlightText','BtnFace','InactiveCaptionText','BtnHighlight','3DDkShadow','3DLight','InfoText','InfoBk','Custom')
+                cmpny_cntry['values'] = ('Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua And Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia And Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Cook Islands', 'Costa Rica', 'Croatia', 'Curacao', 'Cyprus', 'Czech Republic', 'Democratic Republic Of The Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle Of Man', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Libyan Arab Jamahiriya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Martinique', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Russian Federation', 'Rwanda', 'Saint Kitts And Nevis', 'Saint Lucia', 'Saint Martin', 'Saint Pierre And Miquelon', 'Saint Vincent And The Grenadines', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Taiwan', 'Tajikistan', 'Tanzania', 'Tanzania, United Republic Of', 'Thailand', 'Togo', 'Tonga', 'Trinidad And Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks And Caicos Islands', 'U.S. Virgin Islands', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Wallis And Futuna', 'Yemen', 'Zambia', 'Zimbabwe')
                 cmpny_cntry.current(0)
 
                 cmp_pin = Spinbox(lf_cmpy1,from_=1,to=1000000,width=29, font=('Calibri 16'),borderwidth=2)
@@ -4495,21 +2391,24 @@ def cmpny_crt1():
   
 #--------------------------------------------------------------------------------------------------------Sign in frame in signup section
 def fun_sign_in():
-    bs_nm=nm_nm2.get()
-    ind_type=industry_tp.get()
-    com_typ=cmp_type.get()
-    acount_manage=bs_act_man.get()
-    paid_type=paid_typ.get()
+    try:
+        bs_nm=nm_nm2.get()
+        ind_type=industry_tp.get()
+        com_typ=cmp_type.get()
+        acount_manage=bs_act_man.get()
+        paid_type=paid_typ.get()
 
-    sql_log_sql='select id from auth_user where username=%s'
-    sql_log_sql_val=(sys_usr.get(),)
-        
-    fbcursor.execute(sql_log_sql,sql_log_sql_val,)
-    id=fbcursor.fetchone()
-    signup_cmp_sql="update app1_company set bname=%s,industry=%s,ctype=%s,abt=%s,paid=%s  where id_id=%s" #adding values into db
-    signup_cmp_sql_val=(bs_nm,ind_type,com_typ,acount_manage,paid_type,id[0],)
-    fbcursor.execute(signup_cmp_sql,signup_cmp_sql_val,)
-    finsysdb.commit()
+        sql_log_sql='select id from auth_user where username=%s'
+        sql_log_sql_val=(sys_usr.get(),)
+            
+        fbcursor.execute(sql_log_sql,sql_log_sql_val,)
+        id=fbcursor.fetchone()
+        signup_cmp_sql="update app1_company set bname=%s,industry=%s,ctype=%s,abt=%s,paid=%s  where id_id=%s" #adding values into db
+        signup_cmp_sql_val=(bs_nm,ind_type,com_typ,acount_manage,paid_type,id[0],)
+        fbcursor.execute(signup_cmp_sql,signup_cmp_sql_val,)
+        finsysdb.commit()
+    except:
+        pass
 
 
     try:
