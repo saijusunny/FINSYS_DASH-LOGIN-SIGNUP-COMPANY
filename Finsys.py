@@ -65,13 +65,7 @@ p1 = PhotoImage(file = 'images/favicon.png')
 root.iconphoto(False, p1)
 
 #-------------------------------------------------------------------------------------------------------------------------Images
-# banking = PhotoImage(file="images/banking.PNG")
-# sales = PhotoImage(file="images/sheet.PNG")
-# expenses = PhotoImage(file="images/expense.PNG")
-# payroll = PhotoImage(file="images/payroll.PNG")
-# report = PhotoImage(file="images/reports.PNG")
-# taxes = PhotoImage(file="images/taxes.PNG")
-# accounts = PhotoImage(file="images/accounting.PNG")
+
 
 pro_pic =PIL.Image.open("profilepic\propic.jpg")
 # resized_pro_pic= pro_pic.resize((170,170))
@@ -107,25 +101,18 @@ sign_up=ImageTk.PhotoImage(resized_sign_up)
 #------------------------------------------------------------------------------------------------------------Login Button Function
 
 def main_sign_in():
-    # try:
+    
         usr_nm=nm_ent.get()
         usr_pass=pass_ent.get()
         sql_log_sql='select * from auth_user where username=%s'
         vals=(nm_ent.get(),)
         fbcursor.execute(sql_log_sql,vals)
         check_logins=fbcursor.fetchone()
-
-        pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
-        # resized_pro_pic= pro_pic.resize((170,170))
-        prof_pics=ImageTk.PhotoImage(pro_pic)
-
-        dash_pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
-        dash_resized_pro_pic= dash_pro_pic.resize((50,50))
-        dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
         
         if usr_nm=="" or usr_pass=="" or usr_nm=="Username" or usr_pass=="********":
             messagebox.showerror("Login Failed","Enter username and password")
         else:
+
             sql_log_sql='select * from auth_user where username=%s'
             vals=(nm_ent.get(),)
             fbcursor.execute(sql_log_sql,vals)
@@ -135,6 +122,16 @@ def main_sign_in():
                 messagebox.showerror("Login Failed","Create an account")
             else:
                 if check_login[4]==usr_nm and check_login[1]==usr_pass:
+                    
+                    
+
+                    pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+                        # resized_pro_pic= pro_pic.resize((170,170))
+                    prof_pics=ImageTk.PhotoImage(pro_pic)
+
+                    dash_pro_pic =PIL.Image.open("profilepic\propic"+str(check_logins[0])+".png")
+                    dash_resized_pro_pic= dash_pro_pic.resize((50,50))
+                    dash_prof_pics=ImageTk.PhotoImage(dash_resized_pro_pic)
                     
                     try:
                         main_frame_signup.pack_forget()
@@ -1744,69 +1741,71 @@ def main_sign_in():
                         dates_start=exp_totl_inv[2] 
                     
 
-                    # sql_pro="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate between %s and %s "
-                    # sql_pro_val=(dtl_cmp_pro[0],dates_start,date.today(),)
-                    # fbcursor.execute(sql_pro,sql_pro_val,)
-                    # sal_totl_inv=fbcursor.fetchone()
-
-                    # sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
-                    # sql_pros_val=(dtl_cmp_pro[0],dates_start,)
-                    # fbcursor.execute(sql_pros,sql_pros_val,)
-                    # sal_totl_invs=fbcursor.fetchone()
-                    
-
-                    # if sal_totl_inv[0]==None or sal_totl_inv[0]=='':
-                    #     tot_sal=0.0
-                    # else:
-                    #     tot_sal=sal_totl_inv[0]
-
-                    # if sal_totl_invs[0]==None or sal_totl_invs[0]=='':
-                    #     tot_sal_start=0.0
-                    # else:
-                    #     tot_sal_start=sal_totl_invs[0]
-
                     sql_pro="select invoicedate from app1_invoice where cid_id=%s"
                     sql_pro_val=(dtl_cmp_pro[0],)
                     fbcursor.execute(sql_pro,sql_pro_val,)
                     sal_totl_inv=fbcursor.fetchall()
+
+                    sql_prof="select sum(grandtotal) from app1_invoice where cid_id=%s "
+                    sql_prof_val=(dtl_cmp_pro[0],)
+                    fbcursor.execute(sql_prof,sql_prof_val,)
+                    sal_totl_invs2=fbcursor.fetchone()
+                    
+
+                    if sal_totl_invs2[0]==None or sal_totl_invs2[0]=='':
+                        tot_sal=0.0
+                    else:
+                        tot_sal=sal_totl_invs2[0]
+
+                    
                    
 
-                    sales_lb=Label(canvas, text="SALES ₹"+str(0.0),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
+                    sales_lb=Label(canvas, text="SALES ₹"+str(tot_sal),bg="#213b52", fg="White", anchor="nw",font=('Calibri 16 bold'))
                     win_inv1 = canvas.create_window(0, 0, anchor="nw", window=sales_lb, tag=("sales_lb"))
 
                     
                     figlast = plt.figure(figsize=(8, 4), dpi=50)
-                    # x = [1, 2, ]
-                    x = []
-                    for i in sal_totl_inv:
-                        x.append(i[0])
-                    
-                        sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
-                        sql_pros_val=(dtl_cmp_pro[0],i[0],)
-                        fbcursor.execute(sql_pros,sql_pros_val,)
-                        sal_totl_invs=fbcursor.fetchall()
-                        print(sal_totl_invs)
+                    try:
+                        x = []
                         y = []
-                        for j in sal_totl_invs:
-
-                            y.append(sal_totl_invs[0])
+                        for i in sal_totl_inv:
+                            x.append(i[0])
                     
+                            sql_pros="select sum(grandtotal) from app1_invoice where cid_id=%s and invoicedate=%s "
+                            sql_pros_val=(dtl_cmp_pro[0],i[0],)
+                            fbcursor.execute(sql_pros,sql_pros_val,)
+                            sal_totl_invs=fbcursor.fetchall()
+                            
+                            y.insert(-1,sal_totl_invs[0])
                         
-                    print(x)
-                    print(y)
-                    
-                    labels = x
+                        
+                        labels = x
 
-                    plt.plot(x, y)
-                    # You can specify a rotation for the tick labels in degrees or with keywords.
-                    plt.xticks(x, y, rotation='horizontal')
-                    # Pad margins so that markers don't get clipped by the axes
-                    plt.margins(0.2)
-                    # Tweak spacing to prevent clipping of tick-labels
-                    plt.subplots_adjust(bottom=0.15)
-                    figlast.set_facecolor("#213b52")
+                        plt.plot(x, y)
+                        # You can specify a rotation for the tick labels in degrees or with keywords.
+                        plt.xticks(x, labels, rotation='horizontal')
+                        # Pad margins so that markers don't get clipped by the axes
+                        plt.margins(0.2)
+                        # Tweak spacing to prevent clipping of tick-labels
+                        plt.subplots_adjust(bottom=0.15)
+                        figlast.set_facecolor("#213b52")
                     
+                    except:
+                        x = [1,2]
+                        y = [0,0]
+                        
+                        
+                        
+                        labels = x
 
+                        plt.plot(x, y)
+                        # You can specify a rotation for the tick labels in degrees or with keywords.
+                        plt.xticks(x, labels, rotation='horizontal')
+                        # Pad margins so that markers don't get clipped by the axes
+                        plt.margins(0.2)
+                        # Tweak spacing to prevent clipping of tick-labels
+                        plt.subplots_adjust(bottom=0.15)
+                        figlast.set_facecolor("#213b52")
                     canvasbar = FigureCanvasTkAgg(figlast, master=canvas)
                     canvasbar
                     canvasbar.draw()
@@ -1916,7 +1915,7 @@ def main_sign_in():
                     
                     def search_dash():
                         if srh_top.get()=="Dashboard":
-                            tab1 ()
+                            pass
                         else:
                             pass
                     srh_top = Entry(tp_lb_srh, width=50, font=('Calibri 16'))
@@ -1932,8 +1931,7 @@ def main_sign_in():
                 else:
                     messagebox.showerror("Login Failed","Invalid username or password")
                     pass
-    # except:
-    #         messagebox.showerror("Login Failed","Check Your username and password")
+    
 #---------------------------------------------------------------------------------------------------------------Company Second Portion
 def cmpny_crt2():
     
